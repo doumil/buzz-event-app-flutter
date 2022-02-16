@@ -4,6 +4,7 @@ import 'package:assessment_task/Widget/customClipper.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,10 +18,28 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      extendBodyBehindAppBar: true,
         body: Container(
       height: height,
       child: Stack(
         children: <Widget>[
+          Container(
+            alignment: Alignment.topCenter,
+            height:200,
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(image:
+                AssetImage("assets/background-buz2.png"),
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+              child:  Center(
+                child: Container(
+                  child: const Center(child: Image(image: AssetImage("assets/logo.png"),width: 60, alignment: Alignment.center,)),
+                ),
+              ) ,
+            ),
+          ),
           Positioned(
             top: -MediaQuery.of(context).size.height * .15,
             right: -MediaQuery.of(context).size.width * .4,
@@ -32,16 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   height: MediaQuery.of(context).size.height * .5,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xffE6E6E6),
-                        Color(0xff14279B),
-                      ],
-                    ),
-                  ),
+
                 ),
               ),
             )),
@@ -53,24 +63,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: height * .2),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                        text: 'Wiz',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xff14279B),
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'pna',
-                            style: TextStyle(color: Colors.black, fontSize: 30),
-                          ),
-                        ]),
+                  SizedBox(
+                    height: 300,
                   ),
-                  SizedBox(height: 50),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Text('Sign in',
+                      style: TextStyle(fontSize: height*0.04,color: Color(0xff692062)),
+
+                    ),
+                  ),
+
                   Column(
                     children: <Widget>[
                       Container(
@@ -78,20 +81,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              "Username",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
                             SizedBox(
                               height: 10,
                             ),
                             TextField(
                                 obscureText: false,
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                  hintText: 'Email',
                                     fillColor: Color(0xfff3f3f4),
-                                    filled: true))
+                                    filled: true,
+                                )
+                            )
                           ],
                         ),
                       ),
@@ -100,20 +100,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              "Password",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
                             SizedBox(
                               height: 10,
                             ),
                             TextField(
                                 obscureText: true,
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
+
+                                  hintText: 'Password',
                                     fillColor: Color(0xfff3f3f4),
-                                    filled: true))
+                                    filled: true)
+                            )
                           ],
                         ),
                       )
@@ -140,14 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               blurRadius: 5,
                               spreadRadius: 2)
                         ],
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color(0xff14279B),
-                            Color(0xff14279B),
-                          ],
-                        ),
+                          color: Color(0xff692062),
                       ),
                       child: Text(
                         'Login',
@@ -159,10 +149,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     alignment: Alignment.centerRight,
                     child: Text('Forgot Password ?',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)),
+                        style: TextStyle(color: Color(0xff682062),
+                            fontSize: 14, fontWeight: FontWeight.w500),
+
+                    ),
                   ),
-                  SizedBox(height: height * .055),
+                  SizedBox(
+                    height: 10,
+                  ),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -188,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'Register',
                             style: TextStyle(
-                                color: Color(0xff14279B),
+                                color: Color(0xff682062),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -214,9 +208,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
                       child:
-                          Icon(Icons.keyboard_arrow_left, color: Colors.black),
+                          Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    Text('Back',
+                    Text('',
                         style: TextStyle(
                             fontSize: 12, fontWeight: FontWeight.w500))
                   ],
