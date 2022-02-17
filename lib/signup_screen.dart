@@ -36,7 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   child:  Center(
                     child: Container(
-                      child: const Center(child: Image(image: AssetImage("assets/logo.png"),width: 60, alignment: Alignment.center,)),
+                      child: const Center(child: Image(image: AssetImage("assets/logobuzzeventsf.png"),width: 230, alignment: Alignment.center,)),
                     ),
                   ) ,
                 ),
