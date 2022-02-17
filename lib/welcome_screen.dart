@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:assessment_task/login_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
@@ -20,10 +21,6 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
         body: Column(
           children: <Widget>[
             Container(
@@ -185,4 +182,26 @@ class WelcomeScreen extends StatelessWidget {
         )
     );
   }
+/*  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit an App'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text( 'No'),
+          ),
+          new FlatButton(
+            onPressed: () => exit(0),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
+
+ */
 }
+
