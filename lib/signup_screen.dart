@@ -1,9 +1,9 @@
 import 'dart:math';
-
 import 'package:assessment_task/Widget/customClipper.dart';
 import 'package:assessment_task/home_screen.dart';
-import 'package:assessment_task/login_screen.dart';
+import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -14,19 +14,33 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   @override
+  @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    double width =MediaQuery.of(context).size.width;
-   return Scaffold(
-       extendBodyBehindAppBar: true,
-     appBar: AppBar(
-       backgroundColor: Colors.transparent,
-       elevation: 0,
-     ),
+    return Scaffold(
+        extendBodyBehindAppBar: true,
         body: Container(
-          height: height,
+        height: height,
+        child: SingleChildScrollView(
           child: Stack(
             children: <Widget>[
+              Container(
+                alignment: Alignment.topCenter,
+                height:200,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(image:
+                    AssetImage("assets/background-buz2.png"),
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  child:  Center(
+                    child: Container(
+                      child: const Center(child: Image(image: AssetImage("assets/logo.png"),width: 60, alignment: Alignment.center,)),
+                    ),
+                  ) ,
+                ),
+              ),
               Positioned(
                 top: -MediaQuery.of(context).size.height * .15,
                 right: -MediaQuery.of(context).size.width * .4,
@@ -38,70 +52,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Container(
                           height: MediaQuery.of(context).size.height * .5,
                           width: MediaQuery.of(context).size.width,
+
                         ),
                       ),
                     )),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 40),
-                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        alignment: Alignment.topCenter,
-                        height:300,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(image:
-                            AssetImage("assets/background-buz2.png"),
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
-                          child:  Center(
-                            child: Container(
-                              child: const Center(child: Image(image: AssetImage("assets/logo.png"),width: 60, alignment: Alignment.center,)),
-                            ),
-                          ) ,
-                        ),
+                      SizedBox(
+                        height: 200,
                       ),
-                      //SizedBox(height: height * .2),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
-                        child: Text('Sign up',
+                        child: Text('sign up',
                           style: TextStyle(fontSize: height*0.04,color: Color(0xff692062)),
 
                         ),
                       ),
-                      //SizedBox(height: 50),
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Email',
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true,
-                                    )
-                                ),//Email
-                                SizedBox(
-                                  height: 10,
-                                ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Email',
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true,
+                                )
+                            ),//Email
+                            SizedBox(
+                              height: 10,
+                            ),
                             Row(
-                              children:<Widget> [
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                     child:  TextField(
+                                children:<Widget> [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      child:  TextField(
                                           obscureText: false,
                                           decoration: InputDecoration(
                                             hintText: 'First name',
@@ -109,76 +105,71 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             filled: true,
                                           )
                                       ),
-                                    width: width*0.35,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                  child :TextField(
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'Last name',
-                                        fillColor: Color(0xfff3f3f4),
-                                        filled: true,
-                                      )
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                    width: width*0.35,
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child :TextField(
+                                          obscureText: false,
+                                          decoration: InputDecoration(
+                                            hintText: 'Last name',
+                                            fillColor: Color(0xfff3f3f4),
+                                            filled: true,
+                                          )
+                                      ),
+                                    ),
                                   ),
-                                ),
-                               ]
+                                ]
                             ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Company',
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true,
-                                    )
-                                ),//Company
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextField(
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Phone',
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true,
-                                    )
-                                ),//phone
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextField(
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                        hintText: 'Password',
-                                        fillColor: Color(0xfff3f3f4),
-                                        filled: true)
-                                ),//password
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextField(
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                        hintText: 'Confirmation',
-                                        fillColor: Color(0xfff3f3f4),
-                                        filled: true)
-                                )//Confirmation password
-                              ],
+                            SizedBox(
+                              height: 10,
                             ),
-                          ),
-
-                        ],
+                            TextField(
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Company',
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true,
+                                )
+                            ),//Company
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  hintText: 'Phone',
+                                  fillColor: Color(0xfff3f3f4),
+                                  filled: true,
+                                )
+                            ),//phone
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true)
+                            ),//password
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                    hintText: 'Confirmation',
+                                    fillColor: Color(0xfff3f3f4),
+                                    filled: true)
+                            )//Confirmation password
+                          ],
+                        ),
                       ),
                       SizedBox(height: 20),
                       GestureDetector(
@@ -209,29 +200,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: height * .055),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpScreen()));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          padding: EdgeInsets.all(15),
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      SizedBox(
+                        height: 10,
+                      ),                    ],
                   ),
-                ),
               ),
               Positioned(
                 top: 40,
@@ -259,6 +231,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ],
           ),
-        ));
+         )
+        )
+    );
   }
 }

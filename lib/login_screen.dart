@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:assessment_task/Widget/customClipper.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
@@ -116,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
+                  
                   SizedBox(height: 20),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacement(

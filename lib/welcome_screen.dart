@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:http/http.dart' as http;
 import 'package:assessment_task/login_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
