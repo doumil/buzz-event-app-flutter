@@ -7,6 +7,111 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        actions: <Widget>[],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      drawer:
+          //drawer
+          new Drawer(
+        elevation: 0,
+        child: Container(
+          color: Color(0xfff7f2f7),
+          child: ListView(
+            padding: EdgeInsets.all(0),
+            children: <Widget>[
+              Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/back.png.png"),
+                        fit: BoxFit.cover,
+                      ),
+                      gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color.fromRGBO(103, 33, 96, 1.0),
+                            Colors.black
+                          ])),
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: Image.asset(
+                    "assets/logo15.png",
+                  )),
+              ListTile(
+                leading: Icon(Icons.list),
+                title: Text('Profils Enregistrés'),
+                onTap: (){},
+                trailing: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.drafts),
+                title: Text('Profils en brouillon'),
+                onTap: (){},
+                trailing: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.sync),
+                title: Text('Syncrohniser'),
+                onTap: (){},
+                trailing: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
+              ),
+              new Divider(
+                color: Color.fromRGBO(150, 150, 150, 0.4),
+                height: 5.0,
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Mon profil'),
+                onTap: (){},
+                trailing: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Paramétres'),
+                onTap:() {},
+                trailing: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Deconnexion'),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WelcomeScreen()));
+                },
+                trailing: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -16,13 +121,13 @@ class HomeScreen extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(80),
+                    bottomRight: Radius.circular(120),
                   ),
                   child: SizedBox(
                     width: double.infinity,
                     height: double.infinity,
                     child: Image.asset(
-                      "assets/welcome_background.png",
+                      "assets/background-buz2.png",
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -32,7 +137,6 @@ class HomeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80),
                     ),
-                    color: Color(0x990061FF),
                   ),
                 ),
                 Positioned.fill(
@@ -45,7 +149,7 @@ class HomeScreen extends StatelessWidget {
                         text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
-                              text: "Assessment Dashboard\n",
+                              text: "bienvenu !",
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w700,
@@ -53,14 +157,6 @@ class HomeScreen extends StatelessWidget {
                                 fontFamily: "Poppins",
                               ),
                             ),
-                            TextSpan(
-                                text: "for job offer",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                  fontFamily: "Poppins",
-                                )),
                           ],
                         ),
                       ),
@@ -77,63 +173,45 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Welcome  to  Dashboard",
+                  Text("Vous pouvez scannez maintenant",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF166FFF),
+                        color: Color(0xff682062),
                         fontFamily: "Poppins",
                       )),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      "A platform for ordinary people with ideas that can can the world. Meet people, join groups, chat online and be a part of creating next big thing.",
-                      style: TextStyle(fontSize: 15, color: Color(0xFF166FFF)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WelcomeScreen()));
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(vertical: 13),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          border:
-                              Border.all(color: Color(0xff14279B), width: 2),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(width: 0.26),
-                            Text("Log out",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF166FFF),
-                                  fontFamily: "Poppins",
-                                )),
-                            SizedBox(
-                              width: 5,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.height * 0.1,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color.fromRGBO(103, 33, 96, 1.0),
+                                  Colors.yellow.shade100,
+                                ],
+                              ),
                             ),
-                            Icon(
-                              Icons.arrow_forward,
-                              size: 24,
-                              color: Color(0xFF166FFF),
+                            child: IconButton(
+                              hoverColor: Color.fromRGBO(103, 33, 96, 1.0),
+                              onPressed: () {
+                                print('i clicked');
+                              },
+                              icon: Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: MediaQuery.of(context).size.height * 0.05,
+                              ),
                             ),
-                            SizedBox(width: 0.05),
-                          ],
-                        ),
-                      ),
-                    ),
+                          )
+                        ]),
                   ),
                 ],
               ),

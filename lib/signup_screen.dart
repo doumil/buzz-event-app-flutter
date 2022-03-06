@@ -4,6 +4,10 @@ import 'package:assessment_task/home_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -13,7 +17,52 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool signin = true;
+
+  late TextEditingController namectrl,emailctrl,passctrl;
+
+  bool processing = false;
+
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    emailctrl = TextEditingController();
+    namectrl = TextEditingController();
+    passctrl = TextEditingController();
+
+    void registerUser() async{
+
+      setState(() {
+        processing = true;
+      });
+      var url = "http://192.168.1.2/login_flutter/signup.php";
+      var data = {
+        "email":emailctrl.text,
+        "name":namectrl.text,
+        "pass":passctrl.text,
+      };
+
+      var res = await http.post(Uri.parse(url),body:data);
+
+      if(jsonDecode(res.body) == "account already exists"){
+        Fluttertoast.showToast(msg: "account exists, Please login",toastLength: Toast.LENGTH_SHORT);
+
+      }else{
+
+        if(jsonDecode(res.body) == "true"){
+          Fluttertoast.showToast(msg: "account created",toastLength: Toast.LENGTH_SHORT);
+        }else{
+          Fluttertoast.showToast(msg: "error",toastLength: Toast.LENGTH_SHORT);
+        }
+      }
+      setState(() {
+        processing = false;
+      });
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
