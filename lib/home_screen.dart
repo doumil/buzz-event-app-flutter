@@ -1,4 +1,5 @@
 import 'package:assessment_task/welcome_screen.dart';
+import 'package:assessment_task/Profil.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -76,7 +77,12 @@ class HomeScreen extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.person),
                 title: Text('Mon profil'),
-                onTap: (){},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfilScreen()));
+                },
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
