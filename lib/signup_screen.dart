@@ -19,7 +19,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   bool signin = true;
 
-  late TextEditingController namectrl,emailctrl,passctrl;
+  late TextEditingController firstnamectrl,emailctrl,passwordctrl;
 
   bool processing = false;
 
@@ -29,9 +29,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
 
     emailctrl = TextEditingController();
-    namectrl = TextEditingController();
-    passctrl = TextEditingController();
-
+    firstnamectrl = TextEditingController();
+    passwordctrl = TextEditingController();
+  }
     void registerUser() async{
 
       setState(() {
@@ -40,8 +40,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       var url = "http://192.168.1.2/login_flutter/signup.php";
       var data = {
         "email":emailctrl.text,
-        "name":namectrl.text,
-        "pass":passctrl.text,
+        "firstname":firstnamectrl.text,
+        "password":passwordctrl.text,
       };
 
       var res = await http.post(Uri.parse(url),body:data);
@@ -62,7 +62,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
 
-  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -131,6 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               height: 10,
                             ),
                             TextField(
+                              controller: emailctrl,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   hintText: 'Email',
@@ -147,6 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     flex: 1,
                                     child: Container(
                                       child:  TextField(
+                                        controller: firstnamectrl,
                                           obscureText: false,
                                           decoration: InputDecoration(
                                             hintText: 'First name',
@@ -201,6 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               height: 10,
                             ),
                             TextField(
+                              controller: passwordctrl,
                                 obscureText: true,
                                 decoration: InputDecoration(
                                     hintText: 'Password',
@@ -222,12 +224,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 20),
                       GestureDetector(
-                        onTap: () => Navigator.pushReplacement(
+                        onTap:()=> registerUser(),
+                       /* onTap: () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ),
                         ),
+
+                        */
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.symmetric(vertical: 15),

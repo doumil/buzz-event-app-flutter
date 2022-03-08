@@ -4,6 +4,9 @@ import 'package:assessment_task/home_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,6 +16,60 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool signin = true;
+
+  late TextEditingController emailctrl,passwordctrl;
+
+  bool processing = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emailctrl = TextEditingController();
+    passwordctrl = TextEditingController();
+
+  }
+  void changeState(){
+    if(signin){
+      setState(() {
+        signin = false;
+
+      });
+    }else {
+      setState(() {
+        signin = true;
+
+      });
+    }
+  } void userSignIn() async{
+    setState(() {
+      processing = true;
+    });
+    var url = "http://192.168.1.179/accountbuzzevent/signin.php";
+    var data = {
+      "email":emailctrl.text,
+      "password":passwordctrl.text,
+    };
+
+    var res = await http.post(Uri.parse(url),body:data);
+
+    if(jsonDecode(res.body) == "dont have an account"){
+      Fluttertoast.showToast(msg: "dont have an account,Create an account",toastLength: Toast.LENGTH_SHORT);
+    }
+    else{
+      if(jsonDecode(res.body) == "false"){
+        Fluttertoast.showToast(msg: "incorrect password",toastLength: Toast.LENGTH_SHORT);
+      }
+      else{
+        print(jsonDecode(res.body));
+      }
+    }
+
+    setState(() {
+      processing = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -84,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 10,
                             ),
                             TextField(
+                              controller: emailctrl,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   hintText: 'Email',
@@ -103,6 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 10,
                             ),
                             TextField(
+                              controller: passwordctrl,
                                 obscureText: true,
                                 decoration: InputDecoration(
 
@@ -118,12 +177,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
+                    onTap: ()=>userSignIn(),
+                   /* onTap: () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ),
                         ),
+
+                    */
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(vertical: 15),
