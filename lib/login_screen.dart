@@ -177,15 +177,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: ()=>userSignIn(),
-                   /* onTap: () => Navigator.pushReplacement(
+                   //onTap: ()=>userSignIn(),
+                   onTap: () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ),
                         ),
-
-                    */
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(vertical: 15),

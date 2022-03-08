@@ -1,10 +1,28 @@
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/Profil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:assessment_task/profils_enregistrés.dart';
 
-class HomeScreen extends StatelessWidget {
+
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  _HomeScreen createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen> {
+ String _data="";
+ int i=0;
+  late SharedPreferences prefs;
+  _scan() async{
+    await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data= value));
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString("Data", _data);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +61,12 @@ class HomeScreen extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.list),
                 title: Text('Profils Enregistrés'),
-                onTap: (){},
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => profilsEnregistresScreen()));
+                },
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
@@ -208,7 +231,7 @@ class HomeScreen extends StatelessWidget {
                             child: IconButton(
                               hoverColor: Color.fromRGBO(103, 33, 96, 1.0),
                               onPressed: () {
-                                print('i clicked');
+                                _scan();
                               },
                               icon: Icon(
                                 Icons.camera_alt,
