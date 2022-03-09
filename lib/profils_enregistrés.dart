@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 String _data="";
-int _index=0;
+int _count=0;
 late SharedPreferences pr;
 List<String> litems = [];
 final TextEditingController eCtrl = new TextEditingController();
@@ -20,13 +20,13 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() async {
-      _data = (prefs.getString('Data')??'');
-      if(pr.getStringList("")==null) {
-        litems.add(_data);
-      }
-      else{
-        litems.add(pr.getStringList("").toString());
-      }
+      //instance get string
+        _data =(prefs.getString("Data")??'');
+        //add string to list <string>
+         litems.add(_data);
+         print(litems);
+         print(_data);
+
     });
   }
   @override
@@ -57,7 +57,6 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                   (
                     itemCount: litems.length,
                     itemBuilder: (BuildContext context, int Index) {
-
                       return new Text(litems[Index]);
                     }
                 )

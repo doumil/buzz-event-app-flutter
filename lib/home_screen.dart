@@ -15,13 +15,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
- String _data="";
- int i=0;
+  String _data="";
   late SharedPreferences prefs;
+  int _index=0;
   _scan() async{
-    await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data= value));
-    prefs = await SharedPreferences.getInstance();
+    _index++;
+    await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));    prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", _data);
+    prefs.setInt("index", _index);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
   }
   @override
   Widget build(BuildContext context) {
