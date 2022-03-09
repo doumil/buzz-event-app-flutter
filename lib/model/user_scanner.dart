@@ -1,40 +1,25 @@
-class User{
-
+class Userscan{
+  int id;
   String  firstname ;
   String  lastname ;
   String   email;
-  int id;
+  factory Userscan.fromJson(dynamic json) {
+    return Userscan(json['id'] as int,json['firstname'] as String,json['lastname'] as String,json['email'] as String);
 
-  User(this.id,this.firstname ,this.lastname , this.email);
-
-  User.map(dynamic obj){
-    this.firstname = obj['firstname'];
-    this.lastname = obj['lastname'];
-    this.email = obj['email'];
-    this.id = obj['id'];
+  }
+  Userscan(this.id,this.firstname ,this.lastname , this.email);
+ Map<String, dynamic> toMap(){
+ return {
+           'id':id,
+           'firstname':firstname,
+           'lastname':lastname,
+           'email':email
+  };
+  }
+  @override
+  String toString(){
+   return 'firstname : $firstname,lastname : $lastname,email : $email';
   }
 
-  String get _firstname => firstname;
-  String get _lastname => lastname;
-  String get _email => email;
-  int get _id => id;
-
-  Map<String , dynamic> toMap(){
-    var map = new Map<String , dynamic>();
-    map['firstname'] = _firstname;
-    map['lastname'] = _lastname;
-    map['email'] = _email;
-    if(id != null){
-      map['id'] = _id;
-    }
-    return map;
-  }
-
-  User.fromMap(Map<String , dynamic>map){
-    this.firstname = map['firstname'];
-    this.lastname = map['lastname'];
-    this.email = map['email'];
-    this.id = map['id'];
-  }
 
 }

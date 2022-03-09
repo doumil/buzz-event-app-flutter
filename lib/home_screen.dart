@@ -1,9 +1,13 @@
+import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/Profil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
+import 'dart:convert';
+import 'package:assessment_task/utils/database_helper.dart';
+import 'dart:async';
 
 
 
@@ -15,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+
   String _data="";
   late SharedPreferences prefs;
   int _index=0;
@@ -22,7 +27,8 @@ class _HomeScreen extends State<HomeScreen> {
     _index++;
     await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));    prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", _data);
-    prefs.setInt("index", _index);
+    Userscan user=Userscan.fromJson(jsonDecode(_data));
+    insertUser(user);
     Navigator.push(context, MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
   }
   @override

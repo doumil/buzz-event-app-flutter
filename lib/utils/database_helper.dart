@@ -1,67 +1,34 @@
 import 'package:assessment_task/model/user_scanner.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:assessment_task/model/user_scanner.dart';
 
-class DatabaseHelper{
-  static Database _db;
-  final String userTable = 'userTable';
-  final String columnId = 'id';
-  final String columnUserName = 'username';
-  final String columnPassword = 'password';
-  final String columnCity = 'city';
-  final String columnAge = 'age';
-
-
-  Future<Database> get db async{
-    if(_db != null){
-      return _db;
-    }
-    _db = await intDB();
-    return _db;
-  }
-  intDB() async{
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path , 'mydb.db');
-    var myOwnDB = await openDatabase(path,version: 1,
-        onCreate: _onCreate);
-    return myOwnDB;
-  }
-
-  void _onCreate(Database db , int newVersion) async{
-    var sql = "CREATE TABLE $userTable ($columnId INTEGER PRIMARY KEY,"
-        " $columnUserName TEXT, $columnPassword TEXT,  $columnCity TEXT,$columnAge INTEGER )";
-    await db.execute(sql);
-  }
-
-  Future<int> saveUser( User user) async{
-    var dbClient = await  db;
-    int result = await dbClient.insert("$userTable", user.toMap());
-    return result;
-  }
-
-
-  Future<List> getAllUsers() async{
-    var dbClient = await  db;
-    var sql = "SELECT * FROM $userTable";
-    List result = await dbClient.rawQuery(sql);
-    return result.toList();
-  }
-
-  Future<int> deleteUser(int id) async{
-    var dbClient = await  db;
-    return  await dbClient.delete(
-        userTable , where: "$columnId = ?" , whereArgs: [id]
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final Future<Database> database_user = openDatabase(
+    join(await getDatabasesPath(),'database_user_scanner.db'),
+    onCreate: (db, version) {
+      return db.execute(
+          "CREATE TABLE user_scanner(id INT PRIMARY KEY,firstname TEXT,lastname TEXT,email TEXT)");
+    },
+    version: 1,
+  );
+  //insert
+  Future<void> insertUser(Userscan user) async{
+    final Database db = await database_user;
+    await db.insert('user_scanner', user.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-
-  Future<int> close() async{
-    var dbClient = await  db;
-    return  await dbClient.close();
+  //select
+  Future<List<Userscan>> usersscan() async {
+    final Database db = await database_user;
+    final List<Map<String, dynamic>> maps=await db.query('user_scanner');
+    return List.generate(maps.length, (i){
+      return Userscan(maps[i]['id'], maps[i]['firstname'], maps[i]['lastname'], maps[i]['email']);
+    });
   }
-
-
 }
