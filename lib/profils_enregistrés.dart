@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:assessment_task/model/user_scanner.dart';
+import 'package:assessment_task/utils/database_helper.dart';
 String _data="";
 int _count=0;
 late SharedPreferences pr;
-List<String> litems = [];
+List<Userscan> litems=[];
 final TextEditingController eCtrl = new TextEditingController();
 class profilsEnregistresScreen extends StatefulWidget {
   const profilsEnregistresScreen({Key? key}) : super(key: key);
@@ -20,12 +22,18 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() async {
-      //instance get string
-        _data =(prefs.getString("Data")??'');
-        //add string to list <string>
-         litems.add(_data);
+        //_data =(prefs.getString("Data")??'');
+        var db = new DatabaseHelper();
+        //print(await db.getAllUsers());
+        //print(await db.getListUser());
+        //print('hello from profils');
+        litems=await db.getListUser();
+        //print(litems.length);
          print(litems);
-         print(_data);
+        //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
+         String str ="yassine doumil yassinedoumil@gmail.com";
+
+
 
     });
   }
@@ -50,30 +58,22 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
 
         ),
       ),
-        body: new Column(
-          children: <Widget>[
-            new Expanded(
-                child: new ListView.builder
-                  (
-                    itemCount: litems.length,
-                    itemBuilder: (BuildContext context, int Index) {
-                      return new Text(litems[Index]);
-                    }
-                )
-            ),
-            Container(
-             child : FlatButton(
-                child: Text('Save', style: TextStyle(fontSize: 20.0),),
-                color: Colors.blueAccent,
-                textColor: Colors.white,
-                onPressed: () async {
-                  pr = await SharedPreferences.getInstance();
-                  pr.setStringList("listems", litems);
-                },
+      body: new ListView.builder(
+          itemCount: litems.length,
+          itemBuilder: ( _ ,int  position ){
+            return new Card(
+              child: new ListTile(
+                leading: new Icon(Icons.person,color: Colors.white,size: 33.0),
+                title: new Text(litems[position].email.toString()),
+                subtitle: new Text("${litems[position].firstname.toString()} ${litems[position].lastname.toString()}"),
+                onTap: () => debugPrint(litems[position].email.toString()),
               ),
-            )
-          ],
-        )
+              color: Colors.amber,
+              elevation: 3.0,
+
+            );
+
+          }),
     );
   }
 }

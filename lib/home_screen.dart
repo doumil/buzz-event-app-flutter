@@ -6,7 +6,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'dart:convert';
-import 'package:assessment_task/utils/database_helper.dart';
+import 'utils/database_helper.dart';
 import 'dart:async';
 
 
@@ -21,14 +21,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
 
   String _data="";
-  late SharedPreferences prefs;
-  int _index=0;
+  //late SharedPreferences prefs;
   _scan() async{
-    _index++;
-    await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));    prefs = await SharedPreferences.getInstance();
-    prefs.setString("Data", _data);
-    Userscan user=Userscan.fromJson(jsonDecode(_data));
-    insertUser(user);
+    await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));
+    var ss=_data.split(" ");
+    List<String> list1=[];
+    ss.forEach((e) { list1.add(e);});
+    //Userscan user1=Userscan(4,'khalid','fayzi','faw@gmail.com');
+    Userscan user1=Userscan(int.parse(list1.elementAt(0)), list1.elementAt(1), list1.elementAt(2), list1.elementAt(3));
+    print(user1);
+    var db = new DatabaseHelper();
+    await db.saveUser(user1);
+    print("ok sa pass");
     Navigator.push(context, MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
   }
   @override
@@ -259,3 +263,5 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 }
+
+
