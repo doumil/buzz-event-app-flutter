@@ -55,7 +55,6 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                   end: Alignment.centerRight ,
                   colors: [Color.fromRGBO(103, 33, 96, 1.0),Colors.black])
           ),
-
         ),
       ),
       body: new ListView.builder(

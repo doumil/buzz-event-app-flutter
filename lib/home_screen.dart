@@ -8,6 +8,7 @@ import 'package:assessment_task/profils_enregistrés.dart';
 import 'dart:convert';
 import 'utils/database_helper.dart';
 import 'dart:async';
+import 'package:assessment_task/détails.dart';
 
 
 
@@ -24,16 +25,8 @@ class _HomeScreen extends State<HomeScreen> {
   //late SharedPreferences prefs;
   _scan() async{
     await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));
-    var ss=_data.split(" ");
-    List<String> list1=[];
-    ss.forEach((e) { list1.add(e);});
-    //Userscan user1=Userscan(4,'khalid','fayzi','faw@gmail.com');
-    Userscan user1=Userscan(int.parse(list1.elementAt(0)), list1.elementAt(1), list1.elementAt(2), list1.elementAt(3));
-    print(user1);
-    var db = new DatabaseHelper();
-    await db.saveUser(user1);
-    print("ok sa pass");
-    Navigator.push(context, MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsScreen()));
   }
   @override
   Widget build(BuildContext context) {
@@ -88,7 +81,12 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.drafts),
                 title: Text('Profils en brouillon'),
-                onTap: (){},
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetailsScreen()));
+                },
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
