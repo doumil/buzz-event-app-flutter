@@ -3,10 +3,15 @@ import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/utils/database_helper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:assessment_task/profils_enregistrés.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 String _data="";
 int _count=0;
+double evo=3.0;
+var notes="",action="";
 late SharedPreferences pr;
 List<String> litems=[];
+Userscan user1=Userscan('', '', '', '','', '', '', '', '');
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
 
@@ -16,7 +21,11 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
 
-  bool isChecked = false;
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+  bool isChecked4 = false;
+
   void initState() {
     super.initState();
     _loadData();
@@ -25,18 +34,61 @@ class _DetailsScreenState extends State<DetailsScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() async {
       _data =(prefs.getString("Data")??'');
-
-      litems.add(_data);
-      print(litems);
+      var ss=_data.split(" ");
+      List<String> list1=[];
+      ss.forEach((e) { list1.add(e);});
+      //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
+      user1=Userscan(list1.elementAt(0),list1.elementAt(1),list1.elementAt(2),list1.elementAt(3),list1.elementAt(4),list1.elementAt(5),'','','');
+      //print(user1);
       //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
-
     });
+  }
+  _saveUser() async {
+    action="";
+    if(evo==1.0)
+      {
+        user1.evolution='trés mauvais';
+      }
+    if(evo==2.0)
+    {
+      user1.evolution='mauvais';
+    }
+    if(evo==3.0)
+    {
+      user1.evolution='moyen';
+    }
+    if(evo==4.0)
+    {
+      user1.evolution='Bonne';
+    }
+    if(evo==5.0)
+    {
+      user1.evolution='Excellent';
+    }
+    if(isChecked1==true) {
+       action+=" Plagnifier un réunion ";
+    }
+    if(isChecked2==true) {
+      action+=" Passer un Téléphone ";
+    }
+    if(isChecked3==true) {
+      action+=" Envoyer des infos sur le produit ";
+    }
+    if(isChecked4==true) {
+      action+=" Cantacter par Mail ";
+    }
+    user1.notes=notes;
+    user1.action=action;
+    var db = new DatabaseHelper();
+    await db.saveUser(user1);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
   }
   @override
   Widget build(BuildContext context) {
     double height =MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("Détails"),
           actions: <Widget>[
@@ -59,6 +111,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
+
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -68,7 +121,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       children: <Widget>[
                         Container(
                           // A fixed-height child.
-                          height: 134.0,
                           alignment: Alignment.center,
                           child: Column(
                             children: <Widget>[
@@ -108,7 +160,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                     20,15, 0, 0),
                                                 child: Column(
                                                   children: <Widget>[
-                                                    Text("doumil yassine",
+                                                    Text("${user1.firstname} ${user1.lastname}",
                                                         style: TextStyle(
                                                             color:
                                                                 Colors.white)),
@@ -159,7 +211,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                             child: Container(
                                                               width: width * 0.4,
                                                               child: Text(
-                                                                "oky solutions",
+                                                                "${user1.company}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                     height * 0.018,
@@ -194,7 +246,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                             child: Container(
                                                               width: width * 0.4,
                                                               child: Text(
-                                                                "yassinedoumil@gmail.com",
+                                                                "${user1.email}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                     height * 0.018,
@@ -227,7 +279,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                             child: Container(
                                                               width: width * 0.4,
                                                               child: Text(
-                                                                "06666666",
+                                                                "${user1.phone}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                     height * 0.018,                                                                    fontWeight:
@@ -257,7 +309,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                             },
                                                             child: Container(
                                                               width: width * 0.4,                                                              child: Text(
-                                                                "hay hassani casablanca",
+                                                                "${user1.adresse}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                     height * 0.018,                                                                    fontWeight:
@@ -350,7 +402,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                   }
                                                 },
                                                 onRatingUpdate: (rating) {
-                                                  print(rating);
+                                                  evo=rating;
                                                 },
                                               ),
                                             ),
@@ -384,7 +436,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         ),
                                         Center(
                                           child: Container(
-                                            height:128,
                                             child: Column(children: <Widget>[
                                               Container(
                                                   child: Row(children: <Widget>[
@@ -392,10 +443,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         padding: EdgeInsets.fromLTRB(
                                                             width * 0.045, 0, 0, 0),
                                                         child :Checkbox(
-                                                          value: isChecked,
+                                                          value: isChecked1,
                                                           onChanged: (bool? value) {
                                                             setState(() {
-                                                              isChecked = value!;
+                                                              isChecked1 = value!;
                                                             });
                                                           },
                                                         )
@@ -418,10 +469,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         padding: EdgeInsets.fromLTRB(
                                                             width * 0.045, 0, 0, 0),
                                                         child :Checkbox(
-                                                          value: isChecked,
+                                                          value: isChecked2,
                                                           onChanged: (bool? value) {
                                                             setState(() {
-                                                              isChecked = value!;
+                                                              isChecked2 = value!;
                                                             });
                                                           },
                                                         )
@@ -444,10 +495,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         padding: EdgeInsets.fromLTRB(
                                                             width * 0.045, 0, 0, 0),
                                                         child :Checkbox(
-                                                          value: isChecked,
+                                                          value: isChecked3,
                                                           onChanged: (bool? value) {
                                                             setState(() {
-                                                              isChecked = value!;
+                                                              isChecked3 = value!;
                                                             });
                                                           },
                                                         )
@@ -470,10 +521,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         padding: EdgeInsets.fromLTRB(
                                                             width * 0.045, 0, 0, 0),
                                                         child :Checkbox(
-                                                          value: isChecked,
+                                                          value: isChecked4,
                                                           onChanged: (bool? value) {
                                                             setState(() {
-                                                              isChecked = value!;
+                                                              isChecked4 = value!;
                                                             });
                                                           },
                                                         )
@@ -506,7 +557,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         BorderRadius.all(Radius.circular(20.0))),
                                   ),
                                   Container(
-                                    height: 116,
                                     child: Column(
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
@@ -525,11 +575,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         Center(
                                           child: Container(
                                             margin: EdgeInsets.fromLTRB(
-                                                10, 10, 10, 10),
+                                                10, 10, 10, 0),
                                             child: Container(
                                               child: TextFormField(
                                                   onChanged: (val) {
                                                     setState(() {
+                                                        notes=val;
                                                     });
                                                   },
                                                   onTap: () {
@@ -566,7 +617,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   child: Container(
                                 height: 50,
                                 child: RaisedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _saveUser();
+                                    },
                                     color: Color(0xff682062),
                                     disabledColor: Color(0xff682062),
                                     child: Text('Enregistrer',

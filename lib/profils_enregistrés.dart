@@ -22,19 +22,16 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() async {
+      //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
         //_data =(prefs.getString("Data")??'');
-        var db = new DatabaseHelper();
         //print(await db.getAllUsers());
         //print(await db.getListUser());
         //print('hello from profils');
-        litems=await db.getListUser();
-        //print(litems.length);
+        // print(litems.length);
+         var db = new DatabaseHelper();
+         litems=await db.getListUser();
          print(litems);
-        //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
-         String str ="yassine doumil yassinedoumil@gmail.com";
-
-
-
+         print('here a profile');
     });
   }
   @override
@@ -62,16 +59,14 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
           itemBuilder: ( _ ,int  position ){
             return new Card(
               child: new ListTile(
-                leading: new Icon(Icons.person,color: Colors.white,size: 33.0),
-                title: new Text(litems[position].email.toString()),
-                subtitle: new Text("${litems[position].firstname.toString()} ${litems[position].lastname.toString()}"),
+                leading: new ClipOval(child:Image.asset('assets/av.jpg',)),
+                title: new Text(litems[position].email.toString(),style: TextStyle(color: Colors.white70),),
+                subtitle: new Text("${litems[position].firstname.toString()} ${litems[position].lastname.toString()}",style: TextStyle(color: Colors.white70),),
                 onTap: () => debugPrint(litems[position].email.toString()),
               ),
-              color: Colors.amber,
+              color: Color(0xff682062),
               elevation: 3.0,
-
             );
-
           }),
     );
   }

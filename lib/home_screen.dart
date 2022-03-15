@@ -1,6 +1,7 @@
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/Profil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,7 @@ import 'dart:convert';
 import 'utils/database_helper.dart';
 import 'dart:async';
 import 'package:assessment_task/détails.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 
 
@@ -22,11 +24,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
 
   String _data="";
-  //late SharedPreferences prefs;
+  late SharedPreferences prefs;
   _scan() async{
     await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString("Data", _data);
+    print(_data);
+    if(_data!='-1') {
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => DetailsScreen()));
+    }
+    else{
+      AlertDialog(
+        title: Text('erreur'),
+        content: Text('code QR vide s\'il vous plais ressayer'),
+        actions: [
+        ],
+      );
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -240,7 +256,7 @@ class _HomeScreen extends State<HomeScreen> {
                             ),
                             child: IconButton(
                               hoverColor: Color.fromRGBO(103, 33, 96, 1.0),
-                              onPressed: () {
+                              onPressed: () async{
                                 _scan();
                               },
                               icon: Icon(

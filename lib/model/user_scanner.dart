@@ -3,7 +3,7 @@ class Userscan {
   String lastname;
   String company;
   String email;
-  int phone;
+  String phone;
   String adresse;
   String evolution;
   String action;
