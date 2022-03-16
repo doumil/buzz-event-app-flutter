@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/utils/database_helper.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:csv/csv.dart';
+import 'package:assessment_task/view_csv_data.dart';
 String _data="";
 int _count=0;
 late SharedPreferences pr;
@@ -30,9 +35,39 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
         // print(litems.length);
          var db = new DatabaseHelper();
          litems=await db.getListUser();
-         print(litems);
-         print('here a profile');
+         //print(litems);
+         //print('here a profile');
     });
+  }
+  _upload() async{
+    List<List<dynamic>> listOfProfil = [];
+    for (int i = 0; i < litems.length; i++) {
+
+      List<dynamic> row =[];
+      row.add(litems[i].firstname);
+      row.add(litems[i].lastname);
+      row.add(litems[i].company);
+      row.add(litems[i].email);
+      row.add(litems[i].phone);
+      row.add(litems[i].adresse);
+      row.add(litems[i].evolution);
+      row.add(litems[i].action);
+      row.add(litems[i].notes);
+      listOfProfil.add(row);
+    }
+    //<String>['first name', 'lastname', 'company','email','phone','adresse','evolution','Action','notes'],
+
+    String csvData = ListToCsvConverter().convert(listOfProfil);
+    final String directory = (await getApplicationSupportDirectory()).path;
+    final path = "$directory/csv-${DateTime.now()}.csv";
+    final File file=File(path);
+    await file.writeAsString(csvData);
+     //final input =file.openRead();
+     //final fields=await input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
+     //print(fields);
+    print(csvData);
+    print(path);
+    print(file);
   }
   @override
   Widget build(BuildContext context) {
@@ -40,8 +75,14 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
       appBar:AppBar(
           title: Text("Profils Enregistrés"),
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 3, 15, 0),
+          IconButton(
+            icon: Icon(
+              Icons.upload_sharp,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              _upload();
+            },
           )
         ],
         centerTitle:true,
@@ -53,6 +94,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                   colors: [Color.fromRGBO(103, 33, 96, 1.0),Colors.black])
           ),
         ),
+
       ),
       body: new ListView.builder(
           itemCount: litems.length,

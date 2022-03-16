@@ -31,7 +31,6 @@ class _HomeScreen extends State<HomeScreen> {
     prefs.setString("Data", _data);
     print(_data);
     if(_data!='-1') {
-
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DetailsScreen()));
     }
