@@ -7,6 +7,9 @@ import 'package:assessment_task/utils/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:csv/csv.dart';
 import 'package:assessment_task/view_csv_data.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+
 String _data="";
 int _count=0;
 late SharedPreferences pr;
@@ -18,7 +21,6 @@ class profilsEnregistresScreen extends StatefulWidget {
   @override
   _profilsEnregistresScreenState createState() => _profilsEnregistresScreenState();
 }
-
 class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
   void initState() {
     super.initState();
@@ -54,20 +56,37 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
       row.add(litems[i].action);
       row.add(litems[i].notes);
       listOfProfil.add(row);
+
     }
     //<String>['first name', 'lastname', 'company','email','phone','adresse','evolution','Action','notes'],
 
-    String csvData = ListToCsvConverter().convert(listOfProfil);
-    final String directory = (await getApplicationSupportDirectory()).path;
-    final path = "$directory/csv-${DateTime.now()}.csv";
-    final File file=File(path);
-    await file.writeAsString(csvData);
-     //final input =file.openRead();
-     //final fields=await input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
-     //print(fields);
-    print(csvData);
-    print(path);
-    print(file);
+
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+      //add more permission to request here.
+    ].request();
+    if(statuses[Permission.storage]!.isGranted) {
+      String csvData = ListToCsvConverter().convert(listOfProfil);
+      String directory ="";
+      if (Platform.isAndroid) {
+        directory = "/Download";
+      } else {
+        directory = (await getApplicationDocumentsDirectory()).path;
+      }
+      final path = "$directory/csv-${DateTime.now()}.csv";
+      final File file=File(path);
+      await file.writeAsString(csvData);
+      //final input =file.openRead();
+      //final fields=await input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
+      //print(fields);
+      print(csvData);
+      print(path);
+      print(file);
+
+    }
+    else{
+    print("No permission to read and write.");
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -104,12 +123,25 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                 leading: new ClipOval(child:Image.asset('assets/av.jpg',)),
                 title: new Text(litems[position].email.toString(),style: TextStyle(color: Colors.white70),),
                 subtitle: new Text("${litems[position].firstname.toString()} ${litems[position].lastname.toString()}",style: TextStyle(color: Colors.white70),),
+                trailing: Wrap(
+                  children: [
+                    IconButton(onPressed: () async {
+
+                    }, icon: Icon(Icons.edit, color:Colors.white70)),
+                    IconButton(onPressed: () async {
+                      var db = new DatabaseHelper();
+                      await db.deleteUser(litems[position].email.toString());
+                    }, icon: Icon(Icons.delete, color:Colors.grey)),
+
+                  ],
+                ),
                 onTap: () => debugPrint(litems[position].email.toString()),
               ),
               color: Color(0xff682062),
               elevation: 3.0,
             );
           }),
+
     );
   }
 }

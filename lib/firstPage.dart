@@ -59,9 +59,9 @@ class FirsPage extends StatelessWidget {
       headerBackgroundColor: Colors.white,
       pageBackgroundColor: Colors.white,
       background: [
-        Center(child: Image.asset('assets/intro_photo1.png', width: 200,height: 200,fit: BoxFit.contain)),
-        Center(child: Image.asset('assets/intro_photo2.png',width: 200,height: 200,fit: BoxFit.cover)),
-        Center(child: Image.asset('assets/intro_photo3.png',width: 200,height: 200, fit: BoxFit.fill)),
+        Image.asset('assets/intro_photo1.png', width: 200,height: 200,fit: BoxFit.contain,alignment: Alignment.center,),
+        Image.asset('assets/intro_photo2.png',width: 200,height: 200,fit: BoxFit.cover,alignment: Alignment.center),
+        Image.asset('assets/intro_photo3.png',width: 200,height: 200, fit: BoxFit.fill,alignment: Alignment.center),
       ],
       speed: 2,
       pageBodies: [

@@ -57,4 +57,10 @@ class DatabaseHelper{
     List result = await dbClient.rawQuery(sql);
     return result.toList();
   }
+  Future<int> deleteUser(String email) async{
+    var dbClient = await  db;
+    return  await dbClient.delete(
+        userTable , where: "$columnEmail = ?" , whereArgs: [email]
+    );
+  }
 }

@@ -40,7 +40,9 @@ dependencies:
   csv:
   file_picker: ^2.1.6
   random_string: ^2.3.1
-
+  flutter_file_dialog:
+  dio:
+  permission_handler:
 dev_dependencies:
   flutter_test:
     sdk: flutter
