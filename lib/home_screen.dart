@@ -9,10 +9,9 @@ import 'package:assessment_task/profils_enregistrés.dart';
 import 'dart:convert';
 import 'utils/database_helper.dart';
 import 'dart:async';
-import 'package:assessment_task/détails.dart';
+import 'package:assessment_task/détails_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
-
+import 'package:assessment_task/brouillon_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,27 +21,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-
-  String _data="";
+  String _data = "";
   late SharedPreferences prefs;
-  _scan() async{
-    await FlutterBarcodeScanner.scanBarcode("#000000", "Annuler", true, ScanMode.QR).then((value) => setState(()=> _data = value));
+  _scan() async {
+    await FlutterBarcodeScanner.scanBarcode(
+            "#000000", "Annuler", true, ScanMode.QR)
+        .then((value) => setState(() => _data = value));
     prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", _data);
     print(_data);
-    if(_data!='-1') {
+    if (_data != '-1') {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DetailsScreen()));
-    }
-    else{
+    } else {
       AlertDialog(
         title: Text('erreur'),
         content: Text('code QR vide s\'il vous plais ressayer'),
-        actions: [
-        ],
+        actions: [],
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +80,7 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.list),
                 title: Text('Profils Enregistrés'),
-                onTap: (){
+                onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -96,11 +95,9 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.drafts),
                 title: Text('Profils en brouillon'),
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailsScreen()));
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => BrouillonScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[
@@ -111,7 +108,7 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.sync),
                 title: Text('Syncrohniser'),
-                onTap: (){},
+                onTap: () {},
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
@@ -126,10 +123,8 @@ class _HomeScreen extends State<HomeScreen> {
                 leading: Icon(Icons.person),
                 title: Text('Mon profil'),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfilScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfilScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[
@@ -140,7 +135,7 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Paramétres'),
-                onTap:() {},
+                onTap: () {},
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
@@ -151,10 +146,8 @@ class _HomeScreen extends State<HomeScreen> {
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Deconnexion'),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => WelcomeScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[
@@ -255,7 +248,7 @@ class _HomeScreen extends State<HomeScreen> {
                             ),
                             child: IconButton(
                               hoverColor: Color.fromRGBO(103, 33, 96, 1.0),
-                              onPressed: () async{
+                              onPressed: () async {
                                 _scan();
                               },
                               icon: Icon(
@@ -276,5 +269,3 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 }
-
-
