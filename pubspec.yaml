@@ -43,6 +43,10 @@ dependencies:
   flutter_file_dialog:
   dio:
   permission_handler:
+  excel:
+  open_file:
+  syncfusion_flutter_xlsio:
+  universal_html:
 dev_dependencies:
   flutter_test:
     sdk: flutter

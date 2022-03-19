@@ -8,10 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/utils/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:csv/csv.dart';
-import 'package:assessment_task/view_csv_data.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:open_file/open_file.dart';
+import 'package:universal_html/html.dart' show AnchorElement;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 String _data = "";
 int _count = 0;
@@ -53,45 +54,41 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
   }
 
   _upload() async {
-    List<List<dynamic>> listOfProfil = [];
-    for (int i = 0; i < litems.length; i++) {
-      List<dynamic> row = [];
-      row.add(litems[i].firstname);
-      row.add(litems[i].lastname);
-      row.add(litems[i].company);
-      row.add(litems[i].email);
-      row.add(litems[i].phone);
-      row.add(litems[i].adresse);
-      row.add(litems[i].evolution);
-      row.add(litems[i].action);
-      row.add(litems[i].notes);
-      listOfProfil.add(row);
+    final Workbook workbook = Workbook();
+    final Worksheet sheet = workbook.worksheets[0];
+    Userscan userCsv=Userscan('prénom', 'nom', 'company', 'email', 'téléphone', 'adresse', 'evolution', 'action', 'notes');
+    List<Userscan> listCsv = [];
+    listCsv.add(userCsv);
+    listCsv+=litems;
+    for(var i=1;i<=listCsv.length;i++){
+      sheet.getRangeByName('A${i}').setText(listCsv[i-1].firstname.toString());
+      sheet.getRangeByName('B${i}').setText(listCsv[i-1].lastname.toString());
+      sheet.getRangeByName('C${i}').setText(listCsv[i-1].company.toString());
+      sheet.getRangeByName('D${i}').setText(listCsv[i-1].email.toString());
+      sheet.getRangeByName('E${i}').setText(listCsv[i-1].phone.toString());
+      sheet.getRangeByName('F${i}').setText(listCsv[i-1].adresse.toString());
+      sheet.getRangeByName('G${i}').setText(listCsv[i-1].evolution.toString());
+      sheet.getRangeByName('H${i}').setText(listCsv[i-1].action.toString());
+      sheet.getRangeByName('I${i}').setText(listCsv[i-1].notes.toString());
     }
-    //<String>['first name', 'lastname', 'company','email','phone','adresse','evolution','Action','notes'],
 
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      //add more permission to request here.
-    ].request();
-    if (statuses[Permission.storage]!.isGranted) {
-      String csvData = ListToCsvConverter().convert(listOfProfil);
-      String directory = "";
-      if (Platform.isAndroid) {
-        directory = "/Download";
-      } else {
-        directory = (await getApplicationDocumentsDirectory()).path;
-      }
-      final path = "$directory/csv-${DateTime.now()}.csv";
-      final File file = File(path);
-      await file.writeAsString(csvData);
-      //final input =file.openRead();
-      //final fields=await input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
-      //print(fields);
-      print(csvData);
-      print(path);
-      print(file);
+
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+
+    if (kIsWeb) {
+      AnchorElement(
+          href:
+          'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+        ..setAttribute('download', 'Output.csv')
+        ..click();
     } else {
-      print("No permission to read and write.");
+      final String path = (await getApplicationSupportDirectory()).path;
+      final String fileName =
+      Platform.isWindows ? '$path\\Output.csv' : '$path/Output.csv';
+      final File file = File(fileName);
+      await file.writeAsBytes(bytes, flush: true);
+      OpenFile.open(fileName);
     }
   }
 
@@ -123,8 +120,8 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                  //begin: Alignment.centerLeft,
+                  //end: Alignment.centerRight,
                   colors: [Color.fromRGBO(103, 33, 96, 1.0), Colors.black])),
         ),
       ),
