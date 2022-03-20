@@ -18,7 +18,8 @@ class DatabaseHelper{
   final String evolution= 'evolution';
   final String action= 'action';
   final String notes= 'notes';
-
+  final String created='created';
+  final String updated='updated';
   Future<Database> get db async{
     var _db = await intDB();
     return _db;
@@ -32,11 +33,11 @@ class DatabaseHelper{
           var sql = "CREATE TABLE $brouillonTable ($columnId INTEGER  auto_increment,"
               " $columnUserFirstName TEXT, $columnLastName TEXT,$company TEXT,"
               " $columnEmail TEXT,$phone TEXT,$adresse TEXT,$evolution TEXT,"
-              "$action TEXT,$notes TEXT)";
+              "$action TEXT,$notes TEXT,$created TEXT,$updated TEXT)";
           var sql1 = "CREATE TABLE $userTable ($columnId INTEGER  auto_increment,"
               " $columnUserFirstName TEXT, $columnLastName TEXT,$company TEXT,"
               " $columnEmail TEXT,$phone TEXT,$adresse TEXT,$evolution TEXT,"
-              "$action TEXT,$notes TEXT)";
+              "$action TEXT,$notes TEXT,$created TEXT,$updated TEXT)";
             db.execute(sql);
             db.execute(sql1);
       await  batch.commit();
@@ -60,7 +61,7 @@ class DatabaseHelper{
     final dbList = await db;
     final List<Map<String, dynamic>> maps = await dbList.query("$userTable");
     return List.generate(maps.length, (i) {
-      return Userscan(maps[i]['firstname'],maps[i]['lastname'],maps[i]['company'],maps[i]['email'],maps[i]['phone'],maps[i]['adresse'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes']);
+      return Userscan(maps[i]['firstname'],maps[i]['lastname'],maps[i]['company'],maps[i]['email'],maps[i]['phone'],maps[i]['adresse'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes'],maps[i]['created'],maps[i]['updated']);
     });
   }
   //get list of brouillon
@@ -68,7 +69,7 @@ class DatabaseHelper{
     final dbList = await db;
     final List<Map<String, dynamic>> maps = await dbList.query("$brouillonTable");
     return List.generate(maps.length, (i) {
-      return Userscan(maps[i]['firstname'],maps[i]['lastname'],maps[i]['company'],maps[i]['email'],maps[i]['phone'],maps[i]['adresse'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes']);
+      return Userscan(maps[i]['firstname'],maps[i]['lastname'],maps[i]['company'],maps[i]['email'],maps[i]['phone'],maps[i]['adresse'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes'],maps[i]['created'],maps[i]['updated']);
     });
   }
   // select all users

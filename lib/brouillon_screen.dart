@@ -22,15 +22,13 @@ class BrouillonScreen extends StatefulWidget {
   const BrouillonScreen({Key? key}) : super(key: key);
 
   @override
-  _BrouillonScreenState createState() =>
-      _BrouillonScreenState();
+  _BrouillonScreenState createState() => _BrouillonScreenState();
 }
 
 class _BrouillonScreenState extends State<BrouillonScreen> {
   void initState() {
     _loadData();
     super.initState();
-
   }
 
   _loadData() async {
@@ -49,6 +47,7 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
       setState(() {});
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,15 +56,12 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
         leading: IconButton(
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeScreen()));
+                context, MaterialPageRoute(builder: (context) => HomeScreen()));
           },
           icon: Icon(Icons.arrow_back),
         ),
         title: Text("Brouillon"),
-        actions: <Widget>[
-        ],
+        actions: <Widget>[],
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -75,82 +71,113 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
                   colors: [Color.fromRGBO(103, 33, 96, 1.0), Colors.black])),
         ),
       ),
-      body:
-      isLoading==true ? Center(
-          child: SpinKitThreeBounce(
-            color: Color(0xff682062),
-            size: 50.0,
-          )
-      ) :
-      new ListView.builder(
-          itemCount: litems.length,
-          itemBuilder: (_, int position) {
-            return new Card(
-              child: new ListTile(
-                leading: new ClipOval(
-                    child: Image.asset(
+      body: isLoading == true
+          ? Center(
+              child: SpinKitThreeBounce(
+              color: Color(0xff682062),
+              size: 50.0,
+            ))
+          : new ListView.builder(
+              itemCount: litems.length,
+              itemBuilder: (_, int position) {
+                return new Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(50.0),
+                        right: Radius.circular(0.0),
+                      )
+                  ),
+                  child: new ListTile(
+                    leading: new ClipOval(
+                        child: Image.asset(
                       'assets/av.jpg',
                     )),
-                title: new Text(
-                  litems[position].email.toString(),
-                  style: TextStyle(color: Colors.white70),
-                ),
-                subtitle: new Text(
-                  "${litems[position].firstname.toString()} ${litems[position].lastname.toString()}",
-                  style: TextStyle(color: Colors.white70),
-                ),
-                trailing: Wrap(
-                  children: [
-                    IconButton(
-                        onPressed: () async {
-                          var db = new DatabaseHelper();
-                          Userscan userToBr = Userscan(
-                              litems[position].firstname,
-                              litems[position].lastname,
-                              litems[position].company,
-                              litems[position].email,
-                              litems[position].phone,
-                              litems[position].adresse,
-                              litems[position].evolution,
-                              litems[position].action,
-                              litems[position].notes);
-                          int res = await db.restoreUser(
-                              litems[position].email.toString(), userToBr);
-                          print(res);
-                          if (res > 0) {
-                            litems.removeWhere((element) =>
-                            element.email ==
-                                litems[position].email.toString());
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        profilsEnregistresScreen()));
-                            setState(() {});
-                          }
-                        },
-                        icon: Icon(Icons.restore, color: Colors.white70)),
-                    IconButton(
-                        onPressed: () async {
-                          var db = new DatabaseHelper();
-                          int res=await db.deleteBrouillon(litems[position].email.toString());
-                          print(res);
-                          if(res>0)
-                          {
-                            litems.removeWhere((element) => element.email==litems[position].email.toString());
-                            setState(() {
-                            });
-                          }
-                        },
-                        icon: Icon(Icons.delete, color:Color(0xff803b7a))),
-                  ],
-                ),
-                onTap: () => debugPrint(litems[position].email.toString()),
-              ),
-              color:Colors.grey,
-              elevation: 3.0,
-            );
-          }),
+                    title: new Text(
+                      "${litems[position].firstname.toString()} ${litems[position].lastname.toString()}",
+                      style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+                    ),
+                    subtitle: new Text(
+                      "${litems[position].company.toString()}                      ${litems[position].created.toString()}",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    trailing: Wrap(
+                      children: [
+                        IconButton(
+                            onPressed: () async {
+                              var db = new DatabaseHelper();
+                              Userscan userToBr = Userscan(
+                                  litems[position].firstname,
+                                  litems[position].lastname,
+                                  litems[position].company,
+                                  litems[position].email,
+                                  litems[position].phone,
+                                  litems[position].adresse,
+                                  litems[position].evolution,
+                                  litems[position].action,
+                                  litems[position].notes,
+                                litems[position].created,
+                                litems[position].updated);
+                              int res = await db.restoreUser(
+                                  litems[position].email.toString(), userToBr);
+                              print(res);
+                              if (res > 0) {
+                                litems.removeWhere((element) =>
+                                    element.email ==
+                                    litems[position].email.toString());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            profilsEnregistresScreen()));
+                                setState(() {});
+                              }
+                            },
+                            icon: Icon(Icons.restore, color: Colors.white70)),
+                        IconButton(
+                            onPressed: () {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('suppression'),
+                                  content: const Text(
+                                      'Êtes-vous sûr de vouloir supprimer?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Annuler'),
+                                      child: const Text('Cancel',style: TextStyle(color: Color(0xff803b7a))),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        var db = new DatabaseHelper();
+                                        int res = await db.deleteBrouillon(
+                                            litems[position].email.toString());
+                                        print(res);
+                                        if (res > 0) {
+                                          litems.removeWhere((element) =>
+                                              element.email ==
+                                              litems[position]
+                                                  .email
+                                                  .toString());
+                                          Navigator.pop(context, 'oui');
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: const Text('oui',style: TextStyle(color: Color(0xff803b7a))),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.delete, color: Color(0xff803b7a))),
+                      ],
+                    ),
+                    onTap: () => debugPrint(litems[position].email.toString()),
+                  ),
+                  color: Colors.grey,
+                  elevation: 3.0,
+                );
+              }),
     );
   }
 }

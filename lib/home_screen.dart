@@ -29,15 +29,22 @@ class _HomeScreen extends State<HomeScreen> {
         .then((value) => setState(() => _data = value));
     prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", _data);
-    print(_data);
     if (_data != '-1') {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DetailsScreen()));
     } else {
-      AlertDialog(
-        title: Text('erreur'),
-        content: Text('code QR vide s\'il vous plais ressayer'),
-        actions: [],
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('erreur'),
+          content: const Text('La devise n\'a pas été complétée avec succès. Veuillez réessayer'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK',style: TextStyle(color: Color(0xff803b7a))),
+            ),
+          ],
+        ),
       );
     }
   }

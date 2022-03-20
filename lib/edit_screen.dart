@@ -6,13 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'brouillon_screen.dart';
+
 String _data = "";
 int _count = 0;
 double evo = 3.0;
 var notes = "", action = "";
 late SharedPreferences pr;
 List<String> litems = [];
-Userscan user1 = Userscan('', '', '', '', '', '', '', '', '');
+Userscan user1 = Userscan('','','','','','','','','','','');
 double initial=0;
 class EditScreen extends StatefulWidget {
   const EditScreen({Key? key,}) : super(key: key);
@@ -41,9 +43,9 @@ class _EditScreenState extends State<EditScreen> {
     ss.forEach((e) {
       list1.add(e);
     });
-    //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
     user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
-        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),list1.elementAt(6),list1.elementAt(7),list1.elementAt(8));
+        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),list1.elementAt(6),list1.elementAt(7),list1.elementAt(8),list1.elementAt(9),'');
+    user1.created="${DateTime.now().hour}:${DateTime.now().minute}";
     isLoading = false;
     if (user1.evolution=='trés mauvais') {
       initial=1.0;
@@ -122,6 +124,42 @@ class _EditScreenState extends State<EditScreen> {
         MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
     setState(() {
     });
+  }
+  _saveBrouillon() async {
+    action = "";
+    if (evo == 1.0) {
+      user1.evolution = 'trés mauvais';
+    }
+    if (evo == 2.0) {
+      user1.evolution = 'mauvais';
+    }
+    if (evo == 3.0) {
+      user1.evolution = 'moyen';
+    }
+    if (evo == 4.0) {
+      user1.evolution = 'Bonne';
+    }
+    if (evo == 5.0) {
+      user1.evolution = 'Excellent';
+    }
+    if (isChecked1 == true) {
+      action += "1";
+    }
+    if (isChecked2 == true) {
+      action += "2";
+    }
+    if (isChecked3 == true) {
+      action += "3";
+    }
+    if (isChecked4 == true) {
+      action += "4";
+    }
+    user1.notes = notes;
+    user1.action = action;
+    var db = new DatabaseHelper();
+    await db.saveBrouillon(user1);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => BrouillonScreen()));
   }
 
   @override
@@ -702,7 +740,9 @@ class _EditScreenState extends State<EditScreen> {
                                   child: Container(
                                     height: 50,
                                     child: RaisedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          _saveBrouillon();
+                                        },
                                         color: Color(0xff682062),
                                         disabledColor: Color(0xff682062),
                                         child: Text('Au brouillon ',

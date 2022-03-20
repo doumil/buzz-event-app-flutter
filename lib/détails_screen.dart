@@ -5,14 +5,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:assessment_task/brouillon_screen.dart';
 
 String _data = "";
-int _count = 0;
 double evo = 3.0;
 var notes = "", action = "";
 late SharedPreferences pr;
 List<String> litems = [];
-Userscan user1 = Userscan('', '', '', '', '', '', '', '', '');
+Userscan user1 = Userscan('','','','','','','','','','','');
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
 
@@ -35,14 +35,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("Data") ?? '');
-    var ss = _data.split(" ");
+    var ss = _data.split(":");
     List<String> list1 = [];
     ss.forEach((e) {
       list1.add(e);
     });
     //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
     user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
-        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5), '', '', '');
+        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),'','','','','');
+    user1.created="${DateTime.now().hour}:${DateTime.now().minute}";
     isLoading = false;
     //print(user1);
     //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
@@ -50,7 +51,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
       setState(() {});
     }
   }
-
   _saveUser() async {
     action = "";
     if (evo == 1.0) {
@@ -82,11 +82,49 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
     user1.notes = notes;
     user1.action = action;
+    //user1.created="${DateTime.now().day}/${DateTime.now().month} ${DateTime.now().hour}:${DateTime.now().minute}";
     var db = new DatabaseHelper();
     await db.saveUser(user1);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
   }
+  _saveBrouillon() async {
+    action = "";
+    if (evo == 1.0) {
+      user1.evolution = 'trés mauvais';
+    }
+    if (evo == 2.0) {
+      user1.evolution = 'mauvais';
+    }
+    if (evo == 3.0) {
+      user1.evolution = 'moyen';
+    }
+    if (evo == 4.0) {
+      user1.evolution = 'Bonne';
+    }
+    if (evo == 5.0) {
+      user1.evolution = 'Excellent';
+    }
+    if (isChecked1 == true) {
+      action += "1";
+    }
+    if (isChecked2 == true) {
+      action += "2";
+    }
+    if (isChecked3 == true) {
+      action += "3";
+    }
+    if (isChecked4 == true) {
+      action += "4";
+    }
+    user1.notes = notes;
+    user1.action = action;
+    var db = new DatabaseHelper();
+    await db.saveBrouillon(user1);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => BrouillonScreen()));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -665,7 +703,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   child: Container(
                                 height: 50,
                                 child: RaisedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _saveBrouillon();
+                                    },
                                     color: Color(0xff682062),
                                     disabledColor: Color(0xff682062),
                                     child: Text('Au brouillon ',
