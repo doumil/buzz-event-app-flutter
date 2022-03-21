@@ -47,6 +47,7 @@ dependencies:
   open_file:
   syncfusion_flutter_xlsio:
   universal_html:
+  intl_phone_field:
 dev_dependencies:
   flutter_test:
     sdk: flutter
