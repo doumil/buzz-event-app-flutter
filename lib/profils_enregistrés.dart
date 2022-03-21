@@ -123,13 +123,22 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
+              Icons.sync_sharp,
+              color: Colors.white,
+            ),
+            onPressed: () {
+            },
+          ),
+          IconButton(
+            icon: Icon(
               Icons.upload_sharp,
               color: Colors.white,
             ),
             onPressed: () {
               _upload();
             },
-          )
+          ),
+
         ],
         centerTitle: true,
         flexibleSpace: Container(
@@ -169,17 +178,19 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                       style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
                     ),
                     subtitle: new Text(
-                      "${litems[position].company.toString()}   ${litems[position].created.toString()}",
+                      "${litems[position].company.toString()}\n"
+                          "${litems[position].created.toString()}",
                       style: TextStyle(color: Colors.white70),
                     ),
                     trailing: Wrap(
                       children: [
                         IconButton(
                             onPressed: () async {
-                              String userToBr =
-                                  ("${litems[position].firstname}:${litems[position].lastname}:${litems[position].company}:${litems[position].email}:${litems[position].phone}:${litems[position].adresse}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
+                              String usertoEdit =
+                                  ("${litems[position].firstname},${litems[position].lastname},${litems[position].company},${litems[position].email},${litems[position].phone},${litems[position].adresse},${litems[position].evolution},${litems[position].action},${litems[position].notes},${litems[position].created}");
                               prefs = await SharedPreferences.getInstance();
-                              prefs.setString("EditData", userToBr);
+                              prefs.setString("EditData", usertoEdit);
+                              print(litems[position].created);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -220,6 +231,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
 
                       ],
                     ),
+
                     onTap: () => debugPrint(litems[position].email.toString()),
                     onLongPress: ()async {
 

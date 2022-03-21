@@ -43,7 +43,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
     user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
         list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),'','','','','');
-    user1.created="${DateTime.now().hour}:${DateTime.now().minute}";
     isLoading = false;
     //print(user1);
     //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
@@ -82,6 +81,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
     user1.notes = notes;
     user1.action = action;
+    user1.created="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
     //user1.created="${DateTime.now().day}/${DateTime.now().month} ${DateTime.now().hour}:${DateTime.now().minute}";
     var db = new DatabaseHelper();
     await db.saveUser(user1);
@@ -119,6 +119,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
     user1.notes = notes;
     user1.action = action;
+    user1.created="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
     var db = new DatabaseHelper();
     await db.saveBrouillon(user1);
     Navigator.push(context,
@@ -131,7 +132,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("Détails"),
           actions: <Widget>[

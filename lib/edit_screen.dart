@@ -38,14 +38,17 @@ class _EditScreenState extends State<EditScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("EditData") ?? '');
-    var ss = _data.split(":");
+    var ss = _data.split(",");
     List<String> list1 = [];
     ss.forEach((e) {
       list1.add(e);
     });
     user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
-        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),list1.elementAt(6),list1.elementAt(7),list1.elementAt(8),list1.elementAt(9),'');
-    user1.created="${DateTime.now().hour}:${DateTime.now().minute}";
+        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),
+        list1.elementAt(6),list1.elementAt(7),list1.elementAt(8)
+        ,list1.elementAt(9),'');
+    print(list1.elementAt(9));
+    //user1.created="${DateTime.now().hour}:${DateTime.now().minute}";
     isLoading = false;
     if (user1.evolution=='trés mauvais') {
       initial=1.0;
@@ -157,7 +160,7 @@ class _EditScreenState extends State<EditScreen> {
     user1.notes = notes;
     user1.action = action;
     var db = new DatabaseHelper();
-    await db.saveBrouillon(user1);
+    await db.deleteUser(user1.email, user1);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => BrouillonScreen()));
   }
@@ -167,7 +170,6 @@ class _EditScreenState extends State<EditScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text("modifiér"),
           actions: <Widget>[
