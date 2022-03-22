@@ -1,4 +1,3 @@
-import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/Profil.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
-import 'dart:convert';
-import 'utils/database_helper.dart';
-import 'dart:async';
 import 'package:assessment_task/détails_screen.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:assessment_task/brouillon_screen.dart';
+import 'package:assessment_task/syncrohn_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -115,7 +111,9 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.sync),
                 title: Text('Syncrohniser'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => syncrohnScreen()));
+                },
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2

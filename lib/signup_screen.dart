@@ -68,7 +68,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 
   void registerUser() async{
-
     setState(() {
       processing = true;
     });

@@ -14,6 +14,7 @@ import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 String _data = "";
 int _count = 0;
@@ -105,6 +106,30 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     }
   }
 
+  void _sync() async{
+    setState(() {
+    });
+    var url = "http://192.168.1.179/buzz_login/sync.php";
+    for (var i = 0; i <litems.length; i++) {
+      var dt = {
+        "firstname":litems[i].firstname.toString(),
+        "lastname":litems[i].lastname.toString(),
+        "company":litems[i].company.toString(),
+        "email":litems[i].email.toString(),
+        "phone":litems[i].phone.toString(),
+        "adresse":litems[i].adresse.toString(),
+        "evolution":litems[i].evolution.toString(),
+        "action":litems[i].action.toString(),
+        "notes":litems[i].notes.toString(),
+        "created":litems[i].created.toString(),
+        "updated":litems[i].updated.toString(),
+      };
+      await http.post(Uri.parse(url),body:dt);
+    }
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -127,6 +152,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
               color: Colors.white,
             ),
             onPressed: () {
+              _sync();
             },
           ),
           IconButton(

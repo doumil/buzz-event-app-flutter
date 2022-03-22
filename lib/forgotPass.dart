@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 class ForgotPass extends StatefulWidget {
   const ForgotPass({Key? key}) : super(key: key);
 
@@ -57,33 +59,29 @@ class _ForgotPassState extends State<ForgotPass> {
 
 
 
- /* sendMail() async {
-    String username = 'amine.faouzi911@gmail.com';
-    String password = '123456';
+ sendMail() async {
+   String username = 'jysnoreply@gmail.com';
+   String password = 'jysjamalyassine9669.com';
+   final smtpServer = gmail(username, password);
+   // Create our message.
+   final message = Message()
+     ..from = Address(username)
+     ..recipients.add('amine.norman12@gmail.com')
+     //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+     //..bccRecipients.add(Address('bccAddress@example.com'))
+     ..subject = 'Reset Password :: ${DateTime.now()}'
+     ..html = "<h1>Test</h1>\n<p>Hey! Here where you can reset your password <a href='youtube.com'> Reset Password </a></p>";
 
-    final smtpServer = gmail(username, password);
-    // Use the SmtpServer class to configure an SMTP server:
-    // final smtpServer = SmtpServer('smtp.domain.com');
-    // See the named arguments of SmtpServer for further configuration
-    // options.
-
-    // Create our message.
-    //final message = Message()
-      //..from = Address(username)
-      //..recipients.add('amine.norman12@gmail.com')
-      //..subject = 'Reset Password verification link from norm: ${DateTime.now()}'
-      //..html = "<h1>Test</h1>\n<p><a href='$verifyLnk'> Click me to verify </a></p>";
-
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-    } on MailerException catch (e) {
-      print('Message not sent.');
-
-    }
+   try {
+     final sendReport = await send(message, smtpServer);
+     print('Message sent: ' + sendReport.toString());
+   } on MailerException catch (e) {
+     print('Message not sent.');
+     for (var p in e.problems) {
+       print('Problem: ${p.code}: ${p.msg}');
+     }
+   }
   }
-
-  */
 
 
   int newPass = 0;
@@ -214,7 +212,8 @@ class _ForgotPassState extends State<ForgotPass> {
                       SizedBox(height: 20),
                       MaterialButton(
                         onPressed:(){
-                          forgetPassValid();
+                          sendMail();
+                          // forgetPassValid();
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,

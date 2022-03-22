@@ -58,10 +58,12 @@ class FirsPage extends StatelessWidget {
       totalPage: 3,
       headerBackgroundColor: Colors.white,
       pageBackgroundColor: Colors.white,
+      imageHorizontalOffset: 80.0,
+      imageVerticalOffset: 160.0,
       background: [
-        Image.asset('assets/intro_photo1.png', width: 200,height: 200,fit: BoxFit.contain,alignment: Alignment.center,),
-        Image.asset('assets/intro_photo2.png',width: 200,height: 200,fit: BoxFit.cover,alignment: Alignment.center),
-        Image.asset('assets/intro_photo3.png',width: 200,height: 200, fit: BoxFit.fill,alignment: Alignment.center),
+        Image.asset('assets/intro_photo1.png', width: 200,height: 200),
+        Image.asset('assets/intro_photo2.png',width: 250,height: 250),
+        Image.asset('assets/intro_photo3.png',width: 300,height: 300),
       ],
       speed: 2,
       pageBodies: [
@@ -70,6 +72,7 @@ class FirsPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
+
             children: <Widget>[
               const SizedBox(
                 height: 480,
