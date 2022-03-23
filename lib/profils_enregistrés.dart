@@ -15,6 +15,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:assessment_task/syncrohn_screen.dart';
+
 
 String _data = "";
 int _count = 0;
@@ -124,10 +127,17 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
         "created":litems[i].created.toString(),
         "updated":litems[i].updated.toString(),
       };
+      print(dt);
       await http.post(Uri.parse(url),body:dt);
     }
-    setState(() {
-    });
+    var db = new DatabaseHelper();
+    await db.deleteTosync();
+    litems.removeRange(0,litems.length);
+    Fluttertoast.showToast(msg: "contenu Enregistré avec succès",toastLength: Toast.LENGTH_SHORT);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => syncrohnScreen()));
+    if (this.mounted) {
+      setState(() {});
+    }
   }
 
   @override

@@ -103,6 +103,12 @@ class DatabaseHelper{
           brouillonTable , where: "$columnEmail = ?" , whereArgs: [email]
       );
   }
+  //delete user for sync
+  Future<int> deleteTosync() async{
+    var dbClient = await  db;
+    return
+      await dbClient.delete(userTable);
+  }
   //update user
   Future<int> updateUser(Userscan user,String email) async{
     var dbClient = await  db;

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,10 +26,14 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
     _loadData();
     super.initState();
   }
-
   _loadData() async {
-    var url = "http://192.168.1.179/buzz_login/login.php";
+    var url = "http://192.168.1.179/buzz_login/loadsync.php";
     var res = await http.get(Uri.parse(url));
+    //String jsn ='[{"id":"17","firstname":"yassine","lastname":"doumil","company":"okysolutions","email":"yassinedoumil96@gmail.com","phone":"06877778787","adresse":"hay hassani casablanca","evolution":"bonne","action":"14","notes":"note1","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null}]';
+    List<Userscan> users = (json.decode(res.body) as List)
+        .map((data) => Userscan.fromJson(data))
+        .toList();
+    litems=users;
     isLoading = false;
     if (this.mounted) {
       setState(() {});
@@ -78,18 +84,24 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
                     child: Image.asset(
                       'assets/av.jpg',
                     )),
-                title: new Text("",
-                  style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+                title:Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                 child: Text("${litems[position].firstname} ${litems[position].lastname}",
+                   style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+                  ),
                 ),
-                subtitle: new Text("",
-                  style: TextStyle(color: Colors.white70),
+                subtitle: new Text("${litems[position].company}",
+                  style: TextStyle(color: Colors.white70,height: 2),
                 ),
                 trailing: Wrap(
-                  children: [],
+                  children: [
+                    Text("${litems[position].evolution}\n\n${litems[position].created}",
+                        style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
+                  ],
                 ),
                 onTap: (){},
               ),
-              color: Colors.grey,
+              color: Color(0xff682062),
               elevation: 3.0,
             );
           }),

@@ -13,6 +13,14 @@ class Userscan {
 
 
   Userscan(this.firstname, this.lastname,this.company, this.email,this.phone,this.adresse,this.evolution,this.action,this.notes,this.created,this.updated);
+  factory Userscan.fromJson(dynamic json) {
+    return Userscan(json['firstname'] as String, json['lastname'] as String,
+        json['company'] as String, json['email'] as String,
+        json['phone'] as String, json['adresse'] as String,
+        json['evolution'] as String, json['action'] as String,
+        json['notes'] as String, json['created'] as String,
+        json['updated'] as String);
+  }
   Map<String, dynamic> toMap() {
     return {
       'firstname': firstname,

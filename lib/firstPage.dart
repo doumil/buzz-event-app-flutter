@@ -15,10 +15,13 @@ class FirstPageSlide extends StatelessWidget {
   }
 }
 class FirsPage extends StatelessWidget {
+
   final Color kDarkBlueColor = const Color(0xff692062);
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return OnBoardingSlider(
       finishButtonText: 'Commencez',
       onFinish: () {
@@ -58,8 +61,8 @@ class FirsPage extends StatelessWidget {
       totalPage: 3,
       headerBackgroundColor: Colors.white,
       pageBackgroundColor: Colors.white,
-      imageHorizontalOffset: 80.0,
-      imageVerticalOffset: 160.0,
+      imageHorizontalOffset:width*0.25,
+      imageVerticalOffset: height*0.2,
       background: [
         Image.asset('assets/intro_photo1.png', width: 200,height: 200),
         Image.asset('assets/intro_photo2.png',width: 250,height: 250),

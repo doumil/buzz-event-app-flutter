@@ -45,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if(signin){
       setState(() {
         signin = false;
-
       });
     }else {
       setState(() {
@@ -240,9 +239,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 20),
                       MaterialButton(
                           onPressed:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                            signinValid();
+                            //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                           },
-                          //signinValid(),
                           child: processing == false ? Container(
                             width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.symmetric(vertical: 15),
