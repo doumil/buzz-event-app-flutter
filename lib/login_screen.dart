@@ -69,23 +69,23 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       processing = true;
     });
-    var url = "http://192.168.1.179/buzz_login/login.php";
+    var url = "http://192.168.1.179/buzz_login/login1.php";
     var data = {
       "email":emailctrl.text.trim(),
       "password":passwordctrl.text,
     };
-    print("hello");
     var res = await http.post(Uri.parse(url),body:data);
-     print("by");
+    var resbody =await jsonDecode(res.body);
+    print(resbody['fname'].toString());
     if(jsonDecode(res.body) == "Error"){
       Fluttertoast.showToast(msg: "vous n\'avez pas de compte, créez un compte",toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
     }
-    else if(jsonDecode(res.body) == "Success")
+    else if(resbody['status'] == "Success")
     {
+       print(resbody['fname'].toString());
       Fluttertoast.showToast(msg: "Connecté avec succès",toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-
     }
     else {
       if(jsonDecode(res.body) == "incorrectpass"){
