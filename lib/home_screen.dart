@@ -129,7 +129,7 @@ class _HomeScreen extends State<HomeScreen> {
                 title: Text('Mon profil'),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfilScreen()));
+                      MaterialPageRoute(builder: (context) => ProfileScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[

@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  font_awesome_flutter: ^9.2.0
   mailer:
   flutter:
     sdk: flutter
@@ -30,7 +31,7 @@ dependencies:
   flutter_onboarding_slider: ^1.0.7
   fluttertoast: ^8.0.9
   flutter_barcode_scanner: any
-  shared_preferences: any
+  shared_preferences:
   sqflite: ^2.0.2
   path_provider:
   flutter_rating_bar:

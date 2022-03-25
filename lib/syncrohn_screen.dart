@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 late SharedPreferences pr;
 List<Userscan> litems = [];
 bool isLoading = true;
+ int id=0;
 final TextEditingController eCtrl = new TextEditingController();
 
 class syncrohnScreen extends StatefulWidget {
@@ -27,9 +28,16 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
     super.initState();
   }
   _loadData() async {
-    var url = "http://192.168.1.179/buzz_login/loadsync.php";
-    var res = await http.get(Uri.parse(url));
-    //String jsn ='[{"id":"17","firstname":"yassine","lastname":"doumil","company":"okysolutions","email":"yassinedoumil96@gmail.com","phone":"06877778787","adresse":"hay hassani casablanca","evolution":"bonne","action":"14","notes":"note1","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null}]';
+    SharedPreferences sessionLogin = await SharedPreferences.getInstance();
+    var id = sessionLogin.getInt("id").toString();
+    var url = "http://192.168.8.102/buzz_login/loadsync.php";
+    //var res = await http.get(Uri.parse(url));
+    var data = {
+      "id_buzz":id,
+    };
+    var res = await http.post(Uri.parse(url), body: data);
+    //String jsn ='[{"id":"17","firstname":"yassine","lastname":"doumil","company":"okysolutions","email":"yassinedoumil96@gmail.com","phone":"06877778787","adresse":"hay hassani casablanca","evolution":"bonne","action":"14","notes":"note1","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null},
+    // {"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null}]';
     List<Userscan> users = (json.decode(res.body) as List)
         .map((data) => Userscan.fromJson(data))
         .toList();
@@ -39,7 +47,6 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
       setState(() {});
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

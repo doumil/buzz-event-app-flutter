@@ -713,7 +713,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                             fontSize: 20,
                                             color: Colors.white))),
                               )),
-                            ]))
+                            ])),
                       ],
                     ),
                   ),

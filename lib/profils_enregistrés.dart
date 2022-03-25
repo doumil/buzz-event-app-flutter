@@ -110,6 +110,8 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
   }
 
   void _sync() async{
+    SharedPreferences sessionLogin = await SharedPreferences.getInstance();
+    var id = sessionLogin.getInt("id").toString();
     setState(() {
     });
     var url = "http://192.168.1.179/buzz_login/sync.php";
@@ -126,6 +128,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
         "notes":litems[i].notes.toString(),
         "created":litems[i].created.toString(),
         "updated":litems[i].updated.toString(),
+        "id_buzz":id,
       };
       print(dt);
       await http.post(Uri.parse(url),body:dt);
@@ -173,8 +176,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
             onPressed: () {
               _upload();
             },
-          ),
-
+          )
         ],
         centerTitle: true,
         flexibleSpace: Container(
@@ -214,19 +216,17 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                       style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
                     ),
                     subtitle: new Text(
-                      "${litems[position].company.toString()}\n"
-                          "${litems[position].created.toString()}",
+                      "${litems[position].company.toString()}   ${litems[position].created.toString()}",
                       style: TextStyle(color: Colors.white70),
                     ),
                     trailing: Wrap(
                       children: [
                         IconButton(
                             onPressed: () async {
-                              String usertoEdit =
-                                  ("${litems[position].firstname},${litems[position].lastname},${litems[position].company},${litems[position].email},${litems[position].phone},${litems[position].adresse},${litems[position].evolution},${litems[position].action},${litems[position].notes},${litems[position].created}");
+                              String userToBr =
+                                  ("${litems[position].firstname}:${litems[position].lastname}:${litems[position].company}:${litems[position].email}:${litems[position].phone}:${litems[position].adresse}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
                               prefs = await SharedPreferences.getInstance();
-                              prefs.setString("EditData", usertoEdit);
-                              print(litems[position].created);
+                              prefs.setString("EditData", userToBr);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -267,7 +267,6 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
 
                       ],
                     ),
-
                     onTap: () => debugPrint(litems[position].email.toString()),
                     onLongPress: ()async {
 
