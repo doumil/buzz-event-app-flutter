@@ -30,7 +30,7 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
   _loadData() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     var id = sessionLogin.getInt("id").toString();
-    var url = "http://192.168.8.102/buzz_login/loadsync.php";
+    var url = "https://okydigital.com/buzz_login/loadsync.php";
     //var res = await http.get(Uri.parse(url));
     var data = {
       "id_buzz":id,

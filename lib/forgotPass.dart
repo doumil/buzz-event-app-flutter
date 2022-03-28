@@ -1,4 +1,8 @@
 import 'dart:math';
+import 'package:assessment_task/submitcode_screen.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Widget/customClipper.dart';
 import 'home_screen.dart';
 import 'signup_screen.dart';
@@ -8,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
+
 class ForgotPass extends StatefulWidget {
   const ForgotPass({Key? key}) : super(key: key);
 
@@ -18,11 +22,16 @@ class ForgotPass extends StatefulWidget {
 
 class _ForgotPassState extends State<ForgotPass> {
   TextEditingController emailctrl = TextEditingController();
-
+  var codeRandom = Random();
   GlobalKey<FormState> _keyforg = new GlobalKey<FormState>();
   bool verifyButton = false;
   late String verifyLnk;
-
+  int codeReset=0;
+  int min=1000,max=9999;
+  saveCodereset(int id) async {
+    SharedPreferences sessionLogin = await SharedPreferences.getInstance();
+    sessionLogin.setInt("codereset", id);
+  }
   //form != null && !form.validate()
   forgetPassValid(){
     var formdata = _keyforg.currentState;
@@ -35,55 +44,67 @@ class _ForgotPassState extends State<ForgotPass> {
 
 
   Future checkUser()async{
-    var response = await http.post(Uri.parse('http://192.168.1.126/buzz_login/check.php'),
-        body: {
-          'email':emailctrl.text.trim()
-        });
-
-    var link = jsonDecode(response.body);
-    if(link=="Invalidemail"){
-      Fluttertoast.showToast(msg: "This email is incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
-    }else{
-      setState(() {
-        verifyLnk = link;
-        verifyButton = true;
-      });
-      //sendMail();
-
-      Fluttertoast.showToast(msg: "Check your email inbox",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+/*
+    var url = "https://okydigital.com/buzz_login/check.php";
+    var data = {
+      "email": emailctrl.text.trim(),
+    };
+    var res = await http.post(Uri.parse(url), body: data);
+    var resbody = await jsonDecode(res.body.toString());
+    if (resbody == "emailfound") {
+      Fluttertoast.showToast(
+          msg: "Entrez le code que vous avez reçu par e-mail",
+          toastLength: Toast.LENGTH_SHORT);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignUpScreen()));
     }
-    print(link);
-
+     else if (resbody== "Invalidemail") {
+        Fluttertoast.showToast(msg: "This email is incorrect",
+            toastLength: Toast.LENGTH_SHORT,
+            fontSize: 12,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.deepPurple,
+            textColor: Colors.white);
+      }
+     else {
+      Fluttertoast.showToast(msg: "Erreur, réessayez plus tard",
+          toastLength: Toast.LENGTH_SHORT,
+          fontSize: 12,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.deepPurple,
+          textColor: Colors.white);
+      }
+ */
+    codeReset= min+codeRandom.nextInt(max - min);
+    print(codeReset);
+    saveCodereset(codeReset);
+    sendMail(codeReset);
+    }
+  sendMail(int ccReset) async {
+    String username = 'yassinedoumil96@gmail.com';
+    String password = 'jysjamalyassine9669.com';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'team buzzevvent')
+      ..recipients.add(emailctrl.text.toString())
+      ..subject = 'Reset Password verification : ${DateTime.now()}'
+      ..html = "<h1>Votre ocde est :</h1>\n<p>${ccReset}</p>";
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+    var connection = PersistentConnection(smtpServer);
+    // send the equivalent message
+    await connection.send(message);
+    // close the connection
+    await connection.close();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
   }
-
-
-
-
- sendMail() async {
-   String username = 'jysnoreply@gmail.com';
-   String password = 'jysjamalyassine9669.com';
-   final smtpServer = gmail(username, password);
-   // Create our message.
-   final message = Message()
-     ..from = Address(username)
-     ..recipients.add('amine.norman12@gmail.com')
-     //..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
-     //..bccRecipients.add(Address('bccAddress@example.com'))
-     ..subject = 'Reset Password :: ${DateTime.now()}'
-     ..html = "<h1>Test</h1>\n<p>Hey! Here where you can reset your password <a href='youtube.com'> Reset Password </a></p>";
-
-   try {
-     final sendReport = await send(message, smtpServer);
-     print('Message sent: ' + sendReport.toString());
-   } on MailerException catch (e) {
-     print('Message not sent.');
-     for (var p in e.problems) {
-       print('Problem: ${p.code}: ${p.msg}');
-     }
-   }
-  }
-
-
   int newPass = 0;
   Future resetPass (String verifyLnk)async{
     var response = await http.post(Uri.parse(verifyLnk));
@@ -92,7 +113,7 @@ class _ForgotPassState extends State<ForgotPass> {
       newPass = link;
       verifyButton = false;
     });
-    print(link);
+    //print(link);
     Fluttertoast.showToast(msg: "Your password has been reset : $newPass",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
   }
 
@@ -151,8 +172,7 @@ class _ForgotPassState extends State<ForgotPass> {
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         child: Text('Réinitialisez le mot de passe',
-                          style: TextStyle(fontSize: 25,color: Color(0xff692062)),
-
+                          style: TextStyle(fontSize: 20,color: Color(0xff692062),fontWeight: FontWeight.bold),
                         ),
                       ),
 
@@ -208,12 +228,13 @@ class _ForgotPassState extends State<ForgotPass> {
                           ],
                         ),
                       ),
-
                       SizedBox(height: 20),
                       MaterialButton(
                         onPressed:(){
-                          sendMail();
-                          // forgetPassValid();
+                          //Navigator.push(
+                            //  context, MaterialPageRoute(builder: (context) => Verificatoin()));
+                            forgetPassValid();
+                            //print(codeReset.nextInt(999999));
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,

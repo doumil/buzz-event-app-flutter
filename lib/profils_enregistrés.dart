@@ -114,7 +114,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     var id = sessionLogin.getInt("id").toString();
     setState(() {
     });
-    var url = "http://192.168.1.179/buzz_login/sync.php";
+    var url = "https://okydigital.com/buzz_login/sync.php";
     for (var i = 0; i <litems.length; i++) {
       var dt = {
         "firstname":litems[i].firstname.toString(),

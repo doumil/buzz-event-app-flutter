@@ -72,14 +72,15 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       processing = true;
     });
-    var url = "http://192.168.8.102/buzz_login/login1.php";
+    var url = "https://okydigital.com/buzz_login/login1.php";
     var data = {
       "email": emailctrl.text.trim(),
       "password": passwordctrl.text,
     };
 
     var res = await http.post(Uri.parse(url), body: data);
-    var resbody = await jsonDecode(res.body);
+    //String jsonsDataString = res.body.toString();
+    var resbody = await jsonDecode(res.body.toString());
     if (jsonDecode(res.body) == "Error") {
       Fluttertoast.showToast(
           msg: "vous n\'avez pas de compte, créez un compte",

@@ -71,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       processing = true;
     });
-    var url = "http://192.168.8.102/buzz_login/signup.php";
+    var url = "https://okydigital.com/buzz_login/signup.php";
     var data = {
       "email":emailctrl.text,
       "first_name":firstname.text,

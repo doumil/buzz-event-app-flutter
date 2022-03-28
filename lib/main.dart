@@ -1,4 +1,6 @@
 // @dart=2.9
+import 'dart:io';
+
 import 'package:assessment_task/firstPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    HttpOverrides.global = new PostHttpOverrides();
     final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
       title: 'Flutter Demo',
@@ -22,4 +25,11 @@ class MyApp extends StatelessWidget {
       home: FirsPage(),
     );
   }
+}
+class PostHttpOverrides extends HttpOverrides{
+  @override
+HttpClient createHttpClient(SecurityContext context){
+  return super.createHttpClient(context)
+    ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+}
 }

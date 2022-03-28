@@ -150,14 +150,7 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Deconnexion'),
-                onTap: () async {
-                  SharedPreferences sessionLogin = await SharedPreferences.getInstance();
-                  sessionLogin.remove("id");
-                  sessionLogin.remove("email");
-                  sessionLogin.remove("fname");
-                  sessionLogin.remove("lname");
-                  sessionLogin.remove("company");
-                  sessionLogin.remove("phone");
+                onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => WelcomeScreen()));
                 },
