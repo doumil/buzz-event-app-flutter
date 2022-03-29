@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:assessment_task/forgotPass.dart';
 import 'package:assessment_task/reset_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 class Verificatoin extends StatefulWidget {
   const Verificatoin({ Key? key }) : super(key: key);
@@ -12,10 +18,13 @@ class Verificatoin extends StatefulWidget {
   _VerificatoinState createState() => _VerificatoinState();
 }
 class _VerificatoinState extends State<Verificatoin> {
-  late var codeReset;
-  saveCodereset() async {
+  late var id_buzz;
+  late String email="";
+  getCodereset() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
-    codeReset=sessionLogin.getInt("codereset");
+    id_buzz = sessionLogin.getInt("id_buzz");
+    email     = sessionLogin.getString("email").toString();
+
   }
   bool _isResendAgain = false;
   bool _isVerified = false;
@@ -43,28 +52,38 @@ class _VerificatoinState extends State<Verificatoin> {
     });
   }
 
-  verify() {
+  verify() async{
     setState(() {
       _isLoading = true;
     });
-    const oneSec = Duration(milliseconds: 2000);
-    _timer = new Timer.periodic(oneSec, (timer) {
+    //const oneSec = Duration(milliseconds: 1000);
+    //_timer = new Timer.periodic(oneSec, (timer) {
+    //print(_code);
+    var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/checkcodereset.php'),body:{
+      'id_buzz':id_buzz.toString(),
+    });
+    print(id_buzz);
+    var res = jsonDecode(response.body);
+    print(res['codereset']);
+    if(res['codereset']==_code) {
       setState(() {
-
         _isLoading = false;
         _isVerified = true;
+        Fluttertoast.showToast(msg: "Cet e-mail est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ResetScreen()));
       });
-    });
+    }
+    else{
+      _isLoading = false;
+      _isVerified = false;
+      Fluttertoast.showToast(msg: "réessayer plus tard",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPass()));
+    }
+    //});
   }
   @override
   void initState() {
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      setState(() {
-        _currentIndex++;
-        if (_currentIndex == 3)
-          _currentIndex = 0;
-      });
-    });
+    getCodereset();
     super.initState();
   }
 
@@ -131,7 +150,7 @@ class _VerificatoinState extends State<Verificatoin> {
                   FadeInDown(
                     delay: Duration(milliseconds: 500),
                     duration: Duration(milliseconds: 500),
-                    child: Text("Please enter the 4 digit code sent to \n ***********",
+                    child: Text("Please enter the 6 digit code sent to \n ${email}",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.grey.shade500, height: 1.5),),
                   ),

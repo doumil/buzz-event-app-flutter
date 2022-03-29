@@ -38,7 +38,7 @@ class _EditScreenState extends State<EditScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("EditData") ?? '');
-    var ss = _data.split(",");
+    var ss = _data.split(":");
     List<String> list1 = [];
     ss.forEach((e) {
       list1.add(e);

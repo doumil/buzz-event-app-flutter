@@ -24,13 +24,14 @@ class _ForgotPassState extends State<ForgotPass> {
   TextEditingController emailctrl = TextEditingController();
   var codeRandom = Random();
   GlobalKey<FormState> _keyforg = new GlobalKey<FormState>();
-  bool verifyButton = false;
-  late String verifyLnk;
+  //bool verifyButton = false;
+  //late String verifyLnk;
   int codeReset=0;
-  int min=1000,max=9999;
-  saveCodereset(int id) async {
+  int min=100000,max=999999;
+  saveInfo(int id_buzz,String email) async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
-    sessionLogin.setInt("codereset", id);
+    sessionLogin.setInt("id_buzz", id_buzz);
+    sessionLogin.setString("email",email);
   }
   //form != null && !form.validate()
   forgetPassValid(){
@@ -41,44 +42,27 @@ class _ForgotPassState extends State<ForgotPass> {
       checkUser();
     }
   }
-
-
   Future checkUser()async{
-/*
-    var url = "https://okydigital.com/buzz_login/check.php";
-    var data = {
-      "email": emailctrl.text.trim(),
-    };
-    var res = await http.post(Uri.parse(url), body: data);
-    var resbody = await jsonDecode(res.body.toString());
-    if (resbody == "emailfound") {
-      Fluttertoast.showToast(
-          msg: "Entrez le code que vous avez reçu par e-mail",
-          toastLength: Toast.LENGTH_SHORT);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUpScreen()));
-    }
-     else if (resbody== "Invalidemail") {
-        Fluttertoast.showToast(msg: "This email is incorrect",
-            toastLength: Toast.LENGTH_SHORT,
-            fontSize: 12,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.deepPurple,
-            textColor: Colors.white);
-      }
-     else {
-      Fluttertoast.showToast(msg: "Erreur, réessayez plus tard",
-          toastLength: Toast.LENGTH_SHORT,
-          fontSize: 12,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.deepPurple,
-          textColor: Colors.white);
-      }
- */
     codeReset= min+codeRandom.nextInt(max - min);
-    print(codeReset);
-    saveCodereset(codeReset);
-    sendMail(codeReset);
+    var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/check.php'),body:{
+      'email':emailctrl.text.trim(),
+      'codeReset':codeReset.toString()
+    });
+    var res = jsonDecode(response.body);
+    if(res=="Invalidemail"){
+      Fluttertoast.showToast(msg: "Cet e-mail est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+    }else{
+      //generate code :
+      print(codeReset);
+      print(int.parse(res['id']));
+      //save code to shared preference
+      saveInfo(int.parse(res['id']),res['email']);
+      Fluttertoast.showToast(msg: "Vérifiez votre boîte de réception",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
+      // send code to box mail
+      sendMail(codeReset);
+    }
+
     }
   sendMail(int ccReset) async {
     String username = 'yassinedoumil96@gmail.com';
@@ -87,7 +71,7 @@ class _ForgotPassState extends State<ForgotPass> {
     final message = Message()
       ..from = Address(username, 'team buzzevvent')
       ..recipients.add(emailctrl.text.toString())
-      ..subject = 'Reset Password verification : ${DateTime.now()}'
+      ..subject = 'Reset Password verification : ${DateTime.now().hour}:${DateTime.now().minute}'
       ..html = "<h1>Votre ocde est :</h1>\n<p>${ccReset}</p>";
     try {
       final sendReport = await send(message, smtpServer);
@@ -103,20 +87,7 @@ class _ForgotPassState extends State<ForgotPass> {
     await connection.send(message);
     // close the connection
     await connection.close();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
   }
-  int newPass = 0;
-  Future resetPass (String verifyLnk)async{
-    var response = await http.post(Uri.parse(verifyLnk));
-    var link = jsonDecode(response.body);
-    setState(() {
-      newPass = link;
-      verifyButton = false;
-    });
-    //print(link);
-    Fluttertoast.showToast(msg: "Your password has been reset : $newPass",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
-  }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;

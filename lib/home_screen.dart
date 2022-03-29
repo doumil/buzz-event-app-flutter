@@ -33,11 +33,13 @@ class _HomeScreen extends State<HomeScreen> {
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text('erreur'),
-          content: const Text('La devise n\'a pas été complétée avec succès. Veuillez réessayer'),
+          content: const Text(
+              'La devise n\'a pas été complétée avec succès. Veuillez réessayer'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK',style: TextStyle(color: Color(0xff803b7a))),
+              child:
+                  const Text('OK', style: TextStyle(color: Color(0xff803b7a))),
             ),
           ],
         ),
@@ -99,8 +101,10 @@ class _HomeScreen extends State<HomeScreen> {
                 leading: Icon(Icons.drafts),
                 title: Text('Profils en brouillon'),
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => BrouillonScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BrouillonScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[
@@ -112,7 +116,10 @@ class _HomeScreen extends State<HomeScreen> {
                 leading: Icon(Icons.sync),
                 title: Text('Syncrohniser'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => syncrohnScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => syncrohnScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[
@@ -150,9 +157,16 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Deconnexion'),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                onTap: () async {
+                  SharedPreferences sessionLogin =
+                      await SharedPreferences.getInstance();
+                  sessionLogin.remove("id");
+                  sessionLogin.remove("email");
+                  sessionLogin.remove("fname");
+                  sessionLogin.remove("lname");
+                  sessionLogin.remove("company");
+                  sessionLogin.remove("phone");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[

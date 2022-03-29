@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Widget/customClipper.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
@@ -11,8 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-
-
 class ResetScreen extends StatefulWidget {
   const ResetScreen({Key? key}) : super(key: key);
 
@@ -21,42 +20,54 @@ class ResetScreen extends StatefulWidget {
 }
 
 class _ResetScreenState extends State<ResetScreen> {
-  bool signin = true;
+  //bool signin = true;
   bool _isVisible = false;
-
+  late var id_buzz;
   //Global Key for the form
   final GlobalKey<FormState> _keyreg = new GlobalKey<FormState>();
 
   // Controllers for TextFormFields
   late TextEditingController passwordctrl,confpasswordctrl;
-
   bool processing = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getCodereset();
     passwordctrl = TextEditingController();
     confpasswordctrl = TextEditingController();
   }
   void changeState(){
-    if(signin){
-      setState(() {
-        signin = false;
-      });
-    }else {
-      setState(() {
-        signin = true;
-      });
-    }
-  }
 
+    }
   //form != null && !form.validate()
   signupValid(){
     var formdata = _keyreg.currentState;
     if(formdata != null && !formdata.validate()){
       return "make sure all the fields are valide";
     }else if(formdata != null && formdata.validate()){
+      resetpassword();
+    }
+
+  }
+  getCodereset() async {
+    SharedPreferences sessionLogin = await SharedPreferences.getInstance();
+    id_buzz = sessionLogin.getInt("id_buzz");
+  }
+  resetpassword() async{
+    processing=true;
+    var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/resetpassword.php'),body:{
+      'id_buzz':id_buzz.toString(),
+      'newpassowrd':passwordctrl.text.toString()
+    });
+    var res = jsonDecode(response.body);
+    if(res=="Updated") {
+      setState(() {
+        processing=false;
+        Fluttertoast.showToast(msg: "le mot de passe a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      });
     }
   }
   @override
