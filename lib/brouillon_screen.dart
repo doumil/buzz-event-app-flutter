@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:assessment_task/Profil.dart';
+import 'package:assessment_task/profil_screen.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

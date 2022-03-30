@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/forgotPass.dart';
 import 'package:assessment_task/reset_screen.dart';
@@ -58,6 +57,9 @@ class _VerificatoinState extends State<Verificatoin> {
     });
   }
   resendcode() async {
+    setState(() {
+      getCodereset();
+    });
     codeReset= min+codeRandom.nextInt(max - min);
     await http.post(Uri.parse('https://okydigital.com/buzz_login/check.php'),body:{
       'email':email,
@@ -88,6 +90,8 @@ class _VerificatoinState extends State<Verificatoin> {
     await connection.send(message);
     // close the connection
     await connection.close();
+    setState(() {
+    });
   }
   verify() async{
     setState(() {
@@ -113,8 +117,8 @@ class _VerificatoinState extends State<Verificatoin> {
     else{
       _isLoading = false;
       _isVerified = false;
-      Fluttertoast.showToast(msg: "réessayer plus tard",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPass()));
+      Fluttertoast.showToast(msg: "code incorrect réessayez",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPass()));
     }
     //});
   }

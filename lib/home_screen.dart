@@ -1,5 +1,6 @@
+import 'package:assessment_task/parametre.dart';
 import 'package:assessment_task/welcome_screen.dart';
-import 'package:assessment_task/Profil.dart';
+import 'package:assessment_task/profil_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -133,7 +134,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.person),
-                title: Text('Mon profil'),
+                title: Text('Mon profile'),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ProfileScreen()));
@@ -147,7 +148,10 @@ class _HomeScreen extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Paramétres'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ParametreScreen()));
+                },
                 trailing: Wrap(
                   children: <Widget>[
                     Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
