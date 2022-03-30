@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/forgotPass.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +27,6 @@ class _VerificatoinState extends State<Verificatoin> {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     id_buzz = sessionLogin.getInt("id_buzz");
     email     = sessionLogin.getString("email").toString();
-
   }
   bool _isResendAgain = false;
   bool _isVerified = false;
@@ -33,25 +35,60 @@ class _VerificatoinState extends State<Verificatoin> {
   late Timer _timer;
   int _start = 60;
   int _currentIndex = 0;
-
+  var codeRandom = Random();
+  int codeReset=0;
+  int min=100000,max=999999;
   void resend() {
     setState(() {
       _isResendAgain = true;
+      resendcode();
     });
     const oneSec = Duration(seconds: 1);
     _timer = new Timer.periodic(oneSec, (timer) {
-      setState(() {
+      setState((){
         if (_start == 0) {
           _start = 60;
           _isResendAgain = false;
           timer.cancel();
-        } else {
+        }
+        else {
           _start--;
         }
       });
     });
   }
-
+  resendcode() async {
+    codeReset= min+codeRandom.nextInt(max - min);
+    await http.post(Uri.parse('https://okydigital.com/buzz_login/check.php'),body:{
+      'email':email,
+      'codeReset':codeReset.toString()
+    });
+    sendMail(codeReset);
+  }
+  sendMail(int ccReset) async {
+    String username = 'yassinedoumil96@gmail.com';
+    String password = 'jysjamalyassine9669.com';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'team buzzevvent')
+      ..recipients.add(email)
+      ..subject = 'Reset Password verification : ${DateTime.now().hour}:${DateTime.now().minute}'
+      ..html = "<h1>Votre ocde est :</h1>\n<p>${ccReset}</p>";
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+    var connection = PersistentConnection(smtpServer);
+    // send the equivalent message
+    await connection.send(message);
+    // close the connection
+    await connection.close();
+  }
   verify() async{
     setState(() {
       _isLoading = true;
@@ -83,6 +120,13 @@ class _VerificatoinState extends State<Verificatoin> {
   }
   @override
   void initState() {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      setState(() {
+        _currentIndex++;
+        if (_currentIndex == 3)
+          _currentIndex = 0;
+      });
+    });
     getCodereset();
     super.initState();
   }

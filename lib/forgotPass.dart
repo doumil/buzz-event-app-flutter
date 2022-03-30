@@ -23,6 +23,7 @@ class ForgotPass extends StatefulWidget {
 class _ForgotPassState extends State<ForgotPass> {
   TextEditingController emailctrl = TextEditingController();
   var codeRandom = Random();
+  bool processing = false;
   GlobalKey<FormState> _keyforg = new GlobalKey<FormState>();
   //bool verifyButton = false;
   //late String verifyLnk;
@@ -43,6 +44,9 @@ class _ForgotPassState extends State<ForgotPass> {
     }
   }
   Future checkUser()async{
+    setState(() {
+      processing = true;
+    });
     codeReset= min+codeRandom.nextInt(max - min);
     var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/check.php'),body:{
       'email':emailctrl.text.trim(),
@@ -62,7 +66,9 @@ class _ForgotPassState extends State<ForgotPass> {
       // send code to box mail
       sendMail(codeReset);
     }
-
+    setState(() {
+      processing = false;
+    });
     }
   sendMail(int ccReset) async {
     String username = 'yassinedoumil96@gmail.com';
@@ -95,6 +101,7 @@ class _ForgotPassState extends State<ForgotPass> {
         extendBodyBehindAppBar: true,
         body: Container(
           height: height,
+        child: SingleChildScrollView(
           child: Stack(
             children: <Widget>[
               Container(
@@ -207,7 +214,8 @@ class _ForgotPassState extends State<ForgotPass> {
                             forgetPassValid();
                             //print(codeReset.nextInt(999999));
                         },
-                        child: Container(
+                        child: processing == false
+                            ?Container(
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           alignment: Alignment.center,
@@ -223,7 +231,11 @@ class _ForgotPassState extends State<ForgotPass> {
                             color: Color(0xff692062),
                           ),
                           child: Text('Envoyez', style: TextStyle(fontSize: 20, color: Colors.white),),
-                        ),
+                        )
+                            : CircularProgressIndicator(
+                          color: Colors.white,
+                          backgroundColor: Color(0xff692062),
+                        )
                       ),
                       SizedBox(
                         height: 10,
@@ -259,7 +271,7 @@ class _ForgotPassState extends State<ForgotPass> {
             ],
           ),
         )
-    );
+    ));
   }
   showToast(String msg, {required int duration, required int gravity}){
 

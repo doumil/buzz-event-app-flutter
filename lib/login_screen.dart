@@ -106,7 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
             msg: "Mot de passe est incorrect", toastLength: Toast.LENGTH_SHORT);
       }
     }
-
     setState(() {
       processing = false;
     });
@@ -298,7 +297,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       backgroundColor: Color(0xff692062),
                                     )),
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(vertical: 15),
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
@@ -311,7 +310,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Mot de passe oublié ?',
                                 style: TextStyle(
                                     color: Color(0xff682062),
-                                    fontSize: 14,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
