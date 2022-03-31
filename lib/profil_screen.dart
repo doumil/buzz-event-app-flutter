@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart';
@@ -17,6 +19,8 @@ class ProfileScreen extends StatefulWidget {
 }
 class _ProfileScreenState extends State<ProfileScreen> {
   late var id,email,fname,lname,company,phone;
+  String phonewithcode="",code="MA";
+
   void initState() {
     _loadData();
     super.initState();
@@ -28,7 +32,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fname   = sessionLogin.getString("fname");
     lname   = sessionLogin.getString("lname");
     company = sessionLogin.getString("company");
-    phone   = sessionLogin.getString("phone");
+    phonewithcode = sessionLogin.getString("phone").toString();
+    var ss = phonewithcode.split(",");
+    List<String> list1 = [];
+    ss.forEach((e) {
+      list1.add(e);
+    });
+    phone="${list1.elementAt(0)}${list1.elementAt(2)}";
+    //code=phonewithcode.substring(0,2);
+    //phone=phonewithcode.substring(2,phonewithcode.length);
     setState(() {
     });
   }

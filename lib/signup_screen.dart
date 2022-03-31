@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Controllers for TextFormFields
   late TextEditingController emailctrl,firstname,lnamectrl,companyctrl,phonectrl,passwordctrl,confpasswordctrl;
-
+   String code="MA",code1="212";
   bool processing = false;
 
   @override
@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "first_name":firstname.text,
       "last_name":lnamectrl.text,
       "company":companyctrl.text,
-      "phone":phonectrl.text,
+      "phone": "+${code1},${code},${phonectrl.text.toString()}",
       "password":passwordctrl.text,
     };
     print("hello");
@@ -298,10 +298,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     filled: true,
                                   ),
                                   initialCountryCode: 'MA',
-                                  onChanged: (phone) {
-                                    print(phone.completeNumber);
+                                  onCountryChanged: (phone) {
                                     setState(() {
-                                      phonectrl = phone.completeNumber as TextEditingController;
+                                      code=phone.code;
+                                      code1=phone.dialCode;
+                                      //phonectrl = phone.completeNumber as TextEditingController;
                                     });
                                   },
                                 ),//phone

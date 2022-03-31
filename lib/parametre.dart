@@ -1,15 +1,9 @@
-import 'dart:io';
-import 'package:assessment_task/profil_screen.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:assessment_task/model/user_scanner.dart';
-import 'package:assessment_task/utils/database_helper.dart';
-import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'forgotPass.dart';
 
-final TextEditingController eCtrl = new TextEditingController();
+enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
 
 class ParametreScreen extends StatefulWidget {
   const ParametreScreen({Key? key}) : super(key: key);
@@ -104,6 +98,28 @@ class _ParametreScreenState extends State<ParametreScreen> {
                 ],
               ),
             ),
+            PopupMenuButton<WhyFarther>(
+              onSelected: (WhyFarther result) { setState(() {}); },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<WhyFarther>>[
+                const PopupMenuItem<WhyFarther>(
+                  value: WhyFarther.harder,
+                  child: Text('Working a lot harder'),
+                ),
+                const PopupMenuItem<WhyFarther>(
+                  value: WhyFarther.smarter,
+                  child: Text('Being a lot smarter'),
+                ),
+                const PopupMenuItem<WhyFarther>(
+                  value: WhyFarther.selfStarter,
+                  child: Text('Being a self-starter'),
+                ),
+                const PopupMenuItem<WhyFarther>(
+                  value: WhyFarther.tradingCharter,
+                  child: Text('Placed in charge of trading charter'),
+                ),
+              ],
+            ),
+
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/profil_screen.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class PhoneScreen extends StatefulWidget {
 class _phoneScreenState extends State<PhoneScreen> {
   bool signin = true;
   bool _isVisible = false;
-  late var id, email, fname, lname, company, phone;
+  late var id, email, fname, lname, company, phone,code="MA",code1="",phonewithcode="";
   //Global Key for the form
   final GlobalKey<FormState> _keyreg = new GlobalKey<FormState>();
   // Controllers for TextFormFields
@@ -53,7 +54,14 @@ class _phoneScreenState extends State<PhoneScreen> {
     fname = sessionLogin.getString("fname");
     lname = sessionLogin.getString("lname");
     company = sessionLogin.getString("company");
-    phone = sessionLogin.getString("phone");
+    phonewithcode = sessionLogin.getString("phone").toString();
+    var ss = phonewithcode.split(",");
+    List<String> list1 = [];
+    ss.forEach((e) {
+      list1.add(e);
+    });
+    phone="${list1.elementAt(2)}";
+    code="${list1.elementAt(1)}";
     setState(() {
       phonectrl.text = phone;
     });
@@ -71,12 +79,12 @@ class _phoneScreenState extends State<PhoneScreen> {
           'fname':fname.toString(),
           'lname':lname.toString(),
           'company': company.toString(),
-          'phone': phonectrl.text.toString()
+          'phone': "+${code1},${code},${phonectrl.text.toString()}"
         });
     var res = jsonDecode(response.body);
     if (res == "Updated") {
       SharedPreferences sessionLogin = await SharedPreferences.getInstance();
-      sessionLogin.setString("phone", phonectrl.text.toString());
+      sessionLogin.setString("phone","+${code1},${code},${phonectrl.text.toString()}");
       Fluttertoast.showToast(
           msg: "téléphone a été changé avec succès",
           toastLength: Toast.LENGTH_SHORT,
@@ -179,11 +187,12 @@ class _phoneScreenState extends State<PhoneScreen> {
                                     fillColor: Color(0xfff3f3f4),
                                     filled: true,
                                   ),
-                                  initialCountryCode: 'MA',
-                                  onChanged: (phone) {
-                                    print(phone.completeNumber);
+                                  initialCountryCode:code.toString(),
+                                  onCountryChanged: (phone) {
+                                      //print(phone.completeNumber);
                                     setState(() {
-                                      phonectrl = phone.completeNumber as TextEditingController;
+                                      code=phone.code;
+                                      code1=phone.dialCode;
                                     });
                                   },
                                 ),//phone
