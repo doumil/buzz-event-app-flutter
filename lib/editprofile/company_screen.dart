@@ -85,14 +85,15 @@ class _CompanyScreenState extends State<CompanyScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
+          //automaticallyImplyLeading: false,
+         /* leading: IconButton(
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => ProfileScreen()));
             },
             icon: Icon(Icons.arrow_back),
           ),
+          */
           title: Text("Edit profile ${fname} ${lname}"),
           actions: <Widget>[],
           centerTitle: true,

@@ -57,7 +57,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: Icon(Icons.arrow_back),
         ),
         title: Text("Profile ${fname} ${lname}"),
-        actions: <Widget>[],
+        actions: <Widget>[
+          PopupMenuButton(
+            // add icon, by default "3 dot" icon
+            // icon: Icon(Icons.book)
+              itemBuilder: (context){
+                return [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text("modifier le nom et le prénom"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 1,
+                    child: Text("modifier l'entreprise"),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 2,
+                    child: Text("modifier le téléphone"),
+                  ),
+                ];
+              },
+              onSelected:(value){
+                if(value == 0){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NameScreen()));
+                }else if(value == 1){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CompanyScreen()));
+                }else if(value == 2){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PhoneScreen()));
+                }
+              }
+          ),
+        ],
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -105,18 +138,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               FadeInDown(
                 duration: Duration(milliseconds: 500),
                 child: ListTile(
-                  leading: Icon(Icons.person),
                   title: Center(child: Text("${fname} ${lname}",
                       style: TextStyle(fontSize: 20,color: Color(0xff692062),fontWeight: FontWeight.bold),)),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => NameScreen()));
-                  },
-                  trailing: Wrap(
-                    children: <Widget>[
-                      Icon(Icons.edit,size: 20,), // icon-1// icon-2
-                    ],
-                  ),
                 ),
               ),
               //company
@@ -136,12 +159,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: Icon(Icons.home_work_rounded),
                   title:Text("${company}"),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CompanyScreen()));
                   },
                   trailing: Wrap(
                     children: <Widget>[
-                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
                     ],
                   ),
                 ),
@@ -161,8 +181,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: Icon(Icons.email),
                   title:Text("${email}"),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProfileScreen()));
                   },
                 ),
               ),
@@ -180,12 +198,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: Icon(Icons.phone),
                   title: Text("${phone}"),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => PhoneScreen()));
                   },
                   trailing: Wrap(
-                    children: <Widget>[
-                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    children: <Widget>[ // icon-1// icon-2
                     ],
                   ),
                 ),

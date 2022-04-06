@@ -105,14 +105,6 @@ class _phoneScreenState extends State<PhoneScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()));
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
         title: Text("Profile ${fname} ${lname}"),
         actions: <Widget>[],
         centerTitle: true,

@@ -74,20 +74,21 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     var url = "https://okydigital.com/buzz_login/login1.php";
     var data = {
-      "email": emailctrl.text.trim(),
-      "password": passwordctrl.text,
+      "email": emailctrl.text.trim().toString(),
+      "password": passwordctrl.text.toString(),
     };
 
     var res = await http.post(Uri.parse(url), body: data);
     //String jsonsDataString = res.body.toString();
-    var resbody = await jsonDecode(res.body.toString());
-    if (jsonDecode(res.body) == "Error") {
+    var resbody = await jsonDecode(res.body);
+    if (resbody['status'] == "Error") {
       Fluttertoast.showToast(
           msg: "vous n\'avez pas de compte, créez un compte",
           toastLength: Toast.LENGTH_SHORT);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => SignUpScreen()));
-    } else if (resbody['status'] == "Success") {
+    }
+    else if (resbody['status']== "Success") {
       saveSession(
           int.parse(resbody['id']),
           resbody['email'],
@@ -99,18 +100,17 @@ class _LoginScreenState extends State<LoginScreen> {
           msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    } else {
-      if (jsonDecode(res.body) == "incorrectpass") {
-        print(jsonDecode(res.body));
+    }
+    else if (resbody['status'] == "incorrectpass")
+      {
         Fluttertoast.showToast(
             msg: "Mot de passe est incorrect", toastLength: Toast.LENGTH_SHORT);
+        passwordctrl.text="";
       }
-    }
     setState(() {
       processing = false;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;

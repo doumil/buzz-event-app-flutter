@@ -1,6 +1,9 @@
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'editprofile/company_screen.dart';
+import 'editprofile/name_screen.dart';
+import 'editprofile/phone_screen.dart';
 import 'forgotPass.dart';
 
 enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
@@ -13,6 +16,7 @@ class ParametreScreen extends StatefulWidget {
 }
 
 class _ParametreScreenState extends State<ParametreScreen> {
+  final GlobalKey _menuKey = new GlobalKey();
   void initState() {
     super.initState();
   }
@@ -61,10 +65,13 @@ class _ParametreScreenState extends State<ParametreScreen> {
                     MaterialPageRoute(
                         builder: (context) => ForgotPass()));
               },
-              trailing: Wrap(
-                children: <Widget>[
-                  Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                ],
+              trailing: Container(
+                margin: const EdgeInsets.only(right:12.0),
+                child: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
               ),
             ),
             new Divider(
@@ -73,14 +80,51 @@ class _ParametreScreenState extends State<ParametreScreen> {
             ),
             ListTile(
               leading: Icon(Icons.edit_outlined),
-              title: Text('Editer le profil'),
+              title: Text('modifier le profil'),
               onTap: () {
+                dynamic popUpMenustate = _menuKey.currentState;
+                popUpMenustate.showButtonMenu();
               },
-              trailing: Wrap(
-                children: <Widget>[
-                  Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                ],
-              ),
+              trailing:Container(
+                margin: const EdgeInsets.only(right:0.0),
+                child: Wrap(
+                    children: <Widget>[
+                PopupMenuButton(
+                      // add icon, by default "3 dot" icon
+                       icon: Icon(Icons.keyboard_arrow_right),
+                        key: _menuKey,
+                        itemBuilder: (context){
+                          return [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Text("modifier le nom et le prénom"),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 1,
+                              child: Text("modifier l'entreprise"),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 2,
+                              child: Text("modifier le téléphone"),
+                            ),
+                          ];
+                        },
+                        onSelected:(value){
+                          if(value == 0){
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => NameScreen()));
+                          }else if(value == 1){
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => CompanyScreen()));
+                          }else if(value == 2){
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => PhoneScreen()));
+                          }
+                        }
+                    ),
+                          ]
+                  ),
+              ),// icon-1// icon-2
             ),
             new Divider(
               color: Color.fromRGBO(150, 150, 150, 0.4),
@@ -92,34 +136,15 @@ class _ParametreScreenState extends State<ParametreScreen> {
               onTap: () {
                 _launchURL();
               },
-              trailing: Wrap(
-                children: <Widget>[
-                  Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                ],
+              trailing: Container(
+                margin: const EdgeInsets.only(right:13.0),
+                child: Wrap(
+                  children: <Widget>[
+                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                  ],
+                ),
               ),
             ),
-            PopupMenuButton<WhyFarther>(
-              onSelected: (WhyFarther result) { setState(() {}); },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<WhyFarther>>[
-                const PopupMenuItem<WhyFarther>(
-                  value: WhyFarther.harder,
-                  child: Text('Working a lot harder'),
-                ),
-                const PopupMenuItem<WhyFarther>(
-                  value: WhyFarther.smarter,
-                  child: Text('Being a lot smarter'),
-                ),
-                const PopupMenuItem<WhyFarther>(
-                  value: WhyFarther.selfStarter,
-                  child: Text('Being a self-starter'),
-                ),
-                const PopupMenuItem<WhyFarther>(
-                  value: WhyFarther.tradingCharter,
-                  child: Text('Placed in charge of trading charter'),
-                ),
-              ],
-            ),
-
           ],
         ),
       ),

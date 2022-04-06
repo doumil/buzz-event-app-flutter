@@ -110,7 +110,7 @@ class _VerificatoinState extends State<Verificatoin> {
       setState(() {
         _isLoading = false;
         _isVerified = true;
-        Fluttertoast.showToast(msg: "Cet e-mail est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+        Fluttertoast.showToast(msg: "opération réussie",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
         Navigator.push(context, MaterialPageRoute(builder: (context) => ResetScreen()));
       });
     }
