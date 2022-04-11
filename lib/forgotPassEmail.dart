@@ -13,14 +13,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:mailer/mailer.dart';
 
-class ForgotPass extends StatefulWidget {
-  const ForgotPass({Key? key}) : super(key: key);
+class ForgotPassEmail extends StatefulWidget {
+  const ForgotPassEmail({Key? key}) : super(key: key);
 
   @override
-  _ForgotPassState createState() => _ForgotPassState();
+  _ForgotPassEmailState createState() => _ForgotPassEmailState();
 }
 
-class _ForgotPassState extends State<ForgotPass> {
+class _ForgotPassEmailState extends State<ForgotPassEmail> {
   TextEditingController emailctrl = TextEditingController();
   var codeRandom = Random();
   bool processing = false;
@@ -33,6 +33,7 @@ class _ForgotPassState extends State<ForgotPass> {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     sessionLogin.setInt("id_buzz", id_buzz);
     sessionLogin.setString("email",email);
+    sessionLogin.setString("phone","");
   }
   //form != null && !form.validate()
   forgetPassValid(){

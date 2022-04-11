@@ -79,6 +79,13 @@ class DatabaseHelper{
     List result = await dbClient.rawQuery(sql);
     return result.toList();
   }
+  //get user by email
+  Future<List> getUsersByemail(String email) async{
+    var dbClient = await  db;
+    var sql = "SELECT $columnEmail FROM $userTable WHERE $columnEmail='$email'";
+    List result = await dbClient.rawQuery(sql);
+    return result.toList();
+  }
   //select all Brouillon
   Future<List> getAllBrouillon() async{
     var dbClient = await  db;

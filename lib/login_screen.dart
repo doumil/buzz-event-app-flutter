@@ -1,6 +1,9 @@
 import 'dart:math';
-import 'forgotPass.dart';
+import 'package:animate_do/animate_do.dart';
+
+import 'forgotPassEmail.dart';
 import 'Widget/customClipper.dart';
+import 'forgotPassPhone.dart';
 import 'home_screen.dart';
 import 'signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -301,10 +304,64 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ForgotPass()));
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => FadeInUp(
+                                    duration: Duration(milliseconds: 500),
+                                    child: AlertDialog(
+                                      title: Center(child: const Text('Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe',style: TextStyle(color: Color(0xff803b7a),fontSize:17,fontWeight: FontWeight.bold))),
+                                      content:   Container(
+                                             height: 120,
+                                             width: 120,
+                                        child: ListView(
+                                            padding: EdgeInsets.all(0),
+                                            children: <Widget>[
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              RaisedButton (
+                                                color: const Color(0xff692062),
+                                                shape:const RoundedRectangleBorder(
+                                                    side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                                    borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                                ) ,
+                                                onPressed: ()  {
+                                                  Navigator.push(
+                                                      context, MaterialPageRoute(builder: (context) => ForgotPassPhone()));
+                                                },
+                                                child: const Text ( ('Par téléphone') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
+                                                ) ,
+                                              ),
+                                              SizedBox(
+                                                height: 14,
+                                              ),
+                                              RaisedButton (
+                                                color: Colors.white,
+                                                shape:const RoundedRectangleBorder(
+                                                    side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                                    borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                                ) ,
+                                                onPressed: ()  {
+                                                  Navigator.push(
+                                                      context, MaterialPageRoute(builder: (context) => ForgotPassEmail()));
+                                                },
+                                                child: const Text ( ('Par Email') ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
+                                                ) ,
+                                              ),
+
+                                            ]
+                                        ),
+                                           ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Annuler'),
+                                          child: Center(child: const Text('Cancel',style: TextStyle(color: Color(0xff803b7a),fontWeight: FontWeight.bold))),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               },
                               child: Text(
                                 'Mot de passe oublié ?',

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
-import 'package:assessment_task/forgotPass.dart';
+import 'package:assessment_task/forgotPassEmail.dart';
 import 'package:assessment_task/reset_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -22,10 +22,12 @@ class Verificatoin extends StatefulWidget {
 class _VerificatoinState extends State<Verificatoin> {
   late var id_buzz;
   late String email="";
+  late String phone="";
   getCodereset() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     id_buzz = sessionLogin.getInt("id_buzz");
-    email     = sessionLogin.getString("email").toString();
+    email   = sessionLogin.getString("email").toString();
+    phone   = sessionLogin.getString("phone").toString();
   }
   bool _isResendAgain = false;
   bool _isVerified = false;
@@ -60,12 +62,27 @@ class _VerificatoinState extends State<Verificatoin> {
     setState(() {
       getCodereset();
     });
-    codeReset= min+codeRandom.nextInt(max - min);
-    await http.post(Uri.parse('https://okydigital.com/buzz_login/check.php'),body:{
-      'email':email,
-      'codeReset':codeReset.toString()
-    });
-    sendMail(codeReset);
+     if(email!="") {
+       codeReset = min + codeRandom.nextInt(max - min);
+       await http.post(
+           Uri.parse('https://okydigital.com/buzz_login/check.php'), body: {
+         'email': email,
+         'codeReset': codeReset.toString()
+       });
+       sendMail(codeReset);
+     }
+    if(phone!="") {
+      codeReset = min + codeRandom.nextInt(max - min);
+      await http.post(
+          Uri.parse('https://okydigital.com/buzz_login/checkphone.php'), body: {
+        'phone': phone,
+        'codeReset': codeReset.toString()
+      });
+      sendPhone(codeReset);
+    }
+  }
+  sendPhone(int ccReset) async {
+    print("suc");
   }
   sendMail(int ccReset) async {
     String username = 'yassinedoumil96@gmail.com';
@@ -198,7 +215,7 @@ class _VerificatoinState extends State<Verificatoin> {
                   FadeInDown(
                     delay: Duration(milliseconds: 500),
                     duration: Duration(milliseconds: 500),
-                    child: Text("Please enter the 6 digit code sent to \n ${email}",
+                    child: Text("Veuillez entrer le code à 6 chiffres envoyé à\n ${email}${phone}",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.grey.shade500, height: 1.5),),
                   ),

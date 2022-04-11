@@ -1,10 +1,12 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'editprofile/company_screen.dart';
 import 'editprofile/name_screen.dart';
 import 'editprofile/phone_screen.dart';
-import 'forgotPass.dart';
+import 'forgotPassEmail.dart';
+import 'forgotPassPhone.dart';
 
 enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
 
@@ -60,10 +62,64 @@ class _ParametreScreenState extends State<ParametreScreen> {
               leading: Icon(Icons.reset_tv),
               title: Text('réinitialiser le mot de passe'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ForgotPass()));
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => FadeInUp(
+                    duration: Duration(milliseconds: 500),
+                    child: AlertDialog(
+                      title: Center(child: const Text('Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe',style: TextStyle(color: Color(0xff803b7a),fontSize:17,fontWeight: FontWeight.bold))),
+                      content:   Container(
+                        height: 120,
+                        width: 120,
+                        child: ListView(
+                            padding: EdgeInsets.all(0),
+                            children: <Widget>[
+                              SizedBox(
+                                height: 10,
+                              ),
+                              RaisedButton (
+                                color: const Color(0xff692062),
+                                shape:const RoundedRectangleBorder(
+                                    side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                    borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                ) ,
+                                onPressed: ()  {
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => ForgotPassPhone()));
+                                },
+                                child: const Text ( ('Par téléphone') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
+                                ) ,
+                              ),
+                              SizedBox(
+                                height: 14,
+                              ),
+                              RaisedButton (
+                                color: Colors.white,
+                                shape:const RoundedRectangleBorder(
+                                    side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                    borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                ) ,
+                                onPressed: ()  {
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => ForgotPassEmail()));
+                                },
+                                child: const Text ( ('Par Email') ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
+                                ) ,
+                              ),
+
+                            ]
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.pop(context, 'Annuler'),
+                          child: Center(child: const Text('Cancel',style: TextStyle(color: Color(0xff803b7a),fontWeight: FontWeight.bold))),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
               trailing: Container(
                 margin: const EdgeInsets.only(right:12.0),
@@ -96,31 +152,61 @@ class _ParametreScreenState extends State<ParametreScreen> {
                         itemBuilder: (context){
                           return [
                             PopupMenuItem<int>(
-                              value: 0,
-                              child: Text("modifier le nom et le prénom"),
+                              child:ListTile(
+                                leading: Icon(Icons.person),
+                                title: Text("modifier le nom et le prénom"),
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => NameScreen()));
+                                },
+                                trailing: Wrap(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.upload_sharp,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             PopupMenuItem<int>(
-                              value: 1,
-                              child: Text("modifier l'entreprise"),
+                              child:ListTile(
+                                leading: Icon(Icons.home_work_rounded),
+                                title: Text("modifier l'entreprise"),
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => CompanyScreen()));
+                                },
+                                trailing: Wrap(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.upload_sharp,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             PopupMenuItem<int>(
-                              value: 2,
-                              child: Text("modifier le téléphone"),
+                              child:ListTile(
+                                leading: Icon(Icons.person),
+                                title: Text("modifier le téléphone"),
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => PhoneScreen()));
+                                },
+                                trailing: Wrap(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.upload_sharp,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ];
                         },
-                        onSelected:(value){
-                          if(value == 0){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => NameScreen()));
-                          }else if(value == 1){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => CompanyScreen()));
-                          }else if(value == 2){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => PhoneScreen()));
-                          }
-                        }
                     ),
                           ]
                   ),

@@ -23,7 +23,7 @@ class PhoneScreen extends StatefulWidget {
 class _phoneScreenState extends State<PhoneScreen> {
   bool signin = true;
   bool _isVisible = false;
-  late var id, email, fname, lname, company, phone,code="MA",code1="",phonewithcode="";
+  late var id, email, fname, lname, company, phone,code="MA",code1="+212",phonewithcode="";
   //Global Key for the form
   final GlobalKey<FormState> _keyreg = new GlobalKey<FormState>();
   // Controllers for TextFormFields

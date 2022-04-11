@@ -64,31 +64,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
               itemBuilder: (context){
                 return [
                   PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("modifier le nom et le prénom"),
+                    child:ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text("modifier le nom et le prénom"),
+                    onTap: () {
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => NameScreen()));
+                    },
+                      trailing: Wrap(
+                        children: <Widget>[
+                          Icon(
+                            Icons.upload_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                  ),
                   ),
                   PopupMenuItem<int>(
-                    value: 1,
-                    child: Text("modifier l'entreprise"),
+                    child:ListTile(
+                      leading: Icon(Icons.home_work_rounded),
+                      title: Text("modifier l'entreprise"),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => CompanyScreen()));
+                      },
+                      trailing: Wrap(
+                        children: <Widget>[
+                          Icon(
+                            Icons.upload_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   PopupMenuItem<int>(
-                    value: 2,
-                    child: Text("modifier le téléphone"),
+                    child:ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text("modifier le téléphone"),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => PhoneScreen()));
+                      },
+                      trailing: Wrap(
+                        children: <Widget>[
+                          Icon(
+                            Icons.upload_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ];
               },
-              onSelected:(value){
-                if(value == 0){
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NameScreen()));
-                }else if(value == 1){
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CompanyScreen()));
-                }else if(value == 2){
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PhoneScreen()));
-                }
-              }
           ),
         ],
         centerTitle: true,

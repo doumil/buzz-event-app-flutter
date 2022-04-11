@@ -1,29 +1,26 @@
+import 'package:assessment_task/syncrohn_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:assessment_task/model/user_scanner.dart';
-import 'package:assessment_task/utils/database_helper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import 'brouillon_screen.dart';
+import 'package:http/http.dart' as http;
 
 String _data = "";
-int _count = 0;
 double evo = 3.0;
 var notes = "", action = "";
 late SharedPreferences pr;
 List<String> litems = [];
 Userscan user1 = Userscan('','','','','','','','','','','');
 double initial=0;
-class EditScreen extends StatefulWidget {
-  const EditScreen({Key? key,}) : super(key: key);
+class EditsyncScreen extends StatefulWidget {
+  const EditsyncScreen({Key? key,}) : super(key: key);
 
   @override
-  _EditScreenState createState() => _EditScreenState();
+  _EditsyncScreenState createState() => _EditsyncScreenState();
 }
 
-class _EditScreenState extends State<EditScreen> {
+class _EditsyncScreenState extends State<EditsyncScreen> {
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
@@ -34,10 +31,9 @@ class _EditScreenState extends State<EditScreen> {
     _loadData();
     super.initState();
   }
-
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _data = (prefs.getString("EditData") ?? '');
+    _data = (prefs.getString("EditDataSync") ?? '');
     var ss = _data.split(":");
     List<String> list1 = [];
     ss.forEach((e) {
@@ -67,9 +63,9 @@ class _EditScreenState extends State<EditScreen> {
     }
     String action=user1.action;
     if(action.contains('1')==true)
-      {
-         isChecked1 = true;
-      }
+    {
+      isChecked1 = true;
+    }
     if(action.contains('2')==true)
     {
       isChecked2 = true;
@@ -118,53 +114,20 @@ class _EditScreenState extends State<EditScreen> {
     if (isChecked4 == true) {
       action += "4";
     }
-    user1.notes = notes;
-    user1.action = action;
-    var db = new DatabaseHelper();
-    int i=await db.updateUser(user1, user1.email.toString());
-    print(i);
+   //here update
+    var url = "https://okydigital.com/buzz_login/updatesync.php";
+    var data = {
+      "evolution":user1.evolution.toString(),
+      "action":action.toString(),
+      "notes":notes.toString(),
+      "email":user1.email.toString()
+    };
+     await http.post(Uri.parse(url), body: data);
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
+        MaterialPageRoute(builder: (context) => syncrohnScreen()));
     setState(() {
     });
   }
-  _saveBrouillon() async {
-    action = "";
-    if (evo == 1.0) {
-      user1.evolution = 'trés mauvais';
-    }
-    if (evo == 2.0) {
-      user1.evolution = 'mauvais';
-    }
-    if (evo == 3.0) {
-      user1.evolution = 'moyen';
-    }
-    if (evo == 4.0) {
-      user1.evolution = 'Bonne';
-    }
-    if (evo == 5.0) {
-      user1.evolution = 'Excellent';
-    }
-    if (isChecked1 == true) {
-      action += "1";
-    }
-    if (isChecked2 == true) {
-      action += "2";
-    }
-    if (isChecked3 == true) {
-      action += "3";
-    }
-    if (isChecked4 == true) {
-      action += "4";
-    }
-    user1.notes = notes;
-    user1.action = action;
-    var db = new DatabaseHelper();
-    await db.deleteUser(user1.email, user1);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => BrouillonScreen()));
-  }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -683,7 +646,7 @@ class _EditScreenState extends State<EditScreen> {
                                                 10, 10, 10, 0),
                                             child: Container(
                                                 child: TextFormField(
-                                                  initialValue: user1.notes,
+                                                    initialValue: user1.notes,
                                                     onChanged: (val) {
                                                       setState(() {
                                                         notes = val;
@@ -731,24 +694,6 @@ class _EditScreenState extends State<EditScreen> {
                                         color: Color(0xff682062),
                                         disabledColor: Color(0xff682062),
                                         child: Text('Enregistrer',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white))),
-                                  )),
-                              Container(
-                                width: 1,
-                                color: Colors.white,
-                              ),
-                              Expanded(
-                                  child: Container(
-                                    height: 50,
-                                    child: RaisedButton(
-                                        onPressed: () {
-                                          _saveBrouillon();
-                                        },
-                                        color: Color(0xff682062),
-                                        disabledColor: Color(0xff682062),
-                                        child: Text('Au brouillon ',
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.white))),

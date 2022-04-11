@@ -14,9 +14,54 @@ _launchURL() async {
     throw 'Could not launch $url';
   }
 }
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+ // String clientId="",redirectUrl="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   /* LinkedInLogin.initialize(context,
+        clientId: clientId,
+        clientSecret: clientId,
+        redirectUri: redirectUrl);
+
+    */
+  }
+  /*loginLinkedIn() async{
+//here code to login with linked in
+    LinkedInLogin.loginForAccessToken(
+        destroySession: true,
+        appBar: AppBar(
+          title: Text('Demo Login Page'),
+        ))
+        .then((accessToken) => print(accessToken))
+        .catchError((error) {
+      print(error.errorDescription);
+    });
+    LinkedInLogin.getProfile(
+        destroySession: true,
+        forceLogin: true,
+        appBar: AppBar(
+          title: Text('Demo Login Page'),
+        ))
+        .then((profile) {
+      print('First name : ${profile.firstName}');
+      print('Last name : ${profile.lastName}');
+      print('Avatar: ${profile.profilePicture.profilePictureDisplayImage
+          .elements.first.identifiers.first.identifier}');
+    })
+        .catchError((error) {
+      print(error.errorDescription);
+    });
+  }
+   */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,11 +177,12 @@ class WelcomeScreen extends StatelessWidget {
                 shape:const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))
                 ) ,
-                onPressed: (){},
+                onPressed: (){
+                  //loginLinkedIn();
+                },
                 child: Row (
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children:<Widget>[
-
                     Image.asset('assets/linkedin_logo.png', width: 25,),
                     Container(width:0.5),
                     Container(

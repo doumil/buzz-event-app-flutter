@@ -51,6 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
   _saveUser() async {
+    var db = new DatabaseHelper();
     action = "";
     if (evo == 1.0) {
       user1.evolution = 'trés mauvais';
@@ -81,9 +82,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
     user1.notes = notes;
     user1.action = action;
+    await db.getUsersByemail(user1.email.toString());
     user1.created="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
     //user1.created="${DateTime.now().day}/${DateTime.now().month} ${DateTime.now().hour}:${DateTime.now().minute}";
-    var db = new DatabaseHelper();
     await db.saveUser(user1);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
@@ -160,8 +161,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: LayoutBuilder(
             builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
+              return ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
                   ),
@@ -406,275 +406,275 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ),
                         ),
                         Expanded(
+                          child: SingleChildScrollView(
                           child: Container(
                             color: Colors.black26, // white
-                            height: height * 0.7,
                             alignment: Alignment.center,
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Center(
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              width * 0.04,
-                                              width * 0.04,
-                                              width * 0.04,
-                                              width * 0.01),
-                                          child: Text(
-                                            'Evolution',
-                                            style: TextStyle(fontSize: 20),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              10, 10, 10, 10),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Center(
                                           child: Container(
-                                            child: RatingBar.builder(
-                                              initialRating: 3,
-                                              itemCount: 5,
-                                              itemBuilder: (context, index) {
-                                                switch (index) {
-                                                  case 0:
-                                                    return Icon(
-                                                      Icons
-                                                          .sentiment_very_dissatisfied,
-                                                      color: Colors.red,
-                                                    );
-                                                  case 1:
-                                                    return Icon(
-                                                      Icons
-                                                          .sentiment_dissatisfied,
-                                                      color: Colors.redAccent,
-                                                    );
-                                                  case 2:
-                                                    return Icon(
-                                                      Icons.sentiment_neutral,
-                                                      color: Colors.amber,
-                                                    );
-                                                  case 3:
-                                                    return Icon(
-                                                      Icons.sentiment_satisfied,
-                                                      color: Colors.lightGreen,
-                                                    );
-                                                  case 4:
-                                                    return Icon(
-                                                      Icons
-                                                          .sentiment_very_satisfied,
-                                                      color: Colors.green,
-                                                    );
-                                                  default:
-                                                    return Icon(
-                                                      Icons.sentiment_satisfied,
-                                                      color: Colors.lightGreen,
-                                                    );
-                                                }
-                                              },
-                                              onRatingUpdate: (rating) {
-                                                evo = rating;
-                                              },
+                                            padding: EdgeInsets.fromLTRB(
+                                                width * 0.04,
+                                                width * 0.04,
+                                                width * 0.04,
+                                                width * 0.01),
+                                            child: Text(
+                                              'Situation',
+                                              style: TextStyle(fontSize: 20),
+                                              textAlign: TextAlign.left,
                                             ),
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  margin: EdgeInsets.only(top: height * 0.01),
-                                  padding:
-                                      EdgeInsets.only(bottom: height * 0.01),
-                                  width: width * 0.9,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0))),
-                                ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Center(
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              width * 0.04, 0, width * 0.04, 0),
-                                          child: Text(
-                                            'Action à Suivre',
-                                            style: TextStyle(fontSize: 20),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          child: Column(children: <Widget>[
-                                            Container(
-                                                child: Row(children: <Widget>[
-                                              Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.045, 0, 0, 0),
-                                                  child: Checkbox(
-                                                    value: isChecked1,
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        isChecked1 = value!;
-                                                      });
-                                                    },
-                                                  )),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {});
-                                                  },
-                                                  child: Text(
-                                                      'Plagnifier un réunion',
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              height * 0.022))),
-                                            ])),
-                                            Container(
-                                                child: Row(children: <Widget>[
-                                              Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.045, 0, 0, 0),
-                                                  child: Checkbox(
-                                                    value: isChecked2,
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        isChecked2 = value!;
-                                                      });
-                                                    },
-                                                  )),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {});
-                                                  },
-                                                  child: Text(
-                                                      'Passer un Téléphone',
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              height * 0.022))),
-                                            ])),
-                                            Container(
-                                                child: Row(children: <Widget>[
-                                              Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.045, 0, 0, 0),
-                                                  child: Checkbox(
-                                                    value: isChecked3,
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        isChecked3 = value!;
-                                                      });
-                                                    },
-                                                  )),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {});
-                                                  },
-                                                  child: Text(
-                                                      'Envoyer des infos sur le produit',
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              height * 0.022))),
-                                            ])),
-                                            Container(
-                                                child: Row(children: <Widget>[
-                                              Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.045, 0, 0, 0),
-                                                  child: Checkbox(
-                                                    value: isChecked4,
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        isChecked4 = value!;
-                                                      });
-                                                    },
-                                                  )),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {});
-                                                  },
-                                                  child: Text(
-                                                      'Cantacter par Mail',
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              height * 0.022))),
-                                            ])),
-                                          ]),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  margin: EdgeInsets.only(top: height * 0.01),
-                                  padding: EdgeInsets.only(
-                                      bottom: height * 0.02,
-                                      top: height * 0.02),
-                                  width: width * 0.9,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0))),
-                                ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Center(
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              width * 0.04,
-                                              width * 0.04,
-                                              width * 0.04,
-                                              width * 0.01),
-                                          child: Text(
-                                            'Notes',
-                                            style: TextStyle(fontSize: 20),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              10, 10, 10, 0),
+                                        Center(
                                           child: Container(
-                                              child: TextFormField(
-                                                  onChanged: (val) {
-                                                    setState(() {
-                                                      notes = val;
-                                                    });
-                                                  },
-                                                  onTap: () {},
-                                                  style: TextStyle(
-                                                      fontSize: height * 0.022),
-                                                  maxLines: 3,
-                                                  decoration:
-                                                      InputDecoration.collapsed(
-                                                          hintStyle: TextStyle(
-                                                              fontSize: height *
-                                                                  0.022),
-                                                          hintText:
-                                                              'Ecrivez vos notes'))),
-                                        ),
-                                      )
-                                    ],
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 10, 10, 10),
+                                            child: Container(
+                                              child: RatingBar.builder(
+                                                initialRating: 3,
+                                                itemCount: 5,
+                                                itemBuilder: (context, index) {
+                                                  switch (index) {
+                                                    case 0:
+                                                      return Icon(
+                                                        Icons
+                                                            .sentiment_very_dissatisfied,
+                                                        color: Colors.red,
+                                                      );
+                                                    case 1:
+                                                      return Icon(
+                                                        Icons
+                                                            .sentiment_dissatisfied,
+                                                        color: Colors.redAccent,
+                                                      );
+                                                    case 2:
+                                                      return Icon(
+                                                        Icons.sentiment_neutral,
+                                                        color: Colors.amber,
+                                                      );
+                                                    case 3:
+                                                      return Icon(
+                                                        Icons.sentiment_satisfied,
+                                                        color: Colors.lightGreen,
+                                                      );
+                                                    case 4:
+                                                      return Icon(
+                                                        Icons
+                                                            .sentiment_very_satisfied,
+                                                        color: Colors.green,
+                                                      );
+                                                    default:
+                                                      return Icon(
+                                                        Icons.sentiment_satisfied,
+                                                        color: Colors.lightGreen,
+                                                      );
+                                                  }
+                                                },
+                                                onRatingUpdate: (rating) {
+                                                  evo = rating;
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    margin: EdgeInsets.only(top: height * 0.01),
+                                    padding:
+                                        EdgeInsets.only(bottom: height * 0.01),
+                                    width: width * 0.9,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0))),
                                   ),
-                                  margin: EdgeInsets.only(top: height * 0.01),
-                                  padding:
-                                      EdgeInsets.only(bottom: height * 0.01),
-                                  width: width * 0.9,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0))),
-                                ),
-                              ],
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Center(
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                width * 0.04, 0, width * 0.04, 0),
+                                            child: Text(
+                                              'Action à Suivre',
+                                              style: TextStyle(fontSize: 20),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            child: Column(children: <Widget>[
+                                              Container(
+                                                  child: Row(children: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        width * 0.045, 0, 0, 0),
+                                                    child: Checkbox(
+                                                      value: isChecked1,
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          isChecked1 = value!;
+                                                        });
+                                                      },
+                                                    )),
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                        'Plagnifier un réunion',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                height * 0.022))),
+                                              ])),
+                                              Container(
+                                                  child: Row(children: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        width * 0.045, 0, 0, 0),
+                                                    child: Checkbox(
+                                                      value: isChecked2,
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          isChecked2 = value!;
+                                                        });
+                                                      },
+                                                    )),
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                        'Passer un Téléphone',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                height * 0.022))),
+                                              ])),
+                                              Container(
+                                                  child: Row(children: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        width * 0.045, 0, 0, 0),
+                                                    child: Checkbox(
+                                                      value: isChecked3,
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          isChecked3 = value!;
+                                                        });
+                                                      },
+                                                    )),
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                        'Envoyer des infos sur le produit',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                height * 0.022))),
+                                              ])),
+                                              Container(
+                                                  child: Row(children: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        width * 0.045, 0, 0, 0),
+                                                    child: Checkbox(
+                                                      value: isChecked4,
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          isChecked4 = value!;
+                                                        });
+                                                      },
+                                                    )),
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {});
+                                                    },
+                                                    child: Text(
+                                                        'Cantacter par Mail',
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                height * 0.022))),
+                                              ])),
+                                            ]),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    margin: EdgeInsets.only(top: height * 0.01),
+                                    padding: EdgeInsets.only(
+                                        bottom: height * 0.02,
+                                        top: height * 0.02),
+                                    width: width * 0.9,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0))),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Center(
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                width * 0.04,
+                                                width * 0.04,
+                                                width * 0.04,
+                                                width * 0.01),
+                                            child: Text(
+                                              'Notes',
+                                              style: TextStyle(fontSize: 20),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 10, 10, 0),
+                                            child: Container(
+                                                child: TextFormField(
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        notes = val;
+                                                      });
+                                                    },
+                                                    onTap: () {},
+                                                    style: TextStyle(
+                                                        fontSize: height * 0.022),
+                                                    maxLines: 3,
+                                                    decoration:
+                                                        InputDecoration.collapsed(
+                                                            hintStyle: TextStyle(
+                                                                fontSize: height *
+                                                                    0.022),
+                                                            hintText:
+                                                                'Ecrivez vos notes'))),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    margin: EdgeInsets.only(top: height * 0.01,bottom: height * 0.01),
+                                    padding: EdgeInsets.only(bottom: height * 0.01),
+                                    width: width * 0.9,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0))),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -717,7 +717,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ],
                     ),
                   ),
-                ),
               );
             },
           ),

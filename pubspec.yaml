@@ -23,27 +23,27 @@ environment:
 dependencies:
   animate_do:
   flutter_verification_code:
-  font_awesome_flutter: ^9.2.0
+  font_awesome_flutter:
   mailer:
   flutter:
     sdk: flutter
-  google_fonts: 2.2.0
-  url_launcher: ^5.7.10
+  google_fonts:
+  url_launcher:
   http:
-  flutter_onboarding_slider: ^1.0.7
-  fluttertoast: ^8.0.9
-  flutter_barcode_scanner: any
+  flutter_onboarding_slider:
+  fluttertoast:
+  flutter_barcode_scanner:
   shared_preferences:
-  sqflite: ^2.0.2
+  sqflite:
   path_provider:
   flutter_rating_bar:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_easyloading: ^3.0.3
+  cupertino_icons:
+  flutter_easyloading:
   csv:
-  file_picker: ^2.1.6
-  random_string: ^2.3.1
+  file_picker:
+  random_string:
   flutter_file_dialog:
   dio:
   permission_handler:

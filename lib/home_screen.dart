@@ -1,4 +1,5 @@
 import 'package:assessment_task/parametre.dart';
+import 'package:assessment_task/utils/database_helper.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/profil_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,8 @@ import 'package:assessment_task/détails_screen.dart';
 import 'package:assessment_task/brouillon_screen.dart';
 import 'package:assessment_task/syncrohn_screen.dart';
 
+import 'model/user_scanner.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -18,7 +21,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+  var updated="";
+  var db = new DatabaseHelper();
   String _data = "";
+  List<String> litems = [];
+  Userscan user1 = Userscan('','','','','','','','','','','');
   late SharedPreferences prefs;
   _scan() async {
     await FlutterBarcodeScanner.scanBarcode(
@@ -27,8 +34,24 @@ class _HomeScreen extends State<HomeScreen> {
     prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", _data);
     if (_data != '-1') {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DetailsScreen()));
+      var ss = _data.split(":");
+      List<String> list1 = [];
+      ss.forEach((e) {
+        list1.add(e);
+      });
+      //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
+      user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
+          list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),'','','','','');
+      var response = await db.getUsersByemail(user1.email.toString());
+      print(response);
+      if (response.toString() == "[]") {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => DetailsScreen()));
+      }
+      else{
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
+      }
     } else {
       showDialog<String>(
         context: context,
@@ -149,8 +172,10 @@ class _HomeScreen extends State<HomeScreen> {
                 leading: Icon(Icons.settings),
                 title: Text('Paramétres'),
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ParametreScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ParametreScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[
@@ -170,7 +195,8 @@ class _HomeScreen extends State<HomeScreen> {
                   sessionLogin.remove("lname");
                   sessionLogin.remove("company");
                   sessionLogin.remove("phone");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
                 },
                 trailing: Wrap(
                   children: <Widget>[

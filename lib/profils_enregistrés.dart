@@ -13,14 +13,11 @@ import 'package:open_file/open_file.dart';
 import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:assessment_task/syncrohn_screen.dart';
 
-
 String _data = "";
-int _count = 0;
 late SharedPreferences pr;
 List<Userscan> litems = [];
 bool isLoading = true;
@@ -57,7 +54,6 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
       setState(() {});
     }
   }
-
   _upload() async {
     final Workbook workbook = Workbook();
     final Worksheet sheet = workbook.worksheets[0];
@@ -77,13 +73,17 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     listCsv.add(userCsv);
     listCsv += litems;
     for (var i = 1; i <= listCsv.length; i++) {
-      sheet.getRangeByName('A${i}').setText(listCsv[i - 1].firstname.toString());
+      sheet
+          .getRangeByName('A${i}')
+          .setText(listCsv[i - 1].firstname.toString());
       sheet.getRangeByName('B${i}').setText(listCsv[i - 1].lastname.toString());
       sheet.getRangeByName('C${i}').setText(listCsv[i - 1].company.toString());
       sheet.getRangeByName('D${i}').setText(listCsv[i - 1].email.toString());
       sheet.getRangeByName('E${i}').setText(listCsv[i - 1].phone.toString());
       sheet.getRangeByName('F${i}').setText(listCsv[i - 1].adresse.toString());
-      sheet.getRangeByName('G${i}').setText(listCsv[i - 1].evolution.toString());
+      sheet
+          .getRangeByName('G${i}')
+          .setText(listCsv[i - 1].evolution.toString());
       sheet.getRangeByName('H${i}').setText(listCsv[i - 1].action.toString());
       sheet.getRangeByName('I${i}').setText(listCsv[i - 1].notes.toString());
       sheet.getRangeByName('I${i}').setText(listCsv[i - 1].created.toString());
@@ -96,53 +96,53 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
       AnchorElement(
           href:
               'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
-        ..setAttribute('download', 'output-${DateTime.now()}.csv')
+        ..setAttribute('download', 'Profils${DateTime.now().hour}${DateTime.now().minute}.csv')
         ..click();
     } else {
       final String path = (await getApplicationSupportDirectory()).path;
       final String fileName = Platform.isWindows
-          ? '$path\\output-${DateTime.now()}.csv'
-          : '$path/output-${DateTime.now()}.csv';
+          ? '$path\\Profils${DateTime.now().hour}${DateTime.now().minute}.csv'
+          : '$path/Profils${DateTime.now().hour}${DateTime.now().minute}.csv';
       final File file = File(fileName);
       await file.writeAsBytes(bytes, flush: true);
       OpenFile.open(fileName);
     }
   }
 
-  void _sync() async{
+  void _sync() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     var id = sessionLogin.getInt("id").toString();
-    setState(() {
-    });
+    setState(() {});
     var url = "https://okydigital.com/buzz_login/sync.php";
-    for (var i = 0; i <litems.length; i++) {
+    for (var i = 0; i < litems.length; i++) {
       var dt = {
-        "firstname":litems[i].firstname.toString(),
-        "lastname":litems[i].lastname.toString(),
-        "company":litems[i].company.toString(),
-        "email":litems[i].email.toString(),
-        "phone":litems[i].phone.toString(),
-        "adresse":litems[i].adresse.toString(),
-        "evolution":litems[i].evolution.toString(),
-        "action":litems[i].action.toString(),
-        "notes":litems[i].notes.toString(),
-        "created":litems[i].created.toString(),
-        "updated":litems[i].updated.toString(),
-        "id_buzz":id,
+        "firstname": litems[i].firstname.toString(),
+        "lastname": litems[i].lastname.toString(),
+        "company": litems[i].company.toString(),
+        "email": litems[i].email.toString(),
+        "phone": litems[i].phone.toString(),
+        "adresse": litems[i].adresse.toString(),
+        "evolution": litems[i].evolution.toString(),
+        "action": litems[i].action.toString(),
+        "notes": litems[i].notes.toString(),
+        "created": litems[i].created.toString(),
+        "updated": litems[i].updated.toString(),
+        "id_buzz": id,
       };
       print(dt);
-      await http.post(Uri.parse(url),body:dt);
+      await http.post(Uri.parse(url), body: dt);
     }
     var db = new DatabaseHelper();
     await db.deleteTosync();
-    litems.removeRange(0,litems.length);
-    Fluttertoast.showToast(msg: "contenu Enregistré avec succès",toastLength: Toast.LENGTH_SHORT);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => syncrohnScreen()));
+    litems.removeRange(0, litems.length);
+    Fluttertoast.showToast(
+        msg: "contenu Enregistré avec succès", toastLength: Toast.LENGTH_SHORT);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => syncrohnScreen()));
     if (this.mounted) {
       setState(() {});
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -159,24 +159,42 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
         ),
         title: Text("Profils Enregistrés"),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.sync_sharp,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              _sync();
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.upload_sharp,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              _upload();
-            },
-          )
+          PopupMenuButton(
+              // add icon, by default "3 dot" icon
+              // icon: Icon(Icons.book)
+              itemBuilder: (context) {
+            return [
+              PopupMenuItem<int>(
+                child: ListTile(
+                  leading: Icon(Icons.sync_sharp),
+                  title: Text("syncroniser"),
+                  onTap: () {
+                    _sync();
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                       Icon(
+                        Icons.upload_sharp,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              PopupMenuItem<int>(
+                child: ListTile(
+                  leading: Icon(Icons.upload_sharp),
+                  title: Text("Exporter .csv"),
+                  onTap: () {
+                    _upload();
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[],
+                  ),
+                ),
+              ),
+            ];
+          },),
         ],
         centerTitle: true,
         flexibleSpace: Container(
@@ -195,15 +213,13 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
           : new ListView.builder(
               itemCount: litems.length,
               itemBuilder: (_, int position) {
-                return
-                  new Card(
+                return new Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(50.0),
-                        right: Radius.circular(0.0),
-                      )
-                  ),
-                  color:Color(0xff682062),
+                    left: Radius.circular(50.0),
+                    right: Radius.circular(0.0),
+                  )),
+                  color: Color(0xff682062),
                   child: new ListTile(
                     leading: Container(
                       child: new ClipOval(
@@ -213,7 +229,10 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                     ),
                     title: new Text(
                       "${litems[position].firstname.toString()} ${litems[position].lastname.toString()}",
-                      style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
                     ),
                     subtitle: new Text(
                       "${litems[position].company.toString()}   ${litems[position].created.toString()}",
@@ -264,13 +283,10 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                               }
                             },
                             icon: Icon(Icons.delete, color: Colors.grey)),
-
                       ],
                     ),
                     onTap: () => debugPrint(litems[position].email.toString()),
-                    onLongPress: ()async {
-
-                    },
+                    onLongPress: () async {},
                   ),
                   elevation: 3.0,
                 );
