@@ -234,7 +234,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: new Text(
-                      "${litems[position].company.toString()}   ${litems[position].created.toString()}",
+                      "${litems[position].company.toString()}   ${litems[position].created.toString()}\n${litems[position].updated.toString()}",
                       style: TextStyle(color: Colors.white70),
                     ),
                     trailing: Wrap(

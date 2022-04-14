@@ -80,11 +80,11 @@ class DatabaseHelper{
     return result.toList();
   }
   //get user by email
-  Future<List> getUsersByemail(String email) async{
+  Future<dynamic> getUsersByemail(String email) async{
     var dbClient = await  db;
-    var sql = "SELECT $columnEmail FROM $userTable WHERE $columnEmail='$email'";
-    List result = await dbClient.rawQuery(sql);
-    return result.toList();
+    //var sql = "SELECT * FROM $userTable WHERE $columnEmail='$email'";
+    var result =await dbClient.query(userTable,where: "$columnEmail = ?" , whereArgs: [email]);
+    return result;
   }
   //select all Brouillon
   Future<List> getAllBrouillon() async{

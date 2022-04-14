@@ -34,7 +34,6 @@ class Userscan {
       'notes': notes,
       'created':created,
       'updated':updated
-
     };
   }
   @override
