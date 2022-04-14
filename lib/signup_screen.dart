@@ -80,10 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "phone": "+${code1},${code},${phonectrl.text.toString()}",
       "password":passwordctrl.text,
     };
-    print("hello");
     var res = await http.post(Uri.parse(url),body:data);
-     print("good by ");
-
     if(jsonDecode(res.body) == "account already exists"){
       Fluttertoast.showToast(msg: "Compte existe, veuillez vous connecter",toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -95,9 +92,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }else{
       Fluttertoast.showToast(msg: "error",toastLength: Toast.LENGTH_SHORT);
     }
-
-
-
     setState(() {
       processing = false;
     });

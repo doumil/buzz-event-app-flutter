@@ -181,7 +181,7 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
                 ),
                 trailing: Wrap(
                   children: [
-                    Text("${litems[position].evolution}\n\n${litems[position].created}\n\n${litems[position].updated}",
+                    Text("${litems[position].evolution}\n${litems[position].created}\n${litems[position].updated}",
                         style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
                     IconButton(
                         onPressed: () async {

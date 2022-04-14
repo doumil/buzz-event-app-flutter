@@ -5,6 +5,7 @@ import 'package:assessment_task/profil_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:assessment_task/détails_screen.dart';
@@ -21,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+  var response;
   var updated="";
   var db = new DatabaseHelper();
   String _data = "";
@@ -42,13 +44,21 @@ class _HomeScreen extends State<HomeScreen> {
       //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
       user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
           list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),'','','','','');
-      var response = await db.getUsersByemail(user1.email.toString());
+       response = await db.getUsersByemail(user1.email.toString());
+      print("------------------------------");
       print(response);
-      if (response.toString() == "[]") {
+      print("------------------------------");
+      if (response.toString()=="[]") {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => DetailsScreen()));
       }
-      else{
+      else if(response.toString()!="[]"){
+        user1.evolution=response[0]["evolution"];
+        user1.action=response[0]["action"];
+        user1.notes=response[0]["notes"];
+        user1.created=response[0]["created"];
+        user1.updated="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
+        db.updateUser(user1,user1.email);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
       }

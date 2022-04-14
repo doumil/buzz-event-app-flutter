@@ -3,9 +3,10 @@ import 'package:assessment_task/login_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:linkedin_auth/linkedin_auth.dart';
-
+import 'package:http/http.dart' as http;
 import 'home_screen.dart';
 
 _launchURL() async {
@@ -25,11 +26,66 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   String clientId="",redirectUrl="";
+  String code="MA",code1="212";
+  var lEmail,lFirstname,lLastname,lId,lProfile;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
+  }
+  Future checkUser(String email)async{
+    setState(() {
+    });
+    var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/loginlinkedin.php'),body:{
+      "email":lEmail,
+      "first_name":lFirstname,
+      "last_name":lLastname,
+      "company":"add company",
+      "phone": "+${code1},${code},600000000",
+      "password":lId,
+    });
+    var resbody = jsonDecode(response.body);
+    if(resbody["status"]=="Success"){
+      //login linkedin
+      saveSession(
+          int.parse(resbody['id']),
+          resbody['email'],
+          resbody['fname'],
+          resbody['lname'],
+          resbody['company'],
+          resbody['phone']);
+      Fluttertoast.showToast(
+          msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
+    else if(resbody["status"]=="added")
+        {
+          saveSession(
+              int.parse(resbody['id']),
+              resbody['email'],
+              resbody['fname'],
+              resbody['lname'],
+              resbody['company'],
+              resbody['phone']);
+          Fluttertoast.showToast(
+              msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        }
+    setState(() {
+    });
+  }
+  saveSession(int id, String email, String fname, String lname, String company,
+      String phone) async {
+    SharedPreferences sessionLogin = await SharedPreferences.getInstance();
+    sessionLogin.setInt("id", id);
+    sessionLogin.setString("email", email);
+    sessionLogin.setString("fname", fname);
+    sessionLogin.setString("lname", lname);
+    sessionLogin.setString("company", company);
+    sessionLogin.setString("phone", phone);
   }
   loginLinkedIn() async{
       //here code to login with linked in
@@ -51,14 +107,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 bypassServerCheck: true,
                 clientSecret: "TfIZetwGspWYh9uS",
                 onTokenCapture: (token) {
-                  print("--------------------------------------");
-                  print(token.token.toString());
-                  print("--------------------------------------");
                   getProfile (token.token.toString());
-                 // Fluttertoast.showToast(
-                  //msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
-                  //Navigator.push(
-                    //context, MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
                 onServerResponse: (res) {
                   var parsed = json.decode(res.body);
@@ -72,12 +121,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   getProfile (var tokenProfile) async {
     try {
       //get simple profile
-      var email =await LinkedInService.getEmailAddress(tokenProfile);
-      var name =await LinkedInService.getLiteProfile(tokenProfile);
-       Fluttertoast.showToast(
-      msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
-      Navigator.push(
-      context, MaterialPageRoute(builder: (context) => HomeScreen()));
+       lEmail =await LinkedInService.getEmailAddress(tokenProfile);
+       lProfile =await LinkedInService.getLiteProfile(tokenProfile);
+       lFirstname=lProfile.firstName;
+       lLastname=lProfile.lastName;
+      //send info to check email
+      checkUser(lEmail);
+
     } on LinkedInException catch (e) {
       print(e.cause);
     }
