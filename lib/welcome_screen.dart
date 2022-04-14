@@ -1,10 +1,12 @@
-import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:assessment_task/login_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:linkedin_auth/linkedin_auth.dart';
+
+import 'home_screen.dart';
 
 _launchURL() async {
   const url = 'https://buzzevents.co/contact.html';
@@ -22,46 +24,64 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
- // String clientId="",redirectUrl="";
+  String clientId="",redirectUrl="";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   /* LinkedInLogin.initialize(context,
-        clientId: clientId,
-        clientSecret: clientId,
-        redirectUri: redirectUrl);
 
-    */
   }
-  /*loginLinkedIn() async{
-//here code to login with linked in
-    LinkedInLogin.loginForAccessToken(
-        destroySession: true,
-        appBar: AppBar(
-          title: Text('Demo Login Page'),
-        ))
-        .then((accessToken) => print(accessToken))
-        .catchError((error) {
-      print(error.errorDescription);
-    });
-    LinkedInLogin.getProfile(
-        destroySession: true,
-        forceLogin: true,
-        appBar: AppBar(
-          title: Text('Demo Login Page'),
-        ))
-        .then((profile) {
-      print('First name : ${profile.firstName}');
-      print('Last name : ${profile.lastName}');
-      print('Avatar: ${profile.profilePicture.profilePictureDisplayImage
-          .elements.first.identifiers.first.identifier}');
-    })
-        .catchError((error) {
-      print(error.errorDescription);
-    });
+  loginLinkedIn() async{
+      //here code to login with linked in
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Scaffold(
+              appBar: AppBar(
+                title: Text("se connecter avec linkedin"),
+                backgroundColor:const Color(0xff0e76a8),
+                leading: CloseButton(),
+              ),
+              body: LinkedInLoginView(
+                clientId: "77k2mc7uf5821x",
+                redirectUrl: "https://buzzevents.com",
+                onError: (String error) {
+                  print(error);
+                },
+                bypassServerCheck: true,
+                clientSecret: "TfIZetwGspWYh9uS",
+                onTokenCapture: (token) {
+                  print("--------------------------------------");
+                  print(token.token.toString());
+                  print("--------------------------------------");
+                  getProfile (token.token.toString());
+                 // Fluttertoast.showToast(
+                  //msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+                  //Navigator.push(
+                    //context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
+                onServerResponse: (res) {
+                  var parsed = json.decode(res.body);
+                  return AccessToken(parsed["token"], parsed["expiry"]);
+                },
+              )
+          )
+      ),
+    );
   }
-   */
+  getProfile (var tokenProfile) async {
+    try {
+      //get simple profile
+      var email =await LinkedInService.getEmailAddress(tokenProfile);
+      var name =await LinkedInService.getLiteProfile(tokenProfile);
+       Fluttertoast.showToast(
+      msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+      Navigator.push(
+      context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    } on LinkedInException catch (e) {
+      print(e.cause);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,7 +198,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(5.0))
                 ) ,
                 onPressed: (){
-                  //loginLinkedIn();
+                  loginLinkedIn();
                 },
                 child: Row (
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

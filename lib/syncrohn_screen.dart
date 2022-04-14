@@ -29,6 +29,8 @@ class syncrohnScreen extends StatefulWidget {
 
 class _syncrohnScreenState extends State<syncrohnScreen> {
   void initState() {
+     litems.clear();
+     isLoading = true;
     _loadData();
     super.initState();
   }
@@ -47,9 +49,10 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
         .map((data) => Userscan.fromJson(data))
         .toList();
     litems=users;
-    isLoading = false;
     if (this.mounted) {
-      setState(() {});
+      setState(() {
+        isLoading = false;
+      });
     }
   }
   _upload() async {
@@ -89,14 +92,13 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
 
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
-
-    if (kIsWeb) {
-      AnchorElement(
-          href:
-          'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
-        ..setAttribute('download', 'Profils${DateTime.now().hour}${DateTime.now().minute}.csv')
-        ..click();
-    } else {
+   // if (kIsWeb) {
+     // AnchorElement(
+         // href:
+      //    'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+        //..setAttribute('download', 'Profils${DateTime.now().hour}${DateTime.now().minute}.csv')
+        //..click();
+   // } else {
       final String path = (await getApplicationSupportDirectory()).path;
       final String fileName = Platform.isWindows
           ? '$path\\Profils${DateTime.now().hour}${DateTime.now().minute}.csv'
@@ -104,7 +106,7 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
       final File file = File(fileName);
       await file.writeAsBytes(bytes, flush: true);
       OpenFile.open(fileName);
-    }
+   // }
   }
   @override
   Widget build(BuildContext context) {

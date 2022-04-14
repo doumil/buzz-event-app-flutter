@@ -41,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     sessionLogin.setString("company", company);
     sessionLogin.setString("phone", phone);
   }
-
   @override
   void initState() {
     // TODO: implement initState

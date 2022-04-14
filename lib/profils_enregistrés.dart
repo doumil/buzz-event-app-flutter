@@ -91,14 +91,13 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
 
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
-
-    if (kIsWeb) {
-      AnchorElement(
-          href:
-              'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
-        ..setAttribute('download', 'Profils${DateTime.now().hour}${DateTime.now().minute}.csv')
-        ..click();
-    } else {
+    // if (kIsWeb) {
+    // AnchorElement(
+    // href:
+    //    'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+    //..setAttribute('download', 'Profils${DateTime.now().hour}${DateTime.now().minute}.csv')
+    //..click();
+    // } else {
       final String path = (await getApplicationSupportDirectory()).path;
       final String fileName = Platform.isWindows
           ? '$path\\Profils${DateTime.now().hour}${DateTime.now().minute}.csv'
@@ -106,7 +105,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
       final File file = File(fileName);
       await file.writeAsBytes(bytes, flush: true);
       OpenFile.open(fileName);
-    }
+    //}
   }
 
   void _sync() async {

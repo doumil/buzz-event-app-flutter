@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  linkedin_auth:
   animate_do:
   flutter_verification_code:
   font_awesome_flutter:
@@ -50,7 +51,7 @@ dependencies:
   excel:
   open_file:
   syncfusion_flutter_xlsio:
-  universal_html:
+  universal_html: 1.2.4
   intl_phone_field:
 dev_dependencies:
   flutter_test:
