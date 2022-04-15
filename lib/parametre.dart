@@ -189,7 +189,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
                             ),
                             PopupMenuItem<int>(
                               child:ListTile(
-                                leading: Icon(Icons.person),
+                                leading: Icon(Icons.phone),
                                 title: Text("modifier le téléphone"),
                                 onTap: () {
                                   Navigator.push(context,

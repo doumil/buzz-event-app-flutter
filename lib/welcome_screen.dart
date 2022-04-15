@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:assessment_task/login_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,25 +28,30 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   String clientId="",redirectUrl="";
   String code="MA",code1="212";
-  var lEmail,lFirstname,lLastname,lId,lProfile;
+  var lEmail,lFirstname,lLastname,lId;
+  bool isLoading = true;
   @override
   void initState() {
-    // TODO: implement initState
+    isLoading = true;
     super.initState();
 
   }
-  Future checkUser(String email)async{
+  Future checkUser()async{
     setState(() {
     });
+    print(lEmail.toString());
+    print(lFirstname);
+    print(lLastname);
+    print(lId);
     var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/loginlinkedin.php'),body:{
-      "email":lEmail,
-      "first_name":lFirstname,
-      "last_name":lLastname,
+      "email":lEmail.toString(),
+      "first_name":lFirstname.toString(),
+      "last_name":lLastname.toString(),
       "company":"add company",
       "phone": "+${code1},${code},600000000",
-      "password":lId,
+      "password":lId.toString(),
     });
-    var resbody = jsonDecode(response.body);
+    var resbody = jsonDecode(response.body.toString());
     if(resbody["status"]=="Success"){
       //login linkedin
       saveSession(
@@ -62,6 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     }
     else if(resbody["status"]=="added")
         {
+          //signup and login
           saveSession(
               int.parse(resbody['id']),
               resbody['email'],
@@ -74,8 +81,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomeScreen()));
         }
-    setState(() {
-    });
+    if (this.mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
   saveSession(int id, String email, String fname, String lname, String company,
       String phone) async {
@@ -98,7 +108,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 backgroundColor:const Color(0xff0e76a8),
                 leading: CloseButton(),
               ),
-              body: LinkedInLoginView(
+              body:  LinkedInLoginView(
                 clientId: "77k2mc7uf5821x",
                 redirectUrl: "https://buzzevents.com",
                 onError: (String error) {
@@ -122,12 +132,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     try {
       //get simple profile
        lEmail =await LinkedInService.getEmailAddress(tokenProfile);
-       lProfile =await LinkedInService.getLiteProfile(tokenProfile);
-       lFirstname=lProfile.firstName;
-       lLastname=lProfile.lastName;
-      //send info to check email
-      checkUser(lEmail);
-
+       var lProfile =await LinkedInService.getLiteProfile(tokenProfile);
+       lFirstname=lProfile.firstName.text;
+       lLastname=lProfile.lastName.text;
+       lId=lProfile.id.toString();
+       //send info to check email
+      checkUser();
     } on LinkedInException catch (e) {
       print(e.cause);
     }
