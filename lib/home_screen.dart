@@ -4,6 +4,7 @@ import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/profil_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,250 +81,271 @@ class _HomeScreen extends State<HomeScreen> {
       );
     }
   }
-
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Êtes-vous sûr'),
+        content: new Text('Voulez-vous quitter une application'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('Non'),
+          ),
+          new FlatButton(
+            onPressed: () =>SystemNavigator.pop(),
+            child: new Text('Oui '),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        actions: <Widget>[],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      drawer:
-          //drawer
-          new Drawer(
-        elevation: 0,
-        child: Container(
-          color: Color(0xfff7f2f7),
-          child: ListView(
-            padding: EdgeInsets.all(0),
-            children: <Widget>[
-              Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/back.png.png"),
-                        fit: BoxFit.cover,
-                      ),
-                      gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color.fromRGBO(103, 33, 96, 1.0),
-                            Colors.black
-                          ])),
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: Image.asset(
-                    "assets/logo15.png",
-                  )),
-              ListTile(
-                leading: Icon(Icons.list),
-                title: Text('Profils Enregistrés'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => profilsEnregistresScreen()));
-                },
-                trailing: Wrap(
-                  children: <Widget>[
-                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.drafts),
-                title: Text('Profils en brouillon'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BrouillonScreen()));
-                },
-                trailing: Wrap(
-                  children: <Widget>[
-                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.sync),
-                title: Text('Syncrohniser'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => syncrohnScreen()));
-                },
-                trailing: Wrap(
-                  children: <Widget>[
-                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                  ],
-                ),
-              ),
-              new Divider(
-                color: Color.fromRGBO(150, 150, 150, 0.4),
-                height: 5.0,
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Mon profile'),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
-                },
-                trailing: Wrap(
-                  children: <Widget>[
-                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Paramétres'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ParametreScreen()));
-                },
-                trailing: Wrap(
-                  children: <Widget>[
-                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Deconnexion'),
-                onTap: () async {
-                  SharedPreferences sessionLogin =
-                      await SharedPreferences.getInstance();
-                  sessionLogin.remove("id");
-                  sessionLogin.remove("email");
-                  sessionLogin.remove("fname");
-                  sessionLogin.remove("lname");
-                  sessionLogin.remove("company");
-                  sessionLogin.remove("phone");
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
-                },
-                trailing: Wrap(
-                  children: <Widget>[
-                    Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
-                  ],
-                ),
-              ),
-            ],
-          ),
+    return WillPopScope(
+      onWillPop:_onWillPop,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          actions: <Widget>[],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 62,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(120),
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: Image.asset(
-                      "assets/background-buz2.png",
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
+        drawer:
+            //drawer
+            new Drawer(
+          elevation: 0,
+          child: Container(
+            color: Color(0xfff7f2f7),
+            child: ListView(
+              padding: EdgeInsets.all(0),
+              children: <Widget>[
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(80),
-                    ),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/back.png.png"),
+                          fit: BoxFit.cover,
+                        ),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color.fromRGBO(103, 33, 96, 1.0),
+                              Colors.black
+                            ])),
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    child: Image.asset(
+                      "assets/logo15.png",
+                    )),
+                ListTile(
+                  leading: Icon(Icons.list),
+                  title: Text('Profils Enregistrés'),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => profilsEnregistresScreen()));
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    ],
                   ),
                 ),
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "bienvenu !",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                                fontFamily: "Poppins",
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                ListTile(
+                  leading: Icon(Icons.drafts),
+                  title: Text('Profils en brouillon'),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BrouillonScreen()));
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.sync),
+                  title: Text('Syncrohniser'),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => syncrohnScreen()));
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    ],
+                  ),
+                ),
+                new Divider(
+                  color: Color.fromRGBO(150, 150, 150, 0.4),
+                  height: 5.0,
+                ),
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('Mon profile'),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ProfileScreen()));
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Paramétres'),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ParametreScreen()));
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Deconnexion'),
+                  onTap: () async {
+                    SharedPreferences sessionLogin =
+                        await SharedPreferences.getInstance();
+                    sessionLogin.remove("id");
+                    sessionLogin.remove("email");
+                    sessionLogin.remove("fname");
+                    sessionLogin.remove("lname");
+                    sessionLogin.remove("company");
+                    sessionLogin.remove("phone");
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                  },
+                  trailing: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right), // icon-1// icon-2
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          Expanded(
-            flex: 38,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0.05),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              flex: 62,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Text("Vous pouvez scannez maintenant",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff682062),
-                        fontFamily: "Poppins",
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.height * 0.1,
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color.fromRGBO(103, 33, 96, 1.0),
-                                  Colors.yellow.shade100,
-                                ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(120),
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Image.asset(
+                        "assets/background-buz2.png",
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(80),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "bienvenu !",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
+                                ),
                               ),
-                            ),
-                            child: IconButton(
-                              hoverColor: Color.fromRGBO(103, 33, 96, 1.0),
-                              onPressed: () async {
-                                _scan();
-                              },
-                              icon: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: MediaQuery.of(context).size.height * 0.05,
-                              ),
-                            ),
-                          )
-                        ]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          )
-        ],
+            Expanded(
+              flex: 38,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0.05),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text("Vous pouvez scannez maintenant",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff682062),
+                          fontFamily: "Poppins",
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.height * 0.1,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color.fromRGBO(103, 33, 96, 1.0),
+                                    Colors.yellow.shade100,
+                                  ],
+                                ),
+                              ),
+                              child: IconButton(
+                                hoverColor: Color.fromRGBO(103, 33, 96, 1.0),
+                                onPressed: () async {
+                                  _scan();
+                                },
+                                icon: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                  size: MediaQuery.of(context).size.height * 0.05,
+                                ),
+                              ),
+                            )
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

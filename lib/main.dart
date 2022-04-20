@@ -4,6 +4,7 @@ import 'package:assessment_task/firstPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 void main()  {
   runApp(MyApp());
 }
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
+
       home: FirsPage(),
     );
   }

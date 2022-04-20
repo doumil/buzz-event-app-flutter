@@ -71,15 +71,12 @@ class FirsPage extends StatelessWidget {
       speed: 2,
       pageBodies: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+          //padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
               Text(
                 'Scannez',
                 textAlign: TextAlign.center,
@@ -92,8 +89,8 @@ class FirsPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Vous pouvez scannez le code QR ou le code-barre de votre visiteur',
+              Text(
+                'Vous pouvez scannez le code QR\n ou le code-barre de votre visiteur',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff692062),
@@ -103,16 +100,16 @@ class FirsPage extends StatelessWidget {
               ),
             ],
           ),
+          margin: EdgeInsets.only(top: height * 0.63),
+          padding: EdgeInsets.only(bottom: height * 0.01),
+          width: width * 0.9,
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+         // padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
               Text(
                 'Evaluez et enregistez',
                 textAlign: TextAlign.center,
@@ -125,8 +122,8 @@ class FirsPage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Valorisez, prenez des notes et enregistrez les profils dans votre téléphone',
+              Text(
+                'Valorisez, prenez des notes \n et enregistrez les profils \ndans votre téléphone',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff692062),
@@ -136,39 +133,58 @@ class FirsPage extends StatelessWidget {
               ),
             ],
           ),
+          margin: EdgeInsets.only(top: height * 0.63),
+          padding: EdgeInsets.only(bottom: height * 0.01),
+          width: width * 0.9,
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+         // padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: 480,
-              ),
-              Text(
-                'Sychronisez',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: kDarkBlueColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
+              Center(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                      width * 0.04,
+                      width * 0.04,
+                      width * 0.04,
+                      width * 0.01),
+                  child:Text(
+                    'Sychronisez',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: kDarkBlueColor,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Synchronisez les données de l\'application avec notre base de données',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xff692062),
-                  fontSize: 15.5,
-                  fontWeight: FontWeight.w600,
+              Center(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                      10, 10, 10, 0),
+                  child: Container(
+                      child:Text(
+                        'Synchronisez les données de l\'application\n avec notre base de données',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xff692062),
+                          fontSize: 15.5,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ) ),
                 ),
-              ),
+              )
             ],
           ),
+          margin: EdgeInsets.only(top: height * 0.63),
+          padding: EdgeInsets.only(bottom: height * 0.01),
+          width: width * 0.9,
         ),
       ],
     );

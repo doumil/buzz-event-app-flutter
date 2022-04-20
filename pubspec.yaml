@@ -53,9 +53,17 @@ dependencies:
   syncfusion_flutter_xlsio:
   universal_html: 1.2.4
   intl_phone_field:
+  flutter_native_splash:
+  # run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_native_splash:
+  color: "#ffffff"
+  color_dark: "#ffffff"
+  image: assets/icone550.png
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

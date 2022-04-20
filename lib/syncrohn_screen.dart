@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:assessment_task/home_screen.dart';
 import 'package:assessment_task/syncedit_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -33,6 +34,25 @@ class _syncrohnScreenState extends State<syncrohnScreen> {
      isLoading = true;
     _loadData();
     super.initState();
+  }
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Êtes-vous sûr'),
+        content: new Text('Voulez-vous quitter une application'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('Non'),
+          ),
+          new FlatButton(
+            onPressed: () =>SystemNavigator.pop(),
+            child: new Text('Oui '),
+          ),
+        ],
+      ),
+    )) ?? false;
   }
   _loadData() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();

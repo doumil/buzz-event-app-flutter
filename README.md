@@ -1,4 +1,4 @@
-# assessment_task
+# buzzevvent
 
 <h4>A simple UI design with Login, Sign up and Home screens.</h4>
 
@@ -8,16 +8,38 @@
 
 <tbody>
 <tr>
-<td align="center"><a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.37.png"><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.37.png" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
-<td align="center"><a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.40.png"><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.40.png" alt="" data-canonical-src="https://i.imgur.com/u1rCsZ8.png" style="max-width:100%;"></a></td>
-</tr>
-<tr>
-<td align="center"><a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.44.png"><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.44.png" alt="" data-canonical-src="https://i.imgur.com/rujH2xz.png" style="max-width:100%;"></a></td>
-<td align="center"><a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.47.png"><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2012%20Pro%20Max%20-%202021-11-04%20at%2023.06.47.png" alt="" data-canonical-src="https://i.imgur.com/gOx5T8H.png" style="max-width:100%;"></a></td>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-01-47_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
 </tr>
 
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-07-34_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
+
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-10-74_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
+
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-14-78_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
+
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-18-17_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
+
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-21-93_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
+
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-58-41-03_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
+
+<tr>
+<td align="center"><a target="_blank" rel="noopener noreferrer" href=""><img src="https://raw.githubusercontent.com/Wizpna/assessment_task/master/screenshots/Screenshot_2022-04-19-23-59-08-24_8bb69dbbde547e3fd29304afde732320.jpg" alt="" data-canonical-src="https://i.imgur.com/ipUdGyk.png" style="max-width:100%;"></a></td>
+</tr>
 </tbody>
 </table>
-</p>
+
 
 
