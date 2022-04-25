@@ -109,21 +109,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 backgroundColor:const Color(0xff0e76a8),
                 leading: CloseButton(),
               ),
-              body:  LinkedInLoginView(
-                clientId: "77k2mc7uf5821x",
-                redirectUrl: "https://buzzevents.com",
-                onError: (String error) {
-                  print(error);
-                },
-                bypassServerCheck: true,
-                clientSecret: "TfIZetwGspWYh9uS",
-                onTokenCapture: (token) {
-                  getProfile (token.token.toString());
-                },
-                onServerResponse: (res) {
-                  var parsed = json.decode(res.body);
-                  return AccessToken(parsed["token"], parsed["expiry"]);
-                },
+              body:  Container(
+                child: LinkedInLoginView(
+                  clientId: "77k2mc7uf5821x",
+                  redirectUrl: "https://buzzevents.com",
+                  onError: (String error) {
+                    print(error);
+                  },
+                  bypassServerCheck: true,
+                  clientSecret: "TfIZetwGspWYh9uS",
+                  onTokenCapture: (token) {
+                    getProfile (token.token.toString());
+                  },
+                  onServerResponse: (res) {
+                    var parsed = json.decode(res.body);
+                    return AccessToken(parsed["token"], parsed["expiry"]);
+                  },
+                ),
               )
           )
       ),

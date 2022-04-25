@@ -121,8 +121,7 @@ class _EditScreenState extends State<EditScreen> {
     user1.notes = notes;
     user1.action = action;
     var db = new DatabaseHelper();
-    int i=await db.updateUser(user1, user1.email.toString());
-    print(i);
+    await db.updateUser(user1, user1.email.toString());
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
     setState(() {
@@ -731,24 +730,6 @@ class _EditScreenState extends State<EditScreen> {
                                         color: Color(0xff682062),
                                         disabledColor: Color(0xff682062),
                                         child: Text('Enregistrer',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white))),
-                                  )),
-                              Container(
-                                width: 1,
-                                color: Colors.white,
-                              ),
-                              Expanded(
-                                  child: Container(
-                                    height: 50,
-                                    child: RaisedButton(
-                                        onPressed: () {
-                                          _saveBrouillon();
-                                        },
-                                        color: Color(0xff682062),
-                                        disabledColor: Color(0xff682062),
-                                        child: Text('Au brouillon ',
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.white))),

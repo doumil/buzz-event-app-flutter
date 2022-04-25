@@ -5,22 +5,25 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:assessment_task/brouillon_screen.dart';
+
+import 'brouillon_screen.dart';
 
 String _data = "";
+int _count = 0;
 double evo = 3.0;
 var notes = "", action = "";
 late SharedPreferences pr;
 List<String> litems = [];
 Userscan user1 = Userscan('','','','','','','','','','','');
-class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+double initial=0;
+class EditBScreen extends StatefulWidget {
+  const EditBScreen({Key? key,}) : super(key: key);
 
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _EditBScreenState createState() => _EditBScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _EditBScreenState extends State<EditBScreen> {
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
@@ -34,24 +37,59 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _data = (prefs.getString("Data") ?? '');
+    _data = (prefs.getString("EditData") ?? '');
     var ss = _data.split(":");
     List<String> list1 = [];
     ss.forEach((e) {
       list1.add(e);
     });
-    //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
     user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
-        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),'','','','','');
+        list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),
+        list1.elementAt(6),list1.elementAt(7),list1.elementAt(8)
+        ,list1.elementAt(9),'');
+    print(list1.elementAt(9));
+    //user1.created="${DateTime.now().hour}:${DateTime.now().minute}";
     isLoading = false;
+    if (user1.evolution=='trés mauvais') {
+      initial=1.0;
+    }
+    if (user1.evolution=='mauvais') {
+      initial=2.0;
+    }
+    if (user1.evolution=='moyen') {
+      initial=3.0;
+    }
+    if (user1.evolution=='Bonne') {
+      initial=4.0;
+    }
+    if (user1.evolution=='Excellent') {
+      initial=5.0;
+    }
+    String action=user1.action;
+    if(action.contains('1')==true)
+    {
+      isChecked1 = true;
+    }
+    if(action.contains('2')==true)
+    {
+      isChecked2 = true;
+    }
+    if(action.contains('3')==true)
+    {
+      isChecked3 = true;
+    }
+    if(action.contains('4')==true)
+    {
+      isChecked4 = true;
+    }
     //print(user1);
     //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
     if (this.mounted) {
       setState(() {});
     }
   }
-  _saveUser() async {
-    var db = new DatabaseHelper();
+
+  _updateUser() async {
     action = "";
     if (evo == 1.0) {
       user1.evolution = 'trés mauvais';
@@ -82,12 +120,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
     user1.notes = notes;
     user1.action = action;
-    await db.getUsersByemail(user1.email.toString());
-    user1.created="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
-    //user1.created="${DateTime.now().day}/${DateTime.now().month} ${DateTime.now().hour}:${DateTime.now().minute}";
-    await db.saveUser(user1);
+    var db = new DatabaseHelper();
+    await db.updateUserBrouillon(user1, user1.email.toString());
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
+        MaterialPageRoute(builder: (context) => BrouillonScreen()));
+    setState(() {
+    });
   }
   _saveBrouillon() async {
     action = "";
@@ -120,13 +158,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
     user1.notes = notes;
     user1.action = action;
-    user1.created="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
     var db = new DatabaseHelper();
-    await db.saveBrouillon(user1);
+    await db.deleteUser(user1.email, user1);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => BrouillonScreen()));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +172,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       onTap: ()=>FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Détails"),
+            title: Text("modifier"),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 3, 15, 0),
@@ -153,8 +189,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
           body:
           isLoading==true ? Center(
-             child: SpinKitThreeBounce(
-               color: Color(0xff682062),
+              child: SpinKitThreeBounce(
+                color: Color(0xff682062),
                 size: 50.0,
               )
           ):
@@ -163,7 +199,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: LayoutBuilder(
               builder:
                   (BuildContext context, BoxConstraints viewportConstraints) {
-                return ConstrainedBox(
+                return Container(
+                  child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,
                     ),
@@ -184,7 +221,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         flex: 10,
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Container(
                                               width: height * 0.1,
@@ -215,7 +252,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                             color: Colors.white)),
                                                     Text("",
                                                         textAlign:
-                                                            TextAlign.center,
+                                                        TextAlign.center,
                                                         style: TextStyle(
                                                             color: Colors.grey)),
                                                   ],
@@ -236,7 +273,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                               width: width * 0.47,
                                               child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Container(
                                                       height: height * 0.03,
@@ -246,15 +283,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         children: <Widget>[
                                                           Container(
                                                               margin:
-                                                                  EdgeInsets.only(
-                                                                      right: 5),
+                                                              EdgeInsets.only(
+                                                                  right: 5),
                                                               child: Icon(
                                                                 Icons
                                                                     .home_work_rounded,
                                                                 size:
-                                                                    height * 0.02,
+                                                                height * 0.02,
                                                                 color:
-                                                                    Colors.white,
+                                                                Colors.white,
                                                               )),
                                                           GestureDetector(
                                                             onTap: () {},
@@ -264,16 +301,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                 "${user1.company}",
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        height *
-                                                                            0.018,
+                                                                    height *
+                                                                        0.018,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
+                                                                    FontWeight
+                                                                        .w300,
                                                                     color: Colors
                                                                         .white),
                                                                 overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                               ),
                                                             ),
                                                           )
@@ -287,14 +324,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         children: <Widget>[
                                                           Container(
                                                               margin:
-                                                                  EdgeInsets.only(
-                                                                      right: 5),
+                                                              EdgeInsets.only(
+                                                                  right: 5),
                                                               child: Icon(
                                                                 Icons.mail,
                                                                 size:
-                                                                    height * 0.02,
+                                                                height * 0.02,
                                                                 color:
-                                                                    Colors.white,
+                                                                Colors.white,
                                                               )),
                                                           GestureDetector(
                                                             onTap: () {},
@@ -304,16 +341,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                 "${user1.email}",
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        height *
-                                                                            0.018,
+                                                                    height *
+                                                                        0.018,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
+                                                                    FontWeight
+                                                                        .w300,
                                                                     color: Colors
                                                                         .white),
                                                                 overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                               ),
                                                             ),
                                                           )
@@ -327,14 +364,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         children: <Widget>[
                                                           Container(
                                                               margin:
-                                                                  EdgeInsets.only(
-                                                                      right: 5),
+                                                              EdgeInsets.only(
+                                                                  right: 5),
                                                               child: Icon(
                                                                 Icons.phone,
                                                                 size:
-                                                                    height * 0.02,
+                                                                height * 0.02,
                                                                 color:
-                                                                    Colors.white,
+                                                                Colors.white,
                                                               )),
                                                           GestureDetector(
                                                             onTap: () {},
@@ -344,16 +381,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                 "${user1.phone}",
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        height *
-                                                                            0.018,
+                                                                    height *
+                                                                        0.018,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
+                                                                    FontWeight
+                                                                        .w300,
                                                                     color: Colors
                                                                         .white),
                                                                 overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                               ),
                                                             ),
                                                           )
@@ -366,14 +403,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         children: <Widget>[
                                                           Container(
                                                               margin:
-                                                                  EdgeInsets.only(
-                                                                      right: 5),
+                                                              EdgeInsets.only(
+                                                                  right: 5),
                                                               child: Icon(
                                                                 Icons.location_on,
                                                                 size: height *
                                                                     0.023,
                                                                 color:
-                                                                    Colors.white,
+                                                                Colors.white,
                                                               )),
                                                           GestureDetector(
                                                             onTap: () {},
@@ -383,17 +420,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                 "${user1.adresse}",
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        height *
-                                                                            0.018,
+                                                                    height *
+                                                                        0.018,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
+                                                                    FontWeight
+                                                                        .w300,
                                                                     color: Colors
                                                                         .white),
                                                                 maxLines: 2,
                                                                 overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                               ),
                                                             ),
                                                           )
@@ -409,15 +446,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ),
                           Expanded(
                             child: SingleChildScrollView(
-                            child: Container(
-                              color: Colors.black26, // white
-                              alignment: Alignment.center,
+                              child: Container(
+                                color: Colors.black26, // white
+                                alignment: Alignment.center,
                                 child: Column(
                                   children: <Widget>[
                                     Container(
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Center(
                                             child: Container(
@@ -439,7 +476,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                   10, 10, 10, 10),
                                               child: Container(
                                                 child: RatingBar.builder(
-                                                  initialRating: 3,
+                                                  initialRating:initial,
                                                   itemCount: 5,
                                                   itemBuilder: (context, index) {
                                                     switch (index) {
@@ -489,7 +526,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       ),
                                       margin: EdgeInsets.only(top: height * 0.01),
                                       padding:
-                                          EdgeInsets.only(bottom: height * 0.01),
+                                      EdgeInsets.only(bottom: height * 0.01),
                                       width: width * 0.9,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -499,7 +536,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     Container(
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Center(
                                             child: Container(
@@ -517,96 +554,96 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                               child: Column(children: <Widget>[
                                                 Container(
                                                     child: Row(children: <Widget>[
-                                                  Container(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          width * 0.045, 0, 0, 0),
-                                                      child: Checkbox(
-                                                        value: isChecked1,
-                                                        onChanged: (bool? value) {
-                                                          setState(() {
-                                                            isChecked1 = value!;
-                                                          });
-                                                        },
-                                                      )),
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {});
-                                                      },
-                                                      child: Text(
-                                                          'Plagnifier un réunion',
-                                                          style: TextStyle(
-                                                              fontSize:
+                                                      Container(
+                                                          padding: EdgeInsets.fromLTRB(
+                                                              width * 0.045, 0, 0, 0),
+                                                          child: Checkbox(
+                                                            value: isChecked1,
+                                                            onChanged: (bool? value) {
+                                                              setState(() {
+                                                                isChecked1 = value!;
+                                                              });
+                                                            },
+                                                          )),
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {});
+                                                          },
+                                                          child: Text(
+                                                              'Plagnifier un réunion',
+                                                              style: TextStyle(
+                                                                  fontSize:
                                                                   height * 0.022))),
-                                                ])),
+                                                    ])),
                                                 Container(
                                                     child: Row(children: <Widget>[
-                                                  Container(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          width * 0.045, 0, 0, 0),
-                                                      child: Checkbox(
-                                                        value: isChecked2,
-                                                        onChanged: (bool? value) {
-                                                          setState(() {
-                                                            isChecked2 = value!;
-                                                          });
-                                                        },
-                                                      )),
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {});
-                                                      },
-                                                      child: Text(
-                                                          'Passer un Téléphone',
-                                                          style: TextStyle(
-                                                              fontSize:
+                                                      Container(
+                                                          padding: EdgeInsets.fromLTRB(
+                                                              width * 0.045, 0, 0, 0),
+                                                          child: Checkbox(
+                                                            value: isChecked2,
+                                                            onChanged: (bool? value) {
+                                                              setState(() {
+                                                                isChecked2 = value!;
+                                                              });
+                                                            },
+                                                          )),
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {});
+                                                          },
+                                                          child: Text(
+                                                              'Passer un Téléphone',
+                                                              style: TextStyle(
+                                                                  fontSize:
                                                                   height * 0.022))),
-                                                ])),
+                                                    ])),
                                                 Container(
                                                     child: Row(children: <Widget>[
-                                                  Container(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          width * 0.045, 0, 0, 0),
-                                                      child: Checkbox(
-                                                        value: isChecked3,
-                                                        onChanged: (bool? value) {
-                                                          setState(() {
-                                                            isChecked3 = value!;
-                                                          });
-                                                        },
-                                                      )),
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {});
-                                                      },
-                                                      child: Text(
-                                                          'Envoyer des infos sur le produit',
-                                                          style: TextStyle(
-                                                              fontSize:
+                                                      Container(
+                                                          padding: EdgeInsets.fromLTRB(
+                                                              width * 0.045, 0, 0, 0),
+                                                          child: Checkbox(
+                                                            value: isChecked3,
+                                                            onChanged: (bool? value) {
+                                                              setState(() {
+                                                                isChecked3 = value!;
+                                                              });
+                                                            },
+                                                          )),
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {});
+                                                          },
+                                                          child: Text(
+                                                              'Envoyer des infos sur le produit',
+                                                              style: TextStyle(
+                                                                  fontSize:
                                                                   height * 0.022))),
-                                                ])),
+                                                    ])),
                                                 Container(
                                                     child: Row(children: <Widget>[
-                                                  Container(
-                                                      padding: EdgeInsets.fromLTRB(
-                                                          width * 0.045, 0, 0, 0),
-                                                      child: Checkbox(
-                                                        value: isChecked4,
-                                                        onChanged: (bool? value) {
-                                                          setState(() {
-                                                            isChecked4 = value!;
-                                                          });
-                                                        },
-                                                      )),
-                                                  GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {});
-                                                      },
-                                                      child: Text(
-                                                          'Cantacter par Mail',
-                                                          style: TextStyle(
-                                                              fontSize:
+                                                      Container(
+                                                          padding: EdgeInsets.fromLTRB(
+                                                              width * 0.045, 0, 0, 0),
+                                                          child: Checkbox(
+                                                            value: isChecked4,
+                                                            onChanged: (bool? value) {
+                                                              setState(() {
+                                                                isChecked4 = value!;
+                                                              });
+                                                            },
+                                                          )),
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {});
+                                                          },
+                                                          child: Text(
+                                                              'Cantacter par Mail',
+                                                              style: TextStyle(
+                                                                  fontSize:
                                                                   height * 0.022))),
-                                                ])),
+                                                    ])),
                                               ]),
                                             ),
                                           ),
@@ -625,7 +662,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     Container(
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Center(
                                             child: Container(
@@ -647,6 +684,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                   10, 10, 10, 0),
                                               child: Container(
                                                   child: TextFormField(
+                                                      initialValue: user1.notes,
                                                       onChanged: (val) {
                                                         setState(() {
                                                           notes = val;
@@ -657,18 +695,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                           fontSize: height * 0.022),
                                                       maxLines: 3,
                                                       decoration:
-                                                          InputDecoration.collapsed(
-                                                              hintStyle: TextStyle(
-                                                                  fontSize: height *
-                                                                      0.022),
-                                                              hintText:
-                                                                  'Ecrivez vos notes'))),
+                                                      InputDecoration.collapsed(
+                                                          hintStyle: TextStyle(
+                                                              fontSize: height *
+                                                                  0.022),
+                                                          hintText:
+                                                          'Ecrivez vos notes'))),
                                             ),
                                           )
                                         ],
                                       ),
                                       margin: EdgeInsets.only(top: height * 0.01,bottom: height * 0.01),
-                                      padding: EdgeInsets.only(bottom: height * 0.01),
+                                      padding:
+                                      EdgeInsets.only(bottom: height * 0.01),
                                       width: width * 0.9,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
@@ -685,40 +724,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               child: Row(children: <Widget>[
                                 Expanded(
                                     child: Container(
-                                  height: 50,
-                                  child: RaisedButton(
-                                      onPressed: () {
-                                        _saveUser();
-                                      },
-                                      color: Color(0xff682062),
-                                      disabledColor: Color(0xff682062),
-                                      child: Text('Enregistrer',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white))),
-                                )),
-                                Container(
-                                  width: 1,
-                                  color: Colors.white,
-                                ),
-                                Expanded(
-                                    child: Container(
-                                  height: 50,
-                                  child: RaisedButton(
-                                      onPressed: () {
-                                        _saveBrouillon();
-                                      },
-                                      color: Color(0xff682062),
-                                      disabledColor: Color(0xff682062),
-                                      child: Text('Au brouillon ',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white))),
-                                )),
-                              ])),
+                                      height: 50,
+                                      child: RaisedButton(
+                                          onPressed: () {
+                                            _updateUser();
+                                          },
+                                          color: Color(0xff682062),
+                                          disabledColor: Color(0xff682062),
+                                          child: Text('Enregistrer',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white))),
+                                    )),
+                              ]))
                         ],
                       ),
                     ),
+                  ),
                 );
               },
             ),
@@ -726,64 +748,3 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 }
-
-/* return Scaffold(
-        appBar: AppBar(
-          title: Text("Détails"),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(15, 3, 15, 0),
-            )
-          ],
-          centerTitle: true,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color.fromRGBO(103, 33, 96, 1.0), Colors.black])),
-          ),
-        ),
-        body: new RatingBar.builder(
-          initialRating: 4,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                return Icon(
-                  Icons.sentiment_very_dissatisfied,
-                  color: Colors.red,
-                );
-              case 1:
-                return Icon(
-                  Icons.sentiment_dissatisfied,
-                  color: Colors.redAccent,
-                );
-              case 2:
-                return Icon(
-                  Icons.sentiment_neutral,
-                  color: Colors.amber,
-                );
-              case 3:
-                return Icon(
-                  Icons.sentiment_satisfied,
-                  color: Colors.lightGreen,
-                );
-              case 4:
-                return Icon(
-                  Icons.sentiment_very_satisfied,
-                  color: Colors.green,
-                );
-              default:
-                return Icon(
-                  Icons.sentiment_satisfied,
-                  color: Colors.lightGreen,
-                );
-            }
-          },
-          onRatingUpdate: (rating) {
-            print(rating);
-          },
-        ));
-  }
-}*/

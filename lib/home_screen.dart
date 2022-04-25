@@ -31,6 +31,7 @@ class _HomeScreen extends State<HomeScreen> {
   Userscan user1 = Userscan('','','','','','','','','','','');
   late SharedPreferences prefs;
   _scan() async {
+    int _count=0;
     await FlutterBarcodeScanner.scanBarcode(
             "#000000", "Annuler", true, ScanMode.QR)
         .then((value) => setState(() => _data = value));
@@ -41,29 +42,74 @@ class _HomeScreen extends State<HomeScreen> {
       List<String> list1 = [];
       ss.forEach((e) {
         list1.add(e);
+        _count++;
       });
-      //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
-      user1 = Userscan(list1.elementAt(0), list1.elementAt(1), list1.elementAt(2),
-          list1.elementAt(3), list1.elementAt(4), list1.elementAt(5),'','','','','');
-       response = await db.getUsersByemail(user1.email.toString());
-      print("------------------------------");
-      print(response);
-      print("------------------------------");
-      if (response.toString()=="[]") {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => DetailsScreen()));
+      print(_count);
+      print(_data);
+      if (_count == 6) {
+        print(_count);
+        //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
+        user1 = Userscan(
+            list1.elementAt(0),
+            list1.elementAt(1),
+            list1.elementAt(2),
+            list1.elementAt(3),
+            list1.elementAt(4),
+            list1.elementAt(5),
+            '',
+            '',
+            '',
+            '',
+            '');
+        response = await db.getUsersByemail(user1.email.toString());
+        print("------------------------------");
+        print(response);
+        print("------------------------------");
+        if (response.toString() == "[]") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DetailsScreen()));
+        }
+        else if (response.toString() != "[]") {
+          user1.evolution = response[0]["evolution"];
+          user1.action = response[0]["action"];
+          user1.notes = response[0]["notes"];
+          user1.created = response[0]["created"];
+          user1.updated = "${DateTime
+              .now()
+              .day}/${DateTime
+              .now()
+              .month}/${DateTime
+              .now()
+              .year} ${DateTime
+              .now()
+              .hour}:${DateTime
+              .now()
+              .minute}";
+          db.updateUser(user1, user1.email);
+          Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (context) => profilsEnregistresScreen()));
+        }
       }
-      else if(response.toString()!="[]"){
-        user1.evolution=response[0]["evolution"];
-        user1.action=response[0]["action"];
-        user1.notes=response[0]["notes"];
-        user1.created=response[0]["created"];
-        user1.updated="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}";
-        db.updateUser(user1,user1.email);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => profilsEnregistresScreen()));
+      else{
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('erreur'),
+            content: const Text(
+                'QR code invalid'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child:
+                const Text('OK', style: TextStyle(color: Color(0xff803b7a))),
+              ),
+            ],
+          ),
+        );
       }
-    } else {
+    }else {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -263,6 +309,7 @@ class _HomeScreen extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(80),
+
                       ),
                     ),
                   ),
@@ -276,7 +323,7 @@ class _HomeScreen extends State<HomeScreen> {
                           text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: "bienvenu !",
+                                text: "bienvenue !",
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.w700,

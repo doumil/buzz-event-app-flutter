@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:assessment_task/editProfil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,10 +7,6 @@ import 'package:intl_phone_field/countries.dart';
 import 'home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animate_do/animate_do.dart';
-import 'editprofile/company_screen.dart';
-import 'editprofile/name_screen.dart';
-import 'editprofile/phone_screen.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -66,10 +63,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   PopupMenuItem<int>(
                     child:ListTile(
                     leading: Icon(Icons.person),
-                    title: Text("modifier le nom et le prénom"),
+                    title: Text("modifier le profile"),
                     onTap: () {
                     Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NameScreen()));
+                    MaterialPageRoute(builder: (context) => EditProfilScreen()));
                     },
                       trailing: Wrap(
                         children: <Widget>[
@@ -80,42 +77,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                   ),
-                  ),
-                  PopupMenuItem<int>(
-                    child:ListTile(
-                      leading: Icon(Icons.home_work_rounded),
-                      title: Text("modifier l'entreprise"),
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => CompanyScreen()));
-                      },
-                      trailing: Wrap(
-                        children: <Widget>[
-                          Icon(
-                            Icons.upload_sharp,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem<int>(
-                    child:ListTile(
-                      leading: Icon(Icons.phone),
-                      title: Text("modifier le téléphone"),
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => PhoneScreen()));
-                      },
-                      trailing: Wrap(
-                        children: <Widget>[
-                          Icon(
-                            Icons.upload_sharp,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ];
               },

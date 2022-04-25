@@ -122,6 +122,12 @@ class DatabaseHelper{
     int result = await dbClient.update("$userTable", user.toMap(),where: "$columnEmail = ?" , whereArgs: [email]);
     return result;
   }
+  //update brouillon
+  Future<int> updateUserBrouillon(Userscan user,String email) async{
+    var dbClient = await  db;
+    int result = await dbClient.update("$brouillonTable", user.toMap(),where: "$columnEmail = ?" , whereArgs: [email]);
+    return result;
+  }
   //restore user
   Future<int> restoreUser(String email,Userscan user) async{
     var dbClient = await  db;

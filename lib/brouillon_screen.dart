@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:assessment_task/editbroui_screen.dart';
 import 'package:assessment_task/profil_screen.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
+
+import 'edit_screen.dart';
 
 String _data = "";
 int _count = 0;
@@ -133,6 +136,18 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
                               }
                             },
                             icon: Icon(Icons.restore, color: Colors.white70)),
+                        IconButton(
+                            onPressed: () async {
+                              String userToBr =
+                              ("${litems[position].firstname}:${litems[position].lastname}:${litems[position].company}:${litems[position].email}:${litems[position].phone}:${litems[position].adresse}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
+                              prefs = await SharedPreferences.getInstance();
+                              prefs.setString("EditData", userToBr);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditBScreen()));
+                            },
+                            icon: Icon(Icons.edit, color: Colors.white70)),
                         IconButton(
                             onPressed: () {
                               showDialog<String>(

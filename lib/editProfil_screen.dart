@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/profil_screen.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -12,29 +11,34 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class NameScreen extends StatefulWidget {
-  const NameScreen({Key? key}) : super(key: key);
+class EditProfilScreen extends StatefulWidget {
+  const EditProfilScreen({Key? key}) : super(key: key);
 
   @override
-  _NameScreenState createState() => _NameScreenState();
+  _EditProfilScreenState createState() => _EditProfilScreenState();
 }
 
-class _NameScreenState extends State<NameScreen> {
+class _EditProfilScreenState extends State<EditProfilScreen> {
+  late var code="MA",code1="212",phonewithcode="";
   bool signin = true;
   bool _isVisible = false;
   late var id,email,fname,lname,company,phone;
   //Global Key for the form
   final GlobalKey<FormState> _keyreg = new GlobalKey<FormState>();
   // Controllers for TextFormFields
-  late TextEditingController fnamectrl,lnamectrl;
+  late TextEditingController companyctrl,firstnamectrl,lnamectrl,phonectrl,passwordctrl,confpasswordctrl,emailctrl;
   bool processing = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _loadData();
-    fnamectrl = TextEditingController();
+    firstnamectrl = TextEditingController();
+    emailctrl=TextEditingController();
     lnamectrl = TextEditingController();
+    companyctrl = TextEditingController();
+    phonectrl = TextEditingController();
+
 
   }
   //form != null && !form.validate()
@@ -53,10 +57,21 @@ class _NameScreenState extends State<NameScreen> {
     fname   = sessionLogin.getString("fname");
     lname   = sessionLogin.getString("lname");
     company = sessionLogin.getString("company");
-    phone   = sessionLogin.getString("phone");
+    phonewithcode = sessionLogin.getString("phone").toString();
+    var ss = phonewithcode.split(",");
+    List<String> list1 = [];
+    ss.forEach((e) {
+      list1.add(e);
+    });
+    phone="${list1.elementAt(2)}";
+    code="${list1.elementAt(1)}";
     setState(() {
-      fnamectrl.text= fname;
+      firstnamectrl.text=fname;
       lnamectrl.text=lname;
+      emailctrl.text=email;
+      companyctrl.text=company;
+      phonectrl.text = phone;
+
     });
   }
   void changePhone() async{
@@ -66,16 +81,19 @@ class _NameScreenState extends State<NameScreen> {
     //here update company
     var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/updateprofile.php'),body:{
       'id_buzz':id.toString(),
-      'fname':fnamectrl.text.toString(),
+      'fname':firstnamectrl.text.toString(),
       'lname':lnamectrl.text.toString(),
-      'company':company.toString(),
-      'phone':phone.toString()
+      'company':companyctrl.text.toString(),
+      'phone': "+${code1},${code},${phonectrl.text.toString()}"
     });
     var res = jsonDecode(response.body);
     if(res=="Updated") {
       SharedPreferences sessionLogin = await SharedPreferences.getInstance();
-      sessionLogin.setString("fname",fnamectrl.text.toString());
-      sessionLogin.setString("lname",lnamectrl.text.toString());
+      sessionLogin.setString("fname","${firstnamectrl.text.toString()}");
+      sessionLogin.setString("lname","${lnamectrl.text.toString()}");
+      sessionLogin.setString("company",companyctrl.text.toString());
+      sessionLogin.setString("phone","+${code1},${code},${phonectrl.text.toString()}");
+
       Fluttertoast.showToast(msg: "company a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
     }
@@ -83,12 +101,20 @@ class _NameScreenState extends State<NameScreen> {
       processing = false;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
+          //automaticallyImplyLeading: false,
+          /* leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+          */
           title: Text("Edit profile ${fname} ${lname}"),
           actions: <Widget>[],
           centerTitle: true,
@@ -139,7 +165,7 @@ class _NameScreenState extends State<NameScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
-                            height: 120,
+                            height: 90,
                           ),
                           Form(
                             key: _keyreg,
@@ -154,7 +180,7 @@ class _NameScreenState extends State<NameScreen> {
                                           flex: 1,
                                           child: Container(
                                             child:  TextFormField(
-                                                controller: fnamectrl,
+                                                controller: firstnamectrl,
                                                 validator: (value) {
                                                   Pattern pattern = r"^\s*([A-Za-z]{1,}([\.,] |[-']|))\s*$";
 
@@ -213,7 +239,78 @@ class _NameScreenState extends State<NameScreen> {
                                       ]
                                   ),
                                   SizedBox(
-                                    height: 14,
+                                    height: 10,
+                                  ),
+                                  TextFormField(
+                                    enabled: false,
+                                      controller: emailctrl,
+                                      validator: (value) {
+                                        Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+                                        if (value == null || value.trim().isEmpty) {
+                                          return 'Champ obligatoire';
+                                        }
+                                        else{
+                                          RegExp regex =  RegExp(pattern.toString());
+                                          if(!regex.hasMatch(value)){
+                                            return 'Entrer une Adresse Email valide';
+                                          }
+                                        }
+                                        return null;
+                                      },
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: 'Adresse e-mail',
+                                        fillColor: Color(0xfff3f3f4),
+                                        filled: true,
+                                      )
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextFormField(
+                                      controller: companyctrl,
+                                      validator: (value) {
+                                        if (value == null || value.trim().isEmpty)
+                                        { return 'Champ obligatoire';}
+                                        return null;
+                                      },
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        hintText: 'Société',
+                                        fillColor: Color(0xfff3f3f4),
+                                        filled: true,
+                                      )
+                                  ),//Company
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  IntlPhoneField(
+                                    controller: phonectrl,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    invalidNumberMessage: ' Enter numéro de téléphone valide',
+                                    searchText: 'Rechercher',
+                                    keyboardType: TextInputType.phone,
+                                    validator: (value) {
+                                      if (value == null || value.trim().isEmpty)
+                                      { return 'Champ obligatoire';}
+                                      return null;},
+                                    decoration: const InputDecoration(
+                                      hintText: 'Numéro de téléphone',
+                                      fillColor: Color(0xfff3f3f4),
+                                      filled: true,
+                                    ),
+                                    initialCountryCode:code.toString(),
+                                    onCountryChanged: (phone) {
+                                      //print(phone.completeNumber);
+                                      setState(() {
+                                        code=phone.code;
+                                        code1=phone.dialCode;
+                                      });
+                                    },
+                                  ),//phone
+                                  SizedBox(
+                                    height: 10,
                                   ),
                                 ],
                               ),

@@ -2,9 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'editprofile/company_screen.dart';
-import 'editprofile/name_screen.dart';
-import 'editprofile/phone_screen.dart';
+import 'editProfil_screen.dart';
 import 'forgotPassEmail.dart';
 import 'forgotPassPhone.dart';
 
@@ -138,76 +136,14 @@ class _ParametreScreenState extends State<ParametreScreen> {
               leading: Icon(Icons.edit_outlined),
               title: Text('modifier le profil'),
               onTap: () {
-                dynamic popUpMenustate = _menuKey.currentState;
-                popUpMenustate.showButtonMenu();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => EditProfilScreen()));
               },
               trailing:Container(
-                margin: const EdgeInsets.only(right:0.0),
+                margin: const EdgeInsets.only(right:8.0),
                 child: Wrap(
                     children: <Widget>[
-                PopupMenuButton(
-                      // add icon, by default "3 dot" icon
-                       icon: Icon(Icons.keyboard_arrow_right),
-                        key: _menuKey,
-                        itemBuilder: (context){
-                          return [
-                            PopupMenuItem<int>(
-                              child:ListTile(
-                                leading: Icon(Icons.person),
-                                title: Text("modifier le nom et le prénom"),
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => NameScreen()));
-                                },
-                                trailing: Wrap(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.upload_sharp,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            PopupMenuItem<int>(
-                              child:ListTile(
-                                leading: Icon(Icons.home_work_rounded),
-                                title: Text("modifier l'entreprise"),
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => CompanyScreen()));
-                                },
-                                trailing: Wrap(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.upload_sharp,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            PopupMenuItem<int>(
-                              child:ListTile(
-                                leading: Icon(Icons.phone),
-                                title: Text("modifier le téléphone"),
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => PhoneScreen()));
-                                },
-                                trailing: Wrap(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.upload_sharp,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ];
-                        },
-                    ),
+                      Icon(Icons.keyboard_arrow_right),
                           ]
                   ),
               ),// icon-1// icon-2
