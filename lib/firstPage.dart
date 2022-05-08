@@ -90,7 +90,7 @@ class FirsPage extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Vous pouvez scannez le code QR\n ou le code-barre de votre visiteur',
+                'Vous pouvez scanner le code QR\n ou le code-barre de votre visiteur',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff692062),
@@ -151,7 +151,7 @@ class FirsPage extends StatelessWidget {
                       width * 0.04,
                       width * 0.01),
                   child:Text(
-                    'Sychronisez',
+                    'Synchroniser',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: kDarkBlueColor,

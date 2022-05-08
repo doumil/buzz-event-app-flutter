@@ -11,8 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:assessment_task/détails_screen.dart';
 import 'package:assessment_task/brouillon_screen.dart';
-import 'package:assessment_task/syncrohn_screen.dart';
-
+import 'package:assessment_task/synchron_screen.dart';
 import 'model/user_scanner.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -215,12 +214,12 @@ class _HomeScreen extends State<HomeScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.sync),
-                  title: Text('Syncrohniser'),
+                  title: Text('Synchroniser'),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => syncrohnScreen()));
+                            builder: (context) => SynchronScreen()));
                   },
                   trailing: Wrap(
                     children: <Widget>[
@@ -347,15 +346,15 @@ class _HomeScreen extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("Vous pouvez scannez maintenant",
+                    Text("Vous pouvez scanner maintenant",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xff682062),
+
                           fontFamily: "Poppins",
                         )),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeI     color: Color(0xff682062),nsets.symmetric(horizontal: 20.0),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

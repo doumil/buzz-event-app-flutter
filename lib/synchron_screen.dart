@@ -21,14 +21,14 @@ bool isLoading = true;
  int id=0;
 final TextEditingController eCtrl = new TextEditingController();
 
-class syncrohnScreen extends StatefulWidget {
-  const syncrohnScreen({Key? key}) : super(key: key);
+class SynchronScreen extends StatefulWidget {
+  const SynchronScreen({Key? key}) : super(key: key);
 
   @override
- _syncrohnScreenState createState() => _syncrohnScreenState();
+ _SynchronScreenState createState() => _SynchronScreenState();
 }
 
-class _syncrohnScreenState extends State<syncrohnScreen> {
+class _SynchronScreenState extends State<SynchronScreen> {
   void initState() {
      litems.clear();
      isLoading = true;

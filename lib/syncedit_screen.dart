@@ -1,4 +1,4 @@
-import 'package:assessment_task/syncrohn_screen.dart';
+import 'package:assessment_task/synchron_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -124,7 +124,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
     };
      await http.post(Uri.parse(url), body: data);
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => syncrohnScreen()));
+        MaterialPageRoute(builder: (context) => SynchronScreen()));
     setState(() {
     });
   }

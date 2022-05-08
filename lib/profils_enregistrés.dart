@@ -15,7 +15,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:assessment_task/syncrohn_screen.dart';
+import 'package:assessment_task/synchron_screen.dart';
 
 String _data = "";
 late SharedPreferences pr;
@@ -137,7 +137,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     Fluttertoast.showToast(
         msg: "contenu Enregistré avec succès", toastLength: Toast.LENGTH_SHORT);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => syncrohnScreen()));
+        context, MaterialPageRoute(builder: (context) => SynchronScreen()));
     if (this.mounted) {
       setState(() {});
     }
@@ -166,7 +166,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
               PopupMenuItem<int>(
                 child: ListTile(
                   leading: Icon(Icons.sync_sharp),
-                  title: Text("syncroniser"),
+                  title: Text("Synchroniser"),
                   onTap: () {
                     _sync();
                   },
