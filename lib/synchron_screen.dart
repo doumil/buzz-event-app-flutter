@@ -140,7 +140,7 @@ class _SynchronScreenState extends State<SynchronScreen> {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text("Syncrohniser"),
+        title: Text("Synchroniser"),
         actions: <Widget>[
           PopupMenuButton(
             // add icon, by default "3 dot" icon

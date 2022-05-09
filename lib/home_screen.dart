@@ -350,11 +350,11 @@ class _HomeScreen extends State<HomeScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
-
+                          color: Color(0xff682062),
                           fontFamily: "Poppins",
                         )),
                     Padding(
-                      padding: const EdgeI     color: Color(0xff682062),nsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
