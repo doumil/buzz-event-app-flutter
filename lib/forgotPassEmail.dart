@@ -61,7 +61,7 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
       print(int.parse(res['id']));
       //save code to shared preference
       saveInfo(int.parse(res['id']),res['email']);
-      Fluttertoast.showToast(msg: "Vérifiez votre boîte de réception",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      Fluttertoast.showToast(msg: "Vérifiez votre boîte de réception",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
       Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
       // send code to box mail
       sendMail(codeReset);
@@ -71,11 +71,11 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
     });
     }
   sendMail(int ccReset) async {
-    String username = 'yassinedoumil96@gmail.com';
-    String password = 'jysjamalyassine9669.com';
+    String username = 'buzzeventteam@gmail.com';
+    String password = 'okysolutions2022';
     final smtpServer = gmail(username, password);
     final message = Message()
-      ..from = Address(username, 'team buzzevvent')
+      ..from = Address(username, 'team Buzzevent')
       ..recipients.add(emailctrl.text.toString())
       ..subject = 'Reset Password verification'
       ..html = '''<td align='center'>
@@ -164,7 +164,7 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
                             <td align='center' style='padding:16px 0 0 0;text-align:center'>
 
                                 <div class='container'>
-                                    <p> ${DateTime.now().hour}:${DateTime.now().minute} Copyrights © 2020  </p>
+                                    <p>  Copyrights © 2020  </p>
                                 </div>
                             </td>
                     </table>

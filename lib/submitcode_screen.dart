@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
-import 'package:assessment_task/forgotPassEmail.dart';
 import 'package:assessment_task/reset_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,13 +21,25 @@ class Verificatoin extends StatefulWidget {
 }
 class _VerificatoinState extends State<Verificatoin> {
   late var id_buzz;
-  late String email="";
-  late String phone="";
+  late String email="",secemail="",secphone="";
+  late String phone="0000";
   getCodereset() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     id_buzz = sessionLogin.getInt("id_buzz");
     email   = sessionLogin.getString("email").toString();
     phone   = sessionLogin.getString("phone").toString();
+    if(email!="") {
+      secemail = "${email.substring(0, 2)}***********@gmail.com";
+    }
+    else if(phone!="") {
+      var ss = phone.split(",");
+      List<String> list1 = [];
+      ss.forEach((e) {
+        list1.add(e);
+      });
+      var pp="${list1.elementAt(2)}";
+      secphone="0${pp.substring(0, 2)}*****";
+    }
   }
   bool _isResendAgain = false;
   bool _isVerified = false;
@@ -83,17 +94,113 @@ class _VerificatoinState extends State<Verificatoin> {
     }
   }
   sendPhone(int ccReset) async {
-    print("suc");
+    print(phone);
+    print(secphone);
   }
   sendMail(int ccReset) async {
-    String username = 'yassinedoumil96@gmail.com';
-    String password = 'jysjamalyassine9669.com';
+    String username = 'buzzeventteam@gmail.com';
+    String password = 'okysolutions2022';
     final smtpServer = gmail(username, password);
     final message = Message()
-      ..from = Address(username, 'team buzzevvent')
-      ..recipients.add(email)
-      ..subject = 'Reset Password verification : ${DateTime.now().hour}:${DateTime.now().minute}'
-      ..html = "<h1>Votre ocde est :</h1>\n<p>${ccReset}</p>";
+      ..from = Address(username, 'team Buzzevent')
+      ..recipients.add(email.toString())
+      ..subject = 'Reset Password verification'
+      ..html = '''<td align='center'>
+    <center style='width:100%'>
+        <table role='presentation' border='0' class='m_8320516796181038697phoenix-email-container' cellspacing='0' cellpadding='0' width='512' bgcolor='#FFFFFF'
+               style='background-color:#ffffff;margin:0 auto;max-width:512px;width:inherit'>
+            <tbody>
+            <tr>
+                <td bgcolor='#692062' style='background-color:#692062;padding:12px;border-bottom:1px solid #ececec'>
+                    <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%' style='width:100%!important;min-width:100%!important'>
+                        <tbody>
+                        <tr>
+                            <td align='left' valign='middle'>
+                                <a href='' style='color:#0073b1;display:inline-block;text-decoration:none' target='_blank' data-saferedirecturl=''>
+                                    <img alt='Buzzevent' border='0' src='https://buzzevents.co/frontnew/images/logo-buzzeventsf.png' height='50' width='200' style='outline:none;color:#ffffff;text-decoration:none' class='CToWUd'>
+                                </a>
+                            </td>
+                            <td valign='middle' width='100%' align='right'><a href='' target='_blank' data-saferedirecturl=''>
+                                <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </a>
+                            </td>
+                            <td width='1'>&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'>
+                        <tbody>
+                        <tr>
+                            <td style='padding:20px 24px 10px 24px'> <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td style='padding-bottom:20px'>
+                                <h2 style='margin:0;color:#262626;font-weight:700;font-size:20px;line-height:1.2'>
+                                    Bounjour
+                                </h2>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'>
+                                    <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                        Nous avons reçu une demande de réinitialisation du mot de passe de votre  
+                                         compte <span class='il'> Buzzevvent.</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'>
+                                    <h2 style='margin:0;color:#262626;font-weight:700;font-size:24px;line-height:1.167'>
+                                        ${ccReset}
+                                    </h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'>
+                                    <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                       Entrez ce code pour terminer la réinitialisation.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'> <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                    Merci de nous aider à sécuriser votre compte.
+                                </p>
+                                    <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                    L'équipe Buzzevvent
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table role='presentation' border='0' cellspacing='0'  cellpadding='0' width='100%'  bgcolor='#EDF0F3' align='center' style='background-color:#edf0f3;padding:0 24px;color:#6a6c6d;text-align:center'>
+                        <tbody>
+                        <tr>
+                            <td align='center' style='padding:16px 0 0 0;text-align:center'>
+
+                                <div class='container'>
+                                    <p>  Copyrights © 2020  </p>
+                                </div>
+                            </td>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </center>
+</td>''';
     try {
       final sendReport = await send(message, smtpServer);
       print('Message sent: ' + sendReport.toString());
@@ -105,11 +212,9 @@ class _VerificatoinState extends State<Verificatoin> {
     }
     var connection = PersistentConnection(smtpServer);
     // send the equivalent message
-    await connection.send(message);
+    // await connection.send(message);
     // close the connection
     await connection.close();
-    setState(() {
-    });
   }
   verify() async{
     setState(() {
@@ -128,14 +233,14 @@ class _VerificatoinState extends State<Verificatoin> {
       setState(() {
         _isLoading = false;
         _isVerified = true;
-        Fluttertoast.showToast(msg: "opération réussie",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+        Fluttertoast.showToast(msg: "opération réussie",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
         Navigator.push(context, MaterialPageRoute(builder: (context) => ResetScreen()));
       });
     }
     else{
       _isLoading = false;
       _isVerified = false;
-      Fluttertoast.showToast(msg: "code incorrect réessayez",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      Fluttertoast.showToast(msg: "code incorrect réessayez",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
       //Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPass()));
     }
     //});
@@ -238,7 +343,7 @@ class _VerificatoinState extends State<Verificatoin> {
                       FadeInDown(
                         delay: Duration(milliseconds: 500),
                         duration: Duration(milliseconds: 500),
-                        child: Text("Veuillez entrer le code à 6 chiffres envoyé à\n ${email}${phone}",
+                        child: Text("Veuillez entrer le code à 6 chiffres envoyé à\n ${secemail}${secphone}",
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 16, color: Colors.grey.shade500, height: 1.5),),
                       ),
@@ -268,13 +373,13 @@ class _VerificatoinState extends State<Verificatoin> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Don't resive the OTP?", style: TextStyle(fontSize: 14, color: Colors.grey.shade500),),
+                            Text("Ne pas recevoir l'OTP?", style: TextStyle(fontSize: 14, color: Colors.grey.shade500),),
                             TextButton(
                                 onPressed: () {
                                   if (_isResendAgain) return;
                                   resend();
                                 },
-                                child: Text(_isResendAgain ? "Try again in " + _start.toString() : "Resend", style: TextStyle(color: Colors.blueAccent),)
+                                child: Text(_isResendAgain ? "Réessayez dans " + _start.toString() : "Renvoyer", style: TextStyle(color: Color(0xff692062)),)
                             )
                           ],
                         ),
@@ -305,7 +410,7 @@ class _VerificatoinState extends State<Verificatoin> {
                               strokeWidth: 3,
                               color: Colors.black,
                             ),
-                          ) : _isVerified ? Icon(Icons.check_circle, color: Colors.white, size: 30,) : Text("Verify", style: TextStyle(color: Colors.white),),
+                          ) : _isVerified ? Icon(Icons.check_circle, color: Colors.white, size: 30,) : Text("Vérifier", style: TextStyle(color: Colors.white),),
                         ),
                       )
                     ],)

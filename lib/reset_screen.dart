@@ -65,7 +65,7 @@ class _ResetScreenState extends State<ResetScreen> {
     if(res=="Updated") {
       setState(() {
         processing=false;
-        Fluttertoast.showToast(msg: "le mot de passe a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+        Fluttertoast.showToast(msg: "le mot de passe a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
       });
     }
@@ -179,7 +179,9 @@ class _ResetScreenState extends State<ResetScreen> {
                                                   _isVisible = !_isVisible;
                                                 });
                                               },
-                                              icon: _isVisible ? Icon(Icons.visibility, color: Colors.deepPurple) : Icon(Icons.visibility_off, color: Colors.black12),
+                                              icon: _isVisible ? Icon(Icons.visibility,
+                                                  color:  Color(0xff692062)) :
+                                              Icon(Icons.visibility_off, color: Colors.black12),
                                             ),
                                             hintText: 'Mot de passe',
                                             fillColor: Color(0xfff3f3f4),
@@ -206,7 +208,10 @@ class _ResetScreenState extends State<ResetScreen> {
                                                   _isVisible = !_isVisible;
                                                 });
                                               },
-                                              icon: _isVisible ? Icon(Icons.visibility, color: Colors.deepPurple) : Icon(Icons.visibility_off, color: Colors.black12),
+                                              icon: _isVisible ? Icon(Icons.visibility,
+                                                  color:  Color(0xff692062))
+                                                  : Icon(Icons.visibility_off,
+                                                  color: Colors.black12),
                                             ),
                                             hintText: 'Confirmez mot de passe',
                                             fillColor: Color(0xfff3f3f4),

@@ -59,7 +59,7 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
       print(int.parse(res['id']));
       //save code to shared preference
       saveInfo(int.parse(res['id']),res['phone']);
-      Fluttertoast.showToast(msg: "Vérifiez votre sms",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      Fluttertoast.showToast(msg: "Vérifiez votre sms",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
       Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
       // send code to box mail
       sendSms(codeReset);

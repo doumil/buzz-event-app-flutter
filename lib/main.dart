@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
-import 'login_screen.dart';
 
 
 
@@ -14,7 +13,8 @@ Future<void> main() async {
   HttpOverrides.global = new PostHttpOverrides();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
-  runApp(MaterialApp(home: email == null ? MyApp() : HomeScreen()));
+  var id=prefs.getInt('id');
+  runApp(MaterialApp(home: email == null || id==null? MyApp() : HomeScreen()));
 }
 
 class MyApp extends StatelessWidget {

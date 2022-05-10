@@ -1,11 +1,8 @@
 import 'dart:math';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'Widget/customClipper.dart';
-import 'home_screen.dart';
 import 'login_screen.dart';
-import 'signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -343,7 +340,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   _isVisible = !_isVisible;
                                                 });
                                               },
-                                              icon: _isVisible ? Icon(Icons.visibility, color: Colors.deepPurple) : Icon(Icons.visibility_off, color: Colors.black12),
+                                              icon: _isVisible ? Icon(Icons.visibility,
+                                                  color: Color(0xff692062))
+                                                  : Icon(Icons.visibility_off, color: Colors.black12),
                                             ),
                                             hintText: 'Mot de passe',
                                             fillColor: Color(0xfff3f3f4),
@@ -370,7 +369,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   _isVisible = !_isVisible;
                                                 });
                                               },
-                                              icon: _isVisible ? Icon(Icons.visibility, color: Colors.deepPurple) : Icon(Icons.visibility_off, color: Colors.black12),
+                                              icon: _isVisible ? Icon(Icons.visibility,
+                                                  color: Color(0xff692062))
+                                                  : Icon(Icons.visibility_off, color: Colors.black12),
                                             ),
                                             hintText: 'Confirmez mot de passe',
                                             fillColor: Color(0xfff3f3f4),

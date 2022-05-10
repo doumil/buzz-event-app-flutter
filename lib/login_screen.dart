@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
-import 'package:assessment_task/main.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:flutter/services.dart';
 import 'forgotPassEmail.dart';
@@ -50,7 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
     emailctrl = TextEditingController();
     passwordctrl = TextEditingController();
   }
-
   void changeState() {
     if (signin) {
       setState(() {
@@ -129,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           new FlatButton(
             onPressed: () =>SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: new Text('Oui'),
           ),
         ],
       ),
@@ -276,8 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     },
                                                     icon: _isVisible
                                                         ? Icon(Icons.visibility,
-                                                            color:
-                                                                Colors.deepPurple)
+                                                            color:  Color(0xff692062))
                                                         : Icon(Icons.visibility_off,
                                                             color: Colors.black12),
                                                   ),

@@ -94,7 +94,7 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
       sessionLogin.setString("company",companyctrl.text.toString());
       sessionLogin.setString("phone","+${code1},${code},${phonectrl.text.toString()}");
 
-      Fluttertoast.showToast(msg: "company a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+      Fluttertoast.showToast(msg: "company a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
     }
     setState(() {
