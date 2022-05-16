@@ -96,12 +96,12 @@ class _SynchronScreenState extends State<SynchronScreen> {
     for (var i = 1; i <= listCsv.length; i++) {
       sheet
           .getRangeByName('A${i}')
-          .setText(listCsv[i - 1].firstname.toString());
-      sheet.getRangeByName('B${i}').setText(listCsv[i - 1].lastname.toString());
+          .setText(listCsv[i - 1].lastname.toString());
+      sheet.getRangeByName('B${i}').setText(listCsv[i - 1].firstname.toString());
       sheet.getRangeByName('C${i}').setText(listCsv[i - 1].company.toString());
-      sheet.getRangeByName('D${i}').setText(listCsv[i - 1].email.toString());
-      sheet.getRangeByName('E${i}').setText(listCsv[i - 1].phone.toString());
-      sheet.getRangeByName('F${i}').setText(listCsv[i - 1].adresse.toString());
+      sheet.getRangeByName('D${i}').setText(listCsv[i - 1].profession.toString());
+      sheet.getRangeByName('E${i}').setText(listCsv[i - 1].email.toString());
+      sheet.getRangeByName('F${i}').setText(listCsv[i - 1].phone.toString());
       sheet
           .getRangeByName('G${i}')
           .setText(listCsv[i - 1].evolution.toString());
@@ -206,7 +206,7 @@ class _SynchronScreenState extends State<SynchronScreen> {
                     IconButton(
                         onPressed: () async {
                           String userToBr =
-                          ("${litems[position].firstname}:${litems[position].lastname}:${litems[position].company}:${litems[position].email}:${litems[position].phone}:${litems[position].adresse}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
+                          ("${litems[position].lastname}:${litems[position].firstname}:${litems[position].company}:${litems[position].profession}:${litems[position].email}:${litems[position].phone}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
                           prefs = await SharedPreferences.getInstance();
                           prefs.setString("EditDataSync", userToBr);
                           Navigator.push(

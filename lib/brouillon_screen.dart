@@ -109,12 +109,12 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
                             onPressed: () async {
                               var db = new DatabaseHelper();
                               Userscan userToBr = Userscan(
-                                  litems[position].firstname,
                                   litems[position].lastname,
+                                  litems[position].firstname,
                                   litems[position].company,
+                                  litems[position].profession,
                                   litems[position].email,
                                   litems[position].phone,
-                                  litems[position].adresse,
                                   litems[position].evolution,
                                   litems[position].action,
                                   litems[position].notes,
@@ -139,7 +139,7 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
                         IconButton(
                             onPressed: () async {
                               String userToBr =
-                              ("${litems[position].firstname}:${litems[position].lastname}:${litems[position].company}:${litems[position].email}:${litems[position].phone}:${litems[position].adresse}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
+                              ("${litems[position].lastname}:${litems[position].firstname}:${litems[position].company}:${litems[position].profession}:${litems[position].email}:${litems[position].phone}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
                               prefs = await SharedPreferences.getInstance();
                               prefs.setString("EditData", userToBr);
                               Navigator.push(

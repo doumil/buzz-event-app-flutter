@@ -404,7 +404,7 @@ class _EditScreenState extends State<EditScreen> {
                                                             EdgeInsets.only(
                                                                 right: 5),
                                                             child: Icon(
-                                                              Icons.location_on,
+                                                              Icons.work,
                                                               size: height *
                                                                   0.023,
                                                               color:
@@ -415,7 +415,7 @@ class _EditScreenState extends State<EditScreen> {
                                                           child: Container(
                                                             width: width * 0.4,
                                                             child: Text(
-                                                              "${user1.adresse}",
+                                                              "${user1.profession}",
                                                               style: TextStyle(
                                                                   fontSize:
                                                                   height *

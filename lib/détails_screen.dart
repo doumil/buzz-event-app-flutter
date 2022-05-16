@@ -35,7 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("Data") ?? '');
-    var ss = _data.split(":");
+    var ss = _data.split(";");
     List<String> list1 = [];
     ss.forEach((e) {
       list1.add(e);
@@ -369,7 +369,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                   EdgeInsets.only(
                                                                       right: 5),
                                                               child: Icon(
-                                                                Icons.location_on,
+                                                                Icons.work,
                                                                 size: height *
                                                                     0.023,
                                                                 color:
@@ -380,7 +380,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                             child: Container(
                                                               width: width * 0.4,
                                                               child: Text(
-                                                                "${user1.adresse}",
+                                                                "${user1.profession}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         height *

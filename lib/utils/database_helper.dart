@@ -14,7 +14,7 @@ class DatabaseHelper{
   final String company='company';
   final String columnEmail = 'email';
   final String phone='phone';
-  final String adresse= 'adresse';
+  final String profession= 'profession';
   final String evolution= 'evolution';
   final String action= 'action';
   final String notes= 'notes';
@@ -26,17 +26,17 @@ class DatabaseHelper{
   }
   intDB() async{
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path , 'datascanner.db');
+    String path = join(documentDirectory.path , 'scannerdb.db');
     var myOwnDB = await openDatabase(path,version: 1,
         onCreate:(Database db , int newVersion) async{
       Batch batch= db.batch();
           var sql = "CREATE TABLE $brouillonTable ($columnId INTEGER  auto_increment,"
-              " $columnUserFirstName TEXT, $columnLastName TEXT,$company TEXT,"
-              " $columnEmail TEXT,$phone TEXT,$adresse TEXT,$evolution TEXT,"
+              " $columnLastName TEXT, $columnUserFirstName TEXT,$company TEXT,"
+              " $profession TEXT,$columnEmail TEXT,$phone TEXT,$evolution TEXT,"
               "$action TEXT,$notes TEXT,$created TEXT,$updated TEXT)";
           var sql1 = "CREATE TABLE $userTable ($columnId INTEGER  auto_increment,"
-              " $columnUserFirstName TEXT, $columnLastName TEXT,$company TEXT,"
-              " $columnEmail TEXT,$phone TEXT,$adresse TEXT,$evolution TEXT,"
+              " $columnLastName TEXT, $columnUserFirstName TEXT,$company TEXT,"
+              " $profession TEXT,$columnEmail TEXT,$phone TEXT,$evolution TEXT,"
               "$action TEXT,$notes TEXT,$created TEXT,$updated TEXT)";
             db.execute(sql);
             db.execute(sql1);
@@ -61,7 +61,7 @@ class DatabaseHelper{
     final dbList = await db;
     final List<Map<String, dynamic>> maps = await dbList.query("$userTable");
     return List.generate(maps.length, (i) {
-      return Userscan(maps[i]['firstname'],maps[i]['lastname'],maps[i]['company'],maps[i]['email'],maps[i]['phone'],maps[i]['adresse'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes'],maps[i]['created'],maps[i]['updated']);
+      return Userscan(maps[i]['lastname'],maps[i]['firstname'],maps[i]['company'],maps[i]['profession'],maps[i]['email'],maps[i]['phone'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes'],maps[i]['created'],maps[i]['updated']);
     });
   }
   //get list of brouillon
@@ -69,7 +69,7 @@ class DatabaseHelper{
     final dbList = await db;
     final List<Map<String, dynamic>> maps = await dbList.query("$brouillonTable");
     return List.generate(maps.length, (i) {
-      return Userscan(maps[i]['firstname'],maps[i]['lastname'],maps[i]['company'],maps[i]['email'],maps[i]['phone'],maps[i]['adresse'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes'],maps[i]['created'],maps[i]['updated']);
+      return Userscan(maps[i]['lastname'],maps[i]['firstname'],maps[i]['company'],maps[i]['profession'],maps[i]['email'],maps[i]['phone'],maps[i]['evolution'],maps[i]['action'],maps[i]['notes'],maps[i]['created'],maps[i]['updated']);
     });
   }
   // select all users

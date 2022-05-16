@@ -37,7 +37,7 @@ class _HomeScreen extends State<HomeScreen> {
     prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", _data);
     if (_data != '-1') {
-      var ss = _data.split(":");
+      var ss = _data.split(";");
       List<String> list1 = [];
       ss.forEach((e) {
         list1.add(e);

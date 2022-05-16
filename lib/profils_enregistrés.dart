@@ -74,12 +74,12 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     for (var i = 1; i <= listCsv.length; i++) {
       sheet
           .getRangeByName('A${i}')
-          .setText(listCsv[i - 1].firstname.toString());
-      sheet.getRangeByName('B${i}').setText(listCsv[i - 1].lastname.toString());
+          .setText(listCsv[i - 1].lastname.toString());
+      sheet.getRangeByName('B${i}').setText(listCsv[i - 1].firstname.toString());
       sheet.getRangeByName('C${i}').setText(listCsv[i - 1].company.toString());
-      sheet.getRangeByName('D${i}').setText(listCsv[i - 1].email.toString());
-      sheet.getRangeByName('E${i}').setText(listCsv[i - 1].phone.toString());
-      sheet.getRangeByName('F${i}').setText(listCsv[i - 1].adresse.toString());
+      sheet.getRangeByName('D${i}').setText(listCsv[i - 1].profession.toString());
+      sheet.getRangeByName('E${i}').setText(listCsv[i - 1].email.toString());
+      sheet.getRangeByName('F${i}').setText(listCsv[i - 1].phone.toString());
       sheet
           .getRangeByName('G${i}')
           .setText(listCsv[i - 1].evolution.toString());
@@ -114,12 +114,12 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     var url = "https://okydigital.com/buzz_login/sync.php";
     for (var i = 0; i < litems.length; i++) {
       var dt = {
-        "firstname": litems[i].firstname.toString(),
-        "lastname": litems[i].lastname.toString(),
+        "lastname": litems[i].firstname.toString(),
+        "firsname": litems[i].lastname.toString(),
         "company": litems[i].company.toString(),
+        "profession": litems[i].profession.toString(),
         "email": litems[i].email.toString(),
         "phone": litems[i].phone.toString(),
-        "adresse": litems[i].adresse.toString(),
         "evolution": litems[i].evolution.toString(),
         "action": litems[i].action.toString(),
         "notes": litems[i].notes.toString(),
@@ -241,7 +241,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                         IconButton(
                             onPressed: () async {
                               String userToBr =
-                                  ("${litems[position].firstname}:${litems[position].lastname}:${litems[position].company}:${litems[position].email}:${litems[position].phone}:${litems[position].adresse}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
+                                  ("${litems[position].lastname}:${litems[position].firstname}:${litems[position].company}:${litems[position].profession}:${litems[position].email}:${litems[position].phone}:${litems[position].evolution}:${litems[position].action}:${litems[position].notes}:${litems[position].created}");
                               prefs = await SharedPreferences.getInstance();
                               prefs.setString("EditData", userToBr);
                               Navigator.push(
@@ -254,12 +254,12 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
                             onPressed: () async {
                               var db = new DatabaseHelper();
                               Userscan userToBr = Userscan(
-                                  litems[position].firstname,
                                   litems[position].lastname,
+                                  litems[position].firstname,
                                   litems[position].company,
+                                  litems[position].profession,
                                   litems[position].email,
                                   litems[position].phone,
-                                  litems[position].adresse,
                                   litems[position].evolution,
                                   litems[position].action,
                                   litems[position].notes,

@@ -381,7 +381,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                             child: Container(
                                                               width: width * 0.4,
                                                               child: Text(
-                                                                "${user1.adresse}",
+                                                                "${user1.profession}",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                     height *
