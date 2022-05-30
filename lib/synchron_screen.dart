@@ -79,12 +79,12 @@ class _SynchronScreenState extends State<SynchronScreen> {
     final Workbook workbook = Workbook();
     final Worksheet sheet = workbook.worksheets[0];
     Userscan userCsv = Userscan(
-        'prénom',
         'nom',
+        'prénom',
         'company',
+        'profession',
         'email',
         'téléphone',
-        'adresse',
         'evolution',
         'action',
         'notes',

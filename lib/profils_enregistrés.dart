@@ -57,12 +57,12 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     final Workbook workbook = Workbook();
     final Worksheet sheet = workbook.worksheets[0];
     Userscan userCsv = Userscan(
-        'prénom',
         'nom',
+        'prénom',
         'company',
+        'profession',
         'email',
         'téléphone',
-        'adresse',
         'evolution',
         'action',
         'notes',
@@ -114,8 +114,8 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     var url = "https://okydigital.com/buzz_login/sync.php";
     for (var i = 0; i < litems.length; i++) {
       var dt = {
-        "lastname": litems[i].firstname.toString(),
-        "firsname": litems[i].lastname.toString(),
+        "lastname": litems[i].lastname.toString(),
+        "firstname": litems[i].firstname.toString(),
         "company": litems[i].company.toString(),
         "profession": litems[i].profession.toString(),
         "email": litems[i].email.toString(),
