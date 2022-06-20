@@ -1,6 +1,12 @@
+import 'package:assessment_task/profils_enregistr%C3%A9s.dart';
+import 'package:assessment_task/utils/database_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'détails_screen.dart';
+import 'model/user_scanner.dart';
 
 class QrcodeScreen extends StatefulWidget {
   const QrcodeScreen({Key? key}) : super(key: key);
@@ -24,6 +30,13 @@ class QrcodeScreen extends StatefulWidget {
 }
 
 class _QrcodeScreenState extends State<QrcodeScreen> {
+  var response;
+  var updated="";
+  var db = new DatabaseHelper();
+  String _data = "";
+  List<String> litems = [];
+  Userscan user1 = Userscan('','','','','','','','','','','');
+  late SharedPreferences prefs;
   MobileScannerController cameraController = MobileScannerController();
   bool _screenOpened = false;
   @override
@@ -95,64 +108,112 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
       ),
     );
   }
-  void _foundBarcode(Barcode barcode, MobileScannerArguments? args) {
+  void _foundBarcode(Barcode barcode, MobileScannerArguments? args) async{
     /// open screen
     if (!_screenOpened) {
-      final String code = barcode.rawValue ?? "---";
+      final String code = barcode.rawValue ?? "-1";
+      print(code);
       debugPrint('Barcode found! $code');
       _screenOpened = true;
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          FoundCodeScreen(screenClosed: _screenWasClosed, value: code),));
+      int _count=0;
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString("Data", code.toString());
+      if (code != '-1') {
+        var ss = code.split(";");
+        List<String> list1 = [];
+        ss.forEach((e) {
+          list1.add(e);
+          _count++;
+        });
+        print(_count);
+        print(code);
+        if (_count == 6) {
+          print(_count);
+          //Userscan user1=Userscan('khalid','fayzi','ok solution','faw@gmail.com','068798738','hay hassani casablanca','Evo','Act','Not');
+          user1 = Userscan(
+              list1.elementAt(0),
+              list1.elementAt(1),
+              list1.elementAt(2),
+              list1.elementAt(3),
+              list1.elementAt(4),
+              list1.elementAt(5),
+              '',
+              '',
+              '',
+              '',
+              '');
+          response = await db.getUsersByemail(user1.email.toString());
+          print("------------------------------");
+          print(response);
+          print("------------------------------");
+          if (response.toString() == "[]") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DetailsScreen()));
+          }
+          else if (response.toString() != "[]") {
+            user1.evolution = response[0]["evolution"];
+            user1.action = response[0]["action"];
+            user1.notes = response[0]["notes"];
+            user1.created = response[0]["created"];
+            user1.updated = "${DateTime
+                .now()
+                .day}/${DateTime
+                .now()
+                .month}/${DateTime
+                .now()
+                .year} ${DateTime
+                .now()
+                .hour}:${DateTime
+                .now()
+                .minute}";
+            db.updateUser(user1, user1.email);
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) => profilsEnregistresScreen()));
+          }
+        }
+        else{
+          showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('erreur'),
+              content:  Text('QR code format invalid\n\n'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'OK'),
+                  child:
+                  const Text('OK', style: TextStyle(color: Color(0xff803b7a))),
+                ),
+              ],
+            ),
+          );
+        }
+      }else {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('erreur'),
+            content: const Text(
+                'La devise n\'a pas été complétée avec succès. Veuillez réessayer'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child:
+                const Text('OK', style: TextStyle(color: Color(0xff803b7a))),
+              ),
+            ],
+          ),
+        );
+      }
+
+
     }
   }
-
   void _screenWasClosed() {
     _screenOpened = false;
   }
 }
 
-class FoundCodeScreen extends StatefulWidget {
-  final String value;
-  final Function() screenClosed;
-  const FoundCodeScreen({
-    Key? key,
-    required this.value,
-    required this.screenClosed,
-  }) : super(key: key);
 
-  @override
-  State<FoundCodeScreen> createState() => _FoundCodeScreenState();
-}
-
-class _FoundCodeScreenState extends State<FoundCodeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Found Code"),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            widget.screenClosed();
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back_outlined,),
-        ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Scanned Code:", style: TextStyle(fontSize: 20,),),
-              SizedBox(height: 20,),
-              Text(widget.value, style: TextStyle(fontSize: 16,),),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
