@@ -54,6 +54,7 @@ dependencies:
   universal_html: 1.2.4
   intl_phone_field:
   flutter_native_splash:
+  mobile_scanner:
   # run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
 dev_dependencies:
   flutter_test:

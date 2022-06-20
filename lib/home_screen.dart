@@ -1,4 +1,5 @@
 import 'package:assessment_task/parametre.dart';
+import 'package:assessment_task/qr_screen.dart';
 import 'package:assessment_task/utils/database_helper.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:assessment_task/profil_screen.dart';
@@ -29,7 +30,12 @@ class _HomeScreen extends State<HomeScreen> {
   List<String> litems = [];
   Userscan user1 = Userscan('','','','','','','','','','','');
   late SharedPreferences prefs;
-  _scan() async {
+  _scan(){
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => QrcodeScreen()));
+  }
+  _scan1() async {
     int _count=0;
     await FlutterBarcodeScanner.scanBarcode(
             "#000000", "Annuler", true, ScanMode.QR)
