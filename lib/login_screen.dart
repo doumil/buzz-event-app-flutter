@@ -121,11 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
         title: new Text('Êtes-vous sûr'),
         content: new Text('Voulez-vous quitter une application'),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text('Non'),
           ),
-          new FlatButton(
+          new TextButton(
             onPressed: () =>SystemNavigator.pop(),
             child: new Text('Oui'),
           ),
@@ -341,12 +341,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   SizedBox(
                                                     height: 10,
                                                   ),
-                                                  RaisedButton (
-                                                    color: const Color(0xff692062),
-                                                    shape:const RoundedRectangleBorder(
-                                                        side: BorderSide(width: 2,color: Color(0xff692062), ) ,
-                                                        borderRadius: BorderRadius.all(Radius.circular(8.0))
-                                                    ) ,
+                                                  ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      shape:const RoundedRectangleBorder(
+                                                          side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                                          borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                                      ) ,
+                                                      primary: Color(0xff692062),
+                                                    ),
+                                                   // color: const Color(0xff692062),
                                                     onPressed: ()  {
                                                       Navigator.push(
                                                           context, MaterialPageRoute(builder: (context) => ForgotPassPhone()));
@@ -357,12 +360,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   SizedBox(
                                                     height: 14,
                                                   ),
-                                                  RaisedButton (
-                                                    color: Colors.white,
-                                                    shape:const RoundedRectangleBorder(
-                                                        side: BorderSide(width: 2,color: Color(0xff692062), ) ,
-                                                        borderRadius: BorderRadius.all(Radius.circular(8.0))
-                                                    ) ,
+                                                  ElevatedButton (
+                                                    style: ElevatedButton.styleFrom(
+                                                      shape:const RoundedRectangleBorder(
+                                                          side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                                          borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                                      ) ,
+                                                      primary: Colors.white,
+                                                    ),
+                                                   // color: Colors.white,
                                                     onPressed: ()  {
                                                       Navigator.push(
                                                           context, MaterialPageRoute(builder: (context) => ForgotPassEmail()));

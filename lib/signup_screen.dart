@@ -101,11 +101,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title: new Text('Êtes-vous sûr'),
         content: new Text('Voulez-vous quitter une application'),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text('Non'),
           ),
-          new FlatButton(
+          new TextButton(
             onPressed: () =>SystemNavigator.pop(),
             child: new Text('Oui '),
           ),
@@ -303,7 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       searchText: 'Rechercher',
                                       keyboardType: TextInputType.phone,
                                       validator: (value) {
-                                        if (value == null || value.trim().isEmpty)
+                                        if (value == null || value.toString().trim().isEmpty)
                                         { return 'Champ obligatoire';}
                                         return null;},
                                       decoration: const InputDecoration(

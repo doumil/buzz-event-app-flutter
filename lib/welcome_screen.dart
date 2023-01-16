@@ -152,11 +152,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         title: new Text('Êtes-vous sûr'),
         content: new Text('Voulez-vous quitter une application'),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text('Non'),
           ),
-          new FlatButton(
+          new TextButton(
             onPressed: () =>SystemNavigator.pop(),
             child: new Text('Oui '),
           ),
@@ -203,12 +203,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     flex:6,
                     child: Container(
                       height:MediaQuery.of(context).size.height*0.03+30,
-                      child: RaisedButton (
-                        color: const Color(0xff692062),
-                        shape:const RoundedRectangleBorder(
-                            side: BorderSide(width: 2,color: Color(0xff692062), ) ,
-                            borderRadius: BorderRadius.all(Radius.circular(5.0))
-                        ) ,
+                      child: ElevatedButton (
+                        style: ElevatedButton.styleFrom(
+                          shape:const RoundedRectangleBorder(
+                              side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                              borderRadius: BorderRadius.all(Radius.circular(5.0))
+                          ) ,
+                          primary: Color(0xff692062),
+                        ),
+                        //color: const Color(0xff692062),
                         onPressed: ()  {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -239,12 +242,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     flex:6,
                     child: Container(
                       height:MediaQuery.of(context).size.height*0.03+30,
-                      child: RaisedButton (
-                        color: Colors.white,
-                        shape:const RoundedRectangleBorder(
-                            side: BorderSide(width: 2,color: Color(0xff692062), ) ,
-                            borderRadius: BorderRadius.all(Radius.circular(5.0))
-                        ) ,
+                      child: ElevatedButton (
+                        style: ElevatedButton.styleFrom(
+                          shape:const RoundedRectangleBorder(
+                              side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                              borderRadius: BorderRadius.all(Radius.circular(5.0))
+                          ) ,
+                          primary:Colors.white,
+                        ),
+                       // color: Colors.white,
                         onPressed: ()  {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) => SignUpScreen()));
@@ -276,11 +282,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Container(
                 width:300,
                 height: 60,
-                child: RaisedButton (
-                  color: const Color(0xff0e76a8),
-                  shape:const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0))
-                  ) ,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape:const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))
+                    ) ,
+                    primary: Color(0xff0e76a8),
+                  ),
                   onPressed: (){
                     loginLinkedIn();
                   },

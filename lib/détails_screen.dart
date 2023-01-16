@@ -685,13 +685,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               child: Row(children: <Widget>[
                                 Expanded(
                                     child: Container(
-                                  height: 50,
-                                  child: RaisedButton(
+                                      color: Color(0xff682062),
+                                      height: 50,
+                                  child: ElevatedButton(
                                       onPressed: () {
                                         _saveUser();
                                       },
-                                      color: Color(0xff682062),
-                                      disabledColor: Color(0xff682062),
+                                     // color: Color(0xff682062),
+                                      //disabledColor: Color(0xff682062),
                                       child: Text('Enregistrer',
                                           style: TextStyle(
                                               fontSize: 20,
@@ -704,12 +705,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 Expanded(
                                     child: Container(
                                   height: 50,
-                                  child: RaisedButton(
+                                      color: Color(0xff682062),
+                                  child: ElevatedButton(
                                       onPressed: () {
                                         _saveBrouillon();
                                       },
-                                      color: Color(0xff682062),
-                                      disabledColor: Color(0xff682062),
+                                      //color: Color(0xff682062),
+                                      //disabledColor: Color(0xff682062),
                                       child: Text('Au brouillon ',
                                           style: TextStyle(
                                               fontSize: 20,

@@ -292,7 +292,7 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                     searchText: 'Rechercher',
                                     keyboardType: TextInputType.phone,
                                     validator: (value) {
-                                      if (value == null || value.trim().isEmpty)
+                                      if (value == null || value.toString().trim().isEmpty)
                                       { return 'Champ obligatoire';}
                                       return null;},
                                     decoration: const InputDecoration(

@@ -139,11 +139,11 @@ class _HomeScreen extends State<HomeScreen> {
         title: new Text('Êtes-vous sûr'),
         content: new Text('Voulez-vous quitter une application'),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text('Non'),
           ),
-          new FlatButton(
+          new TextButton(
             onPressed: () =>SystemNavigator.pop(),
             child: new Text('Oui '),
           ),

@@ -688,13 +688,13 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                               child: Row(children: <Widget>[
                                 Expanded(
                                     child: Container(
+                                      color: Color(0xff682062),
                                       height: 50,
-                                      child: RaisedButton(
+                                      child: ElevatedButton(
                                           onPressed: () {
                                             _updateUser();
                                           },
-                                          color: Color(0xff682062),
-                                          disabledColor: Color(0xff682062),
+                                          //disabledColor: Color(0xff682062),
                                           child: Text('Enregistrer',
                                               style: TextStyle(
                                                   fontSize: 20,
