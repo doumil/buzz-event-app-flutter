@@ -99,7 +99,7 @@ class _VerificatoinState extends State<Verificatoin> {
   }
   sendMail(int ccReset) async {
     String username = 'buzzeventteam@gmail.com';
-    String password = 'okysolutions2022';
+    String password = 'sfhfjpllnwyldlzk';
     final smtpServer = gmail(username, password);
     final message = Message()
       ..from = Address(username, 'team Buzzevent')

@@ -20,7 +20,15 @@ class ForgotPassEmail extends StatefulWidget {
 }
 
 class _ForgotPassEmailState extends State<ForgotPassEmail> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checklogin();
+  }
+
   TextEditingController emailctrl = TextEditingController();
+  bool disable=true;
   var codeRandom = Random();
   bool processing = false;
   GlobalKey<FormState> _keyforg = new GlobalKey<FormState>();
@@ -28,6 +36,19 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
   //late String verifyLnk;
   int codeReset=0;
   int min=100000,max=999999;
+  checklogin () async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var email = prefs.getString('email');
+    var id=prefs.getInt('id');
+    if (email!=null||id!=null)
+    {
+      setState(() {
+        emailctrl.text=email.toString();
+        disable=false;
+      });
+
+    }
+  }
   saveInfo(int id_buzz,String email) async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     sessionLogin.setInt("id_buzz", id_buzz);
@@ -72,7 +93,8 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
     }
   sendMail(int ccReset) async {
     String username = 'buzzeventteam@gmail.com';
-    String password = 'okysolutions2022';
+    //okysolutions2022
+    String password = 'sfhfjpllnwyldlzk';
     final smtpServer = gmail(username, password);
     final message = Message()
       ..from = Address(username, 'team Buzzevent')
@@ -178,7 +200,7 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
       final sendReport = await send(message, smtpServer);
       print('Message sent: ' + sendReport.toString());
     } on MailerException catch (e) {
-      print('Message not sent.');
+      print('Message not sent.${e.toString()}');
       for (var p in e.problems) {
         print('Problem: ${p.code}: ${p.msg}');
       }
@@ -285,6 +307,7 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
                                         height: 10,
                                       ),
                                       TextFormField(
+                                        enabled: disable,
                                           controller: emailctrl,
                                           validator: (value) {
                                             Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
