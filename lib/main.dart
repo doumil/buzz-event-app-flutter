@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
     HttpOverrides.global = new PostHttpOverrides();
     final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -31,8 +32,6 @@ class MyApp extends StatelessWidget {
           bodyText1: GoogleFonts.montserrat(textStyle: textTheme.bodyText1),
         ),
       ),
-      debugShowCheckedModeBanner: false,
-
       home: FirsPage(),
     );
   }

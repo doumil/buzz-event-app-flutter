@@ -11,7 +11,6 @@ import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
-
 import 'edit_screen.dart';
 
 String _data = "";

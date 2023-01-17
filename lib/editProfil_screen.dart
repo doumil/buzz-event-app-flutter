@@ -334,7 +334,7 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                   ],
                                   color: Color(0xff692062),
                                 ),
-                                child: Text('changer', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                child: Text('sauvegarder', style: TextStyle(fontSize: 20, color: Colors.white),),
                               ) : CircularProgressIndicator(color: Colors.white,backgroundColor: Color(0xff692062),)
                           ),
                           SizedBox(

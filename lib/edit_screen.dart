@@ -722,10 +722,13 @@ class _EditScreenState extends State<EditScreen> {
                             child: Row(children: <Widget>[
                               Expanded(
                                   child: Container(
-                                    color: Color(0xff682062),
-                                    decoration:BoxDecoration(),
+                                    //color: Color(0xff682062),
+                                    //decoration:BoxDecoration(),
                                     height: 50,
                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary:Color(0xff682062),
+                                        ),
                                         onPressed: () {
                                           _updateUser();
                                         },

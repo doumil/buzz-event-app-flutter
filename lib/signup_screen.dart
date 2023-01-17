@@ -298,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     IntlPhoneField(
                                       controller: phonectrl,
-                                      autovalidateMode: AutovalidateMode.always,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
                                       invalidNumberMessage: ' Enter numéro de téléphone valide',
                                       searchText: 'Rechercher',
                                       keyboardType: TextInputType.phone,
@@ -311,12 +311,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         fillColor: Color(0xfff3f3f4),
                                         filled: true,
                                       ),
-                                      initialCountryCode: 'MA',
+                                      initialCountryCode:code.toString(),
                                       onCountryChanged: (phone) {
+                                        //print(phone.completeNumber);
                                         setState(() {
                                           code=phone.code;
                                           code1=phone.dialCode;
-                                          //phonectrl = phone.completeNumber as TextEditingController;
                                         });
                                       },
                                     ),//phone

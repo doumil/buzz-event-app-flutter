@@ -111,13 +111,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               body:  Container(
                 child: LinkedInLoginView(
-                  clientId: "77k2mc7uf5821x",
-                  redirectUrl: "https://buzzevents.com",
+                  clientId: "78qmjs5okzjlkk",
+                  redirectUrl: "https://buzzevents.co",
                   onError: (String error) {
                     print(error);
                   },
                   bypassServerCheck: true,
-                  clientSecret: "TfIZetwGspWYh9uS",
+                  clientSecret: "2ZpTpZHXa2psdSIR",
                   onTokenCapture: (token) {
                     getProfile (token.token.toString());
                   },
