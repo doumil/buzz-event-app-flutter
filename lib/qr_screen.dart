@@ -52,56 +52,137 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              margin: EdgeInsets.only(top:60),
-              child: Text('Scanner',
-              style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: Colors.white)),
+              color: Colors.black.withOpacity(0.3),
+              width: MediaQuery.of(context).size.width,
+              height: 100,
+              //margin: EdgeInsets.only(top:60),
+              child: Center(
+                child: Text('Scanner',
+                style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: Colors.white)),
+              ),
             ),
           ),
           Align(
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Color(0xff682062), width: 8),
+                      left: BorderSide(color: Colors.white, width: 8),
+
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Color(0xff682062), width: 8),
+                        right: BorderSide(color: Colors.white, width: 8),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Colors.white, width: 8),
+                        right: BorderSide(color: Color(0xff682062), width: 8),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.white, width: 8),
+                        left: BorderSide(color: Color(0xff682062), width: 8),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(15),
+                  height: 200,
+                  width: 200,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                   // color: Colors.red.withOpacity(1.0),
+                  ),
+                  child: Container(),
+                ),
+              ],
+            )
+            ),
+          Align(
             alignment: Alignment.bottomCenter,
-            child: ButtonBar(
-              alignment:MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  IconButton(
-                    color: Colors.white,
-                    icon: ValueListenableBuilder(
-                      valueListenable: cameraController.torchState,
-                      builder: (context, state, child) {
-                        switch (state as TorchState) {
-                          case TorchState.off:
-                            return const Icon(Icons.flash_off, color: Colors.grey);
-                          case TorchState.on:
-                            return const Icon(Icons.flash_on, color: Colors.white);
-                        }
-                      },
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: ButtonBar(
+                alignment:MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    IconButton(
+                      color: Colors.white,
+                      icon: ValueListenableBuilder(
+                        valueListenable: cameraController.torchState,
+                        builder: (context, state, child) {
+                          switch (state as TorchState) {
+                            case TorchState.off:
+                              return const Icon(Icons.flash_off, color: Colors.grey);
+                            case TorchState.on:
+                              return const Icon(Icons.flash_on, color: Colors.white);
+                          }
+                        },
+                      ),
+                      iconSize: 32.0,
+                      onPressed: () => cameraController.toggleTorch(),
                     ),
-                    iconSize: 32.0,
-                    onPressed: () => cameraController.toggleTorch(),
-                  ),
-                  IconButton(
-                    color: Colors.white,
-                    icon: ValueListenableBuilder(
-                      valueListenable: cameraController.cameraFacingState,
-                      builder: (context, state, child) {
-                        switch (state as CameraFacing) {
-                          case CameraFacing.front:
-                            return const Icon(Icons.camera_front);
-                          case CameraFacing.back:
-                            return const Icon(Icons.camera_rear);
-                        }
-                      },
+                    IconButton(
+                      color: Colors.white,
+                      icon: ValueListenableBuilder(
+                        valueListenable: cameraController.cameraFacingState,
+                        builder: (context, state, child) {
+                          switch (state as CameraFacing) {
+                            case CameraFacing.front:
+                              return const Icon(Icons.camera_front);
+                            case CameraFacing.back:
+                              return const Icon(Icons.camera_rear);
+                          }
+                        },
+                      ),
+                      iconSize: 32.0,
+                      onPressed: () => cameraController.switchCamera(),
                     ),
-                    iconSize: 32.0,
-                    onPressed: () => cameraController.switchCamera(),
-                  ),
-                  IconButton(
-                      color:Colors.white,
-                      icon:Icon(Icons.close),
-                      onPressed:() {
-                        Navigator.pop(context);
-                      },
-                  ),
-                ]
+                    IconButton(
+                        color:Colors.white,
+                        icon:Icon(Icons.close),
+                        onPressed:() {
+                          Navigator.pop(context);
+                        },
+                    ),
+                  ]
+              ),
             )
           ),
         ],
