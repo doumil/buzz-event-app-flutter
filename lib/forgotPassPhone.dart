@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:assessment_task/submitcode_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widget/customClipper.dart';
@@ -17,15 +18,42 @@ class ForgotPassPhone extends StatefulWidget {
 }
 
 class _ForgotPassPhoneState extends State<ForgotPassPhone> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checklogin();
+  }
   var  code="MA",code1="212";
   TextEditingController phonectrl = TextEditingController();
   var codeRandom = Random();
   bool processing = false;
+  bool disable=true;
   GlobalKey<FormState> _keyforg = new GlobalKey<FormState>();
   //bool verifyButton = false;
   //late String verifyLnk;
   int codeReset=0;
   int min=100000,max=999999;
+  String resphone="";
+  checklogin () async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var phone = prefs.getString('phone');
+    var ss = phone?.split(",");
+    List<String> list1 = [];
+    ss?.forEach((e) {
+      list1.add(e);
+    });
+    var phoneSp="${list1.elementAt(2)}";
+    var id=prefs.getInt('id');
+    if (phoneSp!=null||id!=null)
+    {
+      setState(() {
+        phonectrl.text=phoneSp.toString();
+        disable=false;
+      });
+
+    }
+  }
   saveInfo(int id_buzz,String phone) async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     sessionLogin.setInt("id_buzz", id_buzz);
@@ -42,34 +70,49 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
     }
   }
   Future checkUser()async{
+     resphone="+${code1}${phonectrl.text.toString()}";
+     print("---------*${resphone}*---------");
     setState(() {
       processing = true;
     });
     codeReset= min+codeRandom.nextInt(max - min);
-    var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/checkphone.php'),body:{
-      'phone': "+${code1},${code},${phonectrl.text.toString()}",
-      'codeReset':codeReset.toString()
-    });
-    var res = jsonDecode(response.body);
-    if(res['status']=="InvalidPhone"){
-      Fluttertoast.showToast(msg: "Cet numéro de télèphone est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
-    }else{
-      //generate code :
-      print(codeReset);
-      print(int.parse(res['id']));
-      //save code to shared preference
-      saveInfo(int.parse(res['id']),res['phone']);
-      Fluttertoast.showToast(msg: "Vérifiez votre sms",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
-      // send code to box mail
-      sendSms(codeReset);
-    }
-    setState(() {
-      processing = false;
-    });
-  }
-  sendSms(int ccReset) async {
+     await FirebaseAuth.instance.verifyPhoneNumber(
+       phoneNumber: resphone,
+       timeout: Duration(seconds: 60),
+       verificationCompleted: (PhoneAuthCredential credential) {
 
+       },
+       verificationFailed: (FirebaseAuthException e) {
+         print("----------------");
+         print(e);
+         print("----------------");
+             Fluttertoast.showToast(msg: "vous avez envoyé plusieurs SMS de vérification ,réessayer plus tard",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white,timeInSecForIosWeb:60,);
+       },
+       codeSent: (String verificationId, int? resendToken) async{
+         print("----------------code has sent ${verificationId}");
+         var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/checkphone.php'),body:{
+           'phone': "+${code1},${code},${phonectrl.text.toString()}",
+           'codeReset':verificationId
+         });
+         var res = jsonDecode(response.body);
+         if(res['status']=="InvalidPhone"){
+           Fluttertoast.showToast(msg: "Cet numéro de télèphone est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+         }else{
+           //generate code :
+           print(codeReset);
+           print(int.parse(res['id']));
+           //save code to shared preference
+           saveInfo(int.parse(res['id']),res['phone']);
+           Fluttertoast.showToast(msg: "Vérifiez votre sms",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
+           Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
+         }
+         setState(() {
+           processing = false;
+         });
+       },
+       codeAutoRetrievalTimeout: (String verificationId) {
+       },
+     );
   }
   @override
   Widget build(BuildContext context) {
@@ -146,6 +189,7 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
                                           height: 10,
                                         ),
                                         IntlPhoneField(
+                                          enabled: disable,
                                           controller: phonectrl,
                                           autovalidateMode: AutovalidateMode.onUserInteraction,
                                           invalidNumberMessage: ' Enter numéro de téléphone valide',

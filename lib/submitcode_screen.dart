@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/reset_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -23,6 +24,7 @@ class _VerificatoinState extends State<Verificatoin> {
   late var id_buzz;
   late String email="",secemail="",secphone="";
   late String phone="0000";
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   getCodereset() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     id_buzz = sessionLogin.getInt("id_buzz");
@@ -38,7 +40,7 @@ class _VerificatoinState extends State<Verificatoin> {
         list1.add(e);
       });
       var pp="${list1.elementAt(2)}";
-      secphone="0${pp.substring(0, 2)}*****";
+      secphone="0${pp.substring(0, 4)}*****";
     }
   }
   bool _isResendAgain = false;
@@ -50,6 +52,7 @@ class _VerificatoinState extends State<Verificatoin> {
   int _currentIndex = 0;
   var codeRandom = Random();
   int codeReset=0;
+  String codeResetCr="";
   int min=100000,max=999999;
   void resend() {
     setState(() {
@@ -84,18 +87,45 @@ class _VerificatoinState extends State<Verificatoin> {
        sendMail(codeReset);
      }
     if(phone!="") {
-      codeReset = min + codeRandom.nextInt(max - min);
-      await http.post(
-          Uri.parse('https://okydigital.com/buzz_login/checkphone.php'), body: {
-        'phone': phone,
-        'codeReset': codeReset.toString()
+      var ss = phone.split(",");
+      List<String> list1 = [];
+      ss.forEach((e) {
+        list1.add(e);
       });
-      sendPhone(codeReset);
+      var phoneformat="${list1.elementAt(0)}${list1.elementAt(2)}";
+      print('################');
+      print(phoneformat);
+      print('################');
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneformat,
+        timeout: Duration(seconds: 60),
+        verificationCompleted: (PhoneAuthCredential credential) {
+
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print("----------------");
+          print(e);
+          print("----------------");
+
+        },
+        codeSent: (String verificationId, int? resendToken) async{
+          print("----------------code has sent ${verificationId}");
+          codeResetCr=verificationId;
+          print(")))))))))))))))))))))))))))");
+          print(codeResetCr);
+          await http.post(
+              Uri.parse('https://okydigital.com/buzz_login/checkphone.php'), body: {
+            'phone': phone,
+            'codeReset': verificationId
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+        },
+      );
+      //codeReset = min + codeRandom.nextInt(max - min);
+
+      //sendPhone(codeReset);
     }
-  }
-  sendPhone(int ccReset) async {
-    print(phone);
-    print(secphone);
   }
   sendMail(int ccReset) async {
     String username = 'buzzeventteam@gmail.com';
@@ -216,6 +246,39 @@ class _VerificatoinState extends State<Verificatoin> {
     // close the connection
     await connection.close();
   }
+ verifySms() async{
+   setState(() {
+     _isLoading = true;
+   });
+   //const oneSec = Duration(milliseconds: 1000);
+   //_timer = new Timer.periodic(oneSec, (timer) {
+   //print(_code);
+   var response = await http.post(Uri.parse('https://okydigital.com/buzz_login/checkcodereset.php'),body:{
+     'id_buzz':id_buzz.toString(),
+   });
+   print(id_buzz);
+   var res = jsonDecode(response.body);
+   print(res['codereset']);
+   try{
+     final AuthCredential credential = PhoneAuthProvider.credential(
+       verificationId: res['codereset'].toString(),
+       smsCode: _code.toString(),
+     );
+     await _auth.signInWithCredential(credential);
+     setState(() {
+       _isLoading = false;
+       _isVerified = true;
+       Fluttertoast.showToast(msg: "opération réussie",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
+       Navigator.push(context, MaterialPageRoute(builder: (context) => ResetScreen()));
+     });
+   }catch(e){
+     _isLoading = false;
+     _isVerified = false;
+     Fluttertoast.showToast(msg: "le code OTP est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
+   }
+
+
+ }
   verify() async{
     setState(() {
       _isLoading = true;
@@ -396,7 +459,8 @@ class _VerificatoinState extends State<Verificatoin> {
                             }
                             else
                               {
-                                verify();
+                                verifySms();
+                                //verify();
                               }
                           },
                           color: Color(0xff692062),

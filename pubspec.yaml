@@ -23,6 +23,8 @@ environment:
 dependencies:
   linkedin_auth: 0.0.3
   animate_do:
+  firebase_core:
+  firebase_auth: ^0.20.0
   flutter_verification_code:
   font_awesome_flutter:
   mailer:
@@ -44,7 +46,7 @@ dependencies:
   cupertino_icons:
   flutter_easyloading:
   csv:
-  file_picker:
+  #file_picker:
   random_string:
   flutter_file_dialog:
   dio:

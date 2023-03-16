@@ -85,7 +85,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
                                 ),
                                 //color: const Color(0xff692062),
                                 onPressed: ()  {
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassPhone()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassPhone()));
                                 },
                                 child: const Text ( ('Par téléphone') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
                                 ) ,

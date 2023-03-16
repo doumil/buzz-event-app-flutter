@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "601819479449",
+    "project_id": "buzzevventusers",
+    "storage_bucket": "buzzevventusers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601819479449:android:6df9f66dd32e45ddef6708",
+        "android_client_info": {
+          "package_name": "com.promise.assessment_task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601819479449-afmpfjfo3qjl9vpkuimugbfk6eq7847t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.promise.assessment_task",
+            "certificate_hash": "8a6f442ef478ef60f09afd58c7a6ba814a292ad0"
+          }
+        },
+        {
+          "client_id": "601819479449-n42530qi79r9k5cvp06hu8g4s5vtt99j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2IJoiN9GdLG0nKm_H5m1SIocX3RTRdYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601819479449-n42530qi79r9k5cvp06hu8g4s5vtt99j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
