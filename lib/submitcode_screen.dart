@@ -31,7 +31,12 @@ class _VerificatoinState extends State<Verificatoin> {
     email = sessionLogin.getString("emailRP").toString();
     phone = sessionLogin.getString("phoneRP").toString();
     if (email != "") {
-      secemail = "${email.substring(0, 2)}***********@gmail.com";
+      var ss = email.split("@");
+      List<String> list1 = [];
+      ss.forEach((e) {
+        list1.add(e);
+      });
+      secemail = "${email.substring(0, 2)}***********@${list1.elementAt(1)}";
     } else if (phone != "") {
       var ss = phone.split(",");
       List<String> list1 = [];
@@ -39,7 +44,7 @@ class _VerificatoinState extends State<Verificatoin> {
         list1.add(e);
       });
       var pp = "${list1.elementAt(2)}";
-      secphone = "0${pp.substring(0, 4)}*****";
+      secphone = "0${pp.substring(0, 1)}******${pp.substring(list1.elementAt(2).length-2,list1.elementAt(2).length)}";
     }
   }
 
