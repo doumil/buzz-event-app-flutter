@@ -57,8 +57,8 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
   saveInfo(int id_buzz,String phone) async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     sessionLogin.setInt("id_buzz", id_buzz);
-    sessionLogin.setString("phone",phone);
-    sessionLogin.setString("email","");
+    sessionLogin.setString("phoneRP",phone);
+    sessionLogin.setString("emailRP","");
   }
   //form != null && !form.validate()
   forgetPassValid(){

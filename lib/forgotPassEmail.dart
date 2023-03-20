@@ -52,8 +52,8 @@ class _ForgotPassEmailState extends State<ForgotPassEmail> {
   saveInfo(int id_buzz,String email) async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
     sessionLogin.setInt("id_buzz", id_buzz);
-    sessionLogin.setString("email",email);
-    sessionLogin.setString("phone","");
+    sessionLogin.setString("emailRP",email);
+    sessionLogin.setString("phoneRP","");
   }
   //form != null && !form.validate()
   forgetPassValid(){
