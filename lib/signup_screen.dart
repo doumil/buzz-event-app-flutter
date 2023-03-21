@@ -79,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "password":passwordctrl.text,
     };
     var res = await http.post(Uri.parse(url),body:data);
+    print(jsonDecode(res.body).toString());
     if(jsonDecode(res.body) == "account already exists"){
       Fluttertoast.showToast(msg: "Compte existe, veuillez vous connecter",toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));

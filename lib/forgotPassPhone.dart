@@ -11,19 +11,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 
 class ForgotPassPhone extends StatefulWidget {
-  const ForgotPassPhone({Key? key}) : super(key: key);
+  var code;
+   ForgotPassPhone({Key? key,required this.code}) : super(key: key);
 
   @override
   _ForgotPassPhoneState createState() => _ForgotPassPhoneState();
 }
 
 class _ForgotPassPhoneState extends State<ForgotPassPhone> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    checklogin();
-  }
   var  code="MA",code1="212";
   TextEditingController phonectrl = TextEditingController();
   var codeRandom = Random();
@@ -35,23 +30,31 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
   int codeReset=0;
   int min=100000,max=999999;
   String resphone="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checklogin();
+  }
   checklogin () async{
+    //code="AD";
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var phone = prefs.getString('phone');
+    String phone = prefs.getString('phone').toString();
     var ss = phone?.split(",");
     List<String> list1 = [];
     ss?.forEach((e) {
       list1.add(e);
     });
     var phoneSp="${list1.elementAt(2)}";
+    code=list1.elementAt(1);
+    print(code+"________________");
     var id=prefs.getInt('id');
-    if (phoneSp!=null||id!=null)
+    if (phoneSp!=null||id!=null||code!=null)
     {
       setState(() {
         phonectrl.text=phoneSp.toString();
         disable=false;
       });
-
     }
   }
   saveInfo(int id_buzz,String phone) async {
@@ -204,7 +207,8 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
                                             fillColor: Color(0xfff3f3f4),
                                             filled: true,
                                           ),
-                                          initialCountryCode:code.toString(),
+                                          //initialCountryCode:code.toString(),
+                                          initialCountryCode:widget.code,
                                           onCountryChanged: (phone) {
                                             //print(phone.completeNumber);
                                             setState(() {

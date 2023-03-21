@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'editProfil_screen.dart';
 import 'forgotPassEmail.dart';
@@ -16,9 +17,22 @@ class ParametreScreen extends StatefulWidget {
 }
 
 class _ParametreScreenState extends State<ParametreScreen> {
+  late var code;
   final GlobalKey _menuKey = new GlobalKey();
   void initState() {
     super.initState();
+    _loadData();
+  }
+  _loadData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String phone = prefs.getString('phone').toString();
+    var ss = phone?.split(",");
+    List<String> list1 = [];
+    ss?.forEach((e) {
+      list1.add(e);
+    });
+    code=list1.elementAt(1);
+    print(code+"<=======");
   }
   _launchURL() async {
     const url = 'https://buzzevents.co/contact.html';
@@ -85,7 +99,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
                                 ),
                                 //color: const Color(0xff692062),
                                 onPressed: ()  {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassPhone()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassPhone(code: code,)));
                                 },
                                 child: const Text ( ('Par téléphone') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
                                 ) ,
