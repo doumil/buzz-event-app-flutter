@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/login_screen.dart';
 import 'package:assessment_task/signup_screen.dart';
 import 'package:flutter/services.dart';
@@ -27,15 +28,28 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  String clientId="",redirectUrl="";
+  bool menuClicked=false;
+  String clientId="",lang="",redirectUrl="";
   String code="MA",code1="212";
   var lEmail,lFirstname,lLastname,lId;
   bool isLoading = true;
+
   @override
   void initState() {
     isLoading = true;
+    loadLang();
     super.initState();
 
+  }
+  void loadLang() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    lang =prefs.getString("lang")!;
+    if(lang=='Anglais'){
+      lang="ENG";
+    }
+    else if (lang=='Français'){
+      lang='FR';
+    }
   }
   Future checkUser()async{
     setState(() {
@@ -169,6 +183,93 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        appBar: AppBar(
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          leading: PopupMenuButton<String>(
+            onSelected:(value)async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+               // lang =value;
+                if(value=='ENG'){
+                  prefs.setString("lang", 'Anglais');
+                  lang=value;
+                }
+                else if (value=='FR'){
+                  prefs.setString("lang", 'Français');
+                  lang=value;
+                }
+
+             // loading.dialogLoading(context);
+              //var l=await api.setLanguage(await _auth.inputData(), value);
+              //Navigator.pop(context);
+              //lang.setLanguage(value);
+              //getLanguage();
+            },
+            icon:Icon(Icons.language,color:Colors.white)
+            ,
+            itemBuilder: (context) => [
+              CheckedPopupMenuItem(
+                value: 'FR',
+                child: Container( width: 0, child: Text("FR")),
+               checked:  lang=='FR' ? true : false ,
+              ),
+              CheckedPopupMenuItem(
+                value: 'ENG',
+                child: Container(width: 0, child: Text("ENG")),
+                checked: lang=='ENG' ? true : false ,
+              ),
+            ],
+          ),
+          /*IconButton(
+            onPressed: () {
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => FadeInUp(
+                  duration: Duration(milliseconds: 500),
+                  child: AlertDialog(
+                    content:   Container(
+                      height: 120,
+                      width: 120,
+                      child: ListView(
+                          padding: EdgeInsets.all(0),
+                          children: <Widget>[
+                            SizedBox(
+                              height: 10,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                menuClicked=!menuClicked;
+                              },
+                              icon: Icon(menuClicked?Icons.verified:Icons.verified_outlined,color:Colors.black,size: 25),
+                            ),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape:const RoundedRectangleBorder(
+                                    side: BorderSide(width: 2,color: Color(0xff692062), ) ,
+                                    borderRadius: BorderRadius.all(Radius.circular(8.0))
+                                ) ,
+                                primary: Colors.white,
+                              ),
+                              //color: Colors.white,
+                              onPressed: ()  {
+                              },
+                              child: const Text ( ('Par Email') ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
+                              ) ,
+                            ),
+
+                          ]
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+            icon: Icon(Icons.language,color:Colors.white,size: 25),
+          ),*/
+        ),
           extendBodyBehindAppBar: true,
           body: Column(
             children: <Widget>[
@@ -266,7 +367,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   )
                 ],
               ),
-
               Expanded (
                 flex:2,
                 child: Row(
@@ -363,4 +463,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
  */
 }
+
+
 

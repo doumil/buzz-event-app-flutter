@@ -16,6 +16,7 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
   var id=prefs.getInt('id');
+  //var lang=prefs.setString("lang","FR");
   runApp(MaterialApp(home: email == null || id==null? MyApp() : HomeScreen()));
 }
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'buzz event',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(

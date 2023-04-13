@@ -17,6 +17,7 @@ class ParametreScreen extends StatefulWidget {
 }
 
 class _ParametreScreenState extends State<ParametreScreen> {
+  var _selectedLanguage = null; // Valeur initiale
   late var code;
   final GlobalKey _menuKey = new GlobalKey();
   void initState() {
@@ -32,7 +33,6 @@ class _ParametreScreenState extends State<ParametreScreen> {
       list1.add(e);
     });
     code=list1.elementAt(1);
-    print(code+"<=======");
   }
   _launchURL() async {
     const url = 'https://buzzevents.co/contact.html';
@@ -152,6 +152,38 @@ class _ParametreScreenState extends State<ParametreScreen> {
               height: 5.0,
             ),
             ListTile(
+              leading: Icon(Icons.language),
+              title: Text('langue'),
+              onTap: () {
+                showDialog<String>(
+                  context: context,
+                  builder:
+                      (BuildContext context) =>
+                      Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          //(check)
+                          //? MyDialogDAgenda()
+                          MyAlertLang()
+                        ],
+                      ),
+                );
+              },
+              trailing:Container(
+                margin: const EdgeInsets.only(right:8.0),
+                child: Wrap(
+                    children: <Widget>[
+                      Icon(Icons.keyboard_arrow_right),
+                          ]
+                  ),
+              ),// icon-1// icon-2
+            ),
+            new Divider(
+              color: Color.fromRGBO(150, 150, 150, 0.4),
+              height: 5.0,
+            ),
+            ListTile(
               leading: Icon(Icons.edit_outlined),
               title: Text('modifier le profil'),
               onTap: () {
@@ -163,8 +195,8 @@ class _ParametreScreenState extends State<ParametreScreen> {
                 child: Wrap(
                     children: <Widget>[
                       Icon(Icons.keyboard_arrow_right),
-                          ]
-                  ),
+                    ]
+                ),
               ),// icon-1// icon-2
             ),
             new Divider(
@@ -189,6 +221,81 @@ class _ParametreScreenState extends State<ParametreScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+class MyAlertLang extends StatefulWidget {
+  const MyAlertLang({Key? key}) : super(key: key);
+
+  @override
+  State<MyAlertLang> createState() => _MyAlertLangState();
+}
+
+class _MyAlertLangState extends State<MyAlertLang> {
+  var _selectedLanguage='';
+  @override
+  void initState() {
+    loadLang();
+    super.initState();
+  }
+  void loadLang() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _selectedLanguage =prefs.getString("lang")!;
+      print(_selectedLanguage);
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return FadeInUp(
+        duration: Duration(milliseconds: 500),
+        child: AlertDialog(
+          content:   Container(
+            height: 115,
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Radio(
+                      value: 'Français',
+                      groupValue: _selectedLanguage,
+                      onChanged: (value) async{
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        _selectedLanguage =value.toString();
+                        prefs.setString("lang", value.toString());
+                        setState(() {
+                          _selectedLanguage = value.toString();
+                          print(_selectedLanguage);
+                        });
+                      },
+                    ),
+                    Text('Français'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      value: 'Anglais',
+                      groupValue: _selectedLanguage,
+                      onChanged: (value) async{
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        _selectedLanguage =value.toString();
+                        prefs.setString("lang", value.toString());
+
+                        setState(() {
+                          _selectedLanguage = value.toString();
+                          print(_selectedLanguage);
+                        });
+                      },
+                    ),
+                    Text('Anglais'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        )
     );
   }
 }

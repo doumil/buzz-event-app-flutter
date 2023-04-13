@@ -30,6 +30,7 @@ dependencies:
   mailer:
   flutter:
     sdk: flutter
+  #flutter_localization: ^0.1.10
   google_fonts:
   url_launcher:
   http:

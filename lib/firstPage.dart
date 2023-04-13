@@ -32,6 +32,12 @@ class FirsPage extends StatelessWidget {
           ),
         );
       },
+      /*leading: IconButton(
+        onPressed: () {
+          print("________________________________________");
+        },
+        icon: Icon(Icons.language,color:kDarkBlueColor,size: 28),
+      ),*/
       finishButtonColor: kDarkBlueColor,
       skipTextButton: Text(
         'Ignorer',

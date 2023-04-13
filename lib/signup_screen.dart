@@ -85,6 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
 
     }else if(jsonDecode(res.body) == "Created"){
+
       Fluttertoast.showToast(msg: "Compte créé",toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
 

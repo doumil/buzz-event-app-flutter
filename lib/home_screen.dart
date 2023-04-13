@@ -27,13 +27,31 @@ class _HomeScreen extends State<HomeScreen> {
   var updated="";
   var db = new DatabaseHelper();
   String _data = "";
+  var lang="";
   List<String> litems = [];
   Userscan user1 = Userscan('','','','','','','','','','','');
   late SharedPreferences prefs;
+  @override
+  void initState() {
+    loadLang();
+    super.initState();
+  }
   _scan(){
     Navigator.push(context,
         MaterialPageRoute(
             builder: (context) => QrcodeScreen()));
+  }
+  void loadLang() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    lang =prefs.getString("lang")!;
+    if(lang=='Anglais'){
+      lang="ENG";
+      print(lang);
+    }
+    else if (lang=='Français'){
+      lang='FR';
+      print(lang);
+    }
   }
   _scan1() async {
     int _count=0;
@@ -158,7 +176,41 @@ class _HomeScreen extends State<HomeScreen> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          actions: <Widget>[],
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected:(value)async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                // lang =value;
+                if(value=='ENG'){
+                  prefs.setString("lang", 'Anglais');
+                  lang=value;
+                }
+                else if (value=='FR'){
+                  prefs.setString("lang", 'Français');
+                  lang=value;
+                }
+
+                // loading.dialogLoading(context);
+                //var l=await api.setLanguage(await _auth.inputData(), value);
+                //Navigator.pop(context);
+                //lang.setLanguage(value);
+                //getLanguage();
+              },
+              icon:Icon(Icons.language,color:Colors.white),
+              itemBuilder: (context) => [
+                CheckedPopupMenuItem(
+                  value: 'FR',
+                  child: Container( width: 0, child: Text("FR")),
+                  checked: lang=='FR' ? true : false ,
+                ),
+                CheckedPopupMenuItem(
+                  value: 'ENG',
+                  child: Container(width: 0, child: Text("ENG")),
+                  checked: lang=='ENG' ? true : false ,
+                ),
+              ],
+            ),
+          ],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
