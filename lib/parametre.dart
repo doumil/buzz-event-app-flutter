@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'editProfil_screen.dart';
@@ -72,7 +73,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
           children: <Widget>[
             ListTile(
               leading: Icon(Icons.reset_tv),
-              title: Text('réinitialiser le mot de passe'),
+              title: Text('réinitialiser le mot de passe'.tr),
               onTap: () {
                 showDialog<String>(
                   context: context,
@@ -240,9 +241,9 @@ class _MyAlertLangState extends State<MyAlertLang> {
   }
   void loadLang() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    _selectedLanguage =prefs.getString("lang")!;
+    print(_selectedLanguage);
     setState(() {
-      _selectedLanguage =prefs.getString("lang")!;
-      print(_selectedLanguage);
     });
   }
   @override
@@ -258,15 +259,14 @@ class _MyAlertLangState extends State<MyAlertLang> {
                 Row(
                   children: [
                     Radio(
-                      value: 'Français',
+                      value: 'FR',
                       groupValue: _selectedLanguage,
                       onChanged: (value) async{
                         SharedPreferences prefs = await SharedPreferences.getInstance();
-                        _selectedLanguage =value.toString();
                         prefs.setString("lang", value.toString());
+                        _selectedLanguage = value.toString();
+                        print(_selectedLanguage);
                         setState(() {
-                          _selectedLanguage = value.toString();
-                          print(_selectedLanguage);
                         });
                       },
                     ),
@@ -276,13 +276,12 @@ class _MyAlertLangState extends State<MyAlertLang> {
                 Row(
                   children: [
                     Radio(
-                      value: 'Anglais',
+                      value: 'ANG',
                       groupValue: _selectedLanguage,
                       onChanged: (value) async{
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         _selectedLanguage =value.toString();
                         prefs.setString("lang", value.toString());
-
                         setState(() {
                           _selectedLanguage = value.toString();
                           print(_selectedLanguage);

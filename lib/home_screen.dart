@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:assessment_task/détails_screen.dart';
@@ -44,15 +47,17 @@ class _HomeScreen extends State<HomeScreen> {
   void loadLang() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     lang =prefs.getString("lang")!;
-    if(lang=='Anglais'){
-      lang="ENG";
+    print(lang);
+  }
+/*    if(lang=='Anglais'){
+      lang="ANG";
       print(lang);
     }
     else if (lang=='Français'){
       lang='FR';
       print(lang);
-    }
-  }
+    }*/
+  //}
   _scan1() async {
     int _count=0;
     await FlutterBarcodeScanner.scanBarcode(
@@ -178,16 +183,19 @@ class _HomeScreen extends State<HomeScreen> {
         appBar: AppBar(
           actions: <Widget>[
             PopupMenuButton<String>(
+              initialValue: lang,
               onSelected:(value)async{
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 // lang =value;
-                if(value=='ENG'){
-                  prefs.setString("lang", 'Anglais');
+                if(value=='ANG'){
+                  prefs.setString("lang", 'ANG');
                   lang=value;
+                  Get.updateLocale(Locale(value));
                 }
                 else if (value=='FR'){
-                  prefs.setString("lang", 'Français');
+                  prefs.setString("lang", 'FR');
                   lang=value;
+                  Get.updateLocale(Locale(value));
                 }
 
                 // loading.dialogLoading(context);
@@ -204,9 +212,9 @@ class _HomeScreen extends State<HomeScreen> {
                   checked: lang=='FR' ? true : false ,
                 ),
                 CheckedPopupMenuItem(
-                  value: 'ENG',
-                  child: Container(width: 0, child: Text("ENG")),
-                  checked: lang=='ENG' ? true : false ,
+                  value: 'ANG',
+                  child: Container(width: 0, child: Text("ANG")),
+                  checked: lang=='ANG' ? true : false ,
                 ),
               ],
             ),
@@ -242,7 +250,7 @@ class _HomeScreen extends State<HomeScreen> {
                     )),
                 ListTile(
                   leading: Icon(Icons.list),
-                  title: Text('Profils Enregistrés'),
+                  title: Text('Profils Enregistrés'.tr),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -257,7 +265,7 @@ class _HomeScreen extends State<HomeScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.drafts),
-                  title: Text('Profils en brouillon'),
+                  title: Text('Profils en brouillon'.tr),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -272,7 +280,7 @@ class _HomeScreen extends State<HomeScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.sync),
-                  title: Text('Synchroniser'),
+                  title: Text('Synchroniser'.tr),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -291,7 +299,7 @@ class _HomeScreen extends State<HomeScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.person),
-                  title: Text('Mon profile'),
+                  title: Text('Mon profile'.tr),
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => ProfileScreen()));
@@ -304,7 +312,7 @@ class _HomeScreen extends State<HomeScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.settings),
-                  title: Text('Paramétres'),
+                  title: Text('Paramétres'.tr),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -319,7 +327,7 @@ class _HomeScreen extends State<HomeScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.exit_to_app),
-                  title: Text('Deconnexion'),
+                  title: Text('Deconnexion'.tr),
                   onTap: () async {
                     SharedPreferences sessionLogin =
                         await SharedPreferences.getInstance();
@@ -380,7 +388,7 @@ class _HomeScreen extends State<HomeScreen> {
                           text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: "bienvenue !",
+                                text: "bienvenue!".tr,
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.w700,
@@ -404,7 +412,7 @@ class _HomeScreen extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("Vous pouvez scanner maintenant",
+                    Text("Vous pouvez scanner maintenant".tr,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,

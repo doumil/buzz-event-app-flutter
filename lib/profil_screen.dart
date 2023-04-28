@@ -3,6 +3,7 @@ import 'package:assessment_task/editProfil_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,11 +17,17 @@ class ProfileScreen extends StatefulWidget {
 }
 class _ProfileScreenState extends State<ProfileScreen> {
   late var id,email,fname,lname,company,phone;
-  String phonewithcode="",code="MA";
+  String phonewithcode="",code="MA",lang="";
 
   void initState() {
     _loadData();
+    loadLang();
     super.initState();
+  }
+  void loadLang() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    lang =prefs.getString("lang")!;
+    print(lang);
   }
   _loadData() async {
     SharedPreferences sessionLogin = await SharedPreferences.getInstance();
@@ -53,7 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text("Profile ${fname} ${lname}"),
+        title: Text("Profil".tr +
+            " ${fname} ${lname}"),
         actions: <Widget>[
           PopupMenuButton(
             // add icon, by default "3 dot" icon
@@ -63,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   PopupMenuItem<int>(
                     child:ListTile(
                     leading: Icon(Icons.person),
-                    title: Text("modifier le profile"),
+                    title: Container(width:double.maxFinite,child: Text("modifier le profil".tr)),
                     onTap: () {
                     Navigator.push(context,
                     MaterialPageRoute(builder: (context) => EditProfilScreen()));

@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:assessment_task/firstPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
-
+import 'language/trantlations.dart';
 
 
 Future<void> main() async {
@@ -16,8 +17,12 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
   var id=prefs.getInt('id');
-  //var lang=prefs.setString("lang","FR");
-  runApp(MaterialApp(home: email == null || id==null? MyApp() : HomeScreen()));
+  prefs.setString("lang","FR");
+  runApp(GetMaterialApp(home: email == null || id==null? MyApp() : HomeScreen(),
+   translations: Translation(),
+    locale: Locale("FR"),
+    fallbackLocale: Locale("ANG"),
+  ));
 }
 
 class MyApp extends StatelessWidget {

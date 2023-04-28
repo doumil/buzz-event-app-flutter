@@ -3,6 +3,7 @@ import 'package:assessment_task/brouillon_screen.dart';
 import 'package:assessment_task/edit_screen.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/utils/database_helper.dart';
@@ -16,7 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:assessment_task/synchron_screen.dart';
 
-String _data = "";
+String _data = "",lang="";
 late SharedPreferences pr;
 List<Userscan> litems = [];
 bool isLoading = true;
@@ -45,6 +46,8 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     //print(await db.getListUser());
     //print('hello from profils');
     // print(litems.length);
+      lang =prefs.getString("lang")!;
+      print(lang);
     var db = new DatabaseHelper();
     litems = await db.getListUser();
     //print(litems);
@@ -57,17 +60,17 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
     final Workbook workbook = Workbook();
     final Worksheet sheet = workbook.worksheets[0];
     Userscan userCsv = Userscan(
-        'nom',
-        'prénom',
-        'company',
-        'profession',
-        'email',
-        'téléphone',
-        'evolution',
-        'action',
-        'notes',
-        'created',
-        'updated');
+        'nom'.tr,
+        'prénom'.tr,
+        'entreprise'.tr,
+        'profession'.tr,
+        'e-mail'.tr,
+        'téléphone'.tr,
+        'évolution'.tr,
+        'action'.tr,
+        'Remarques'.tr,
+        'date de création'.tr,
+        'date de modification'.tr);
     List<Userscan> listCsv = [];
     listCsv.add(userCsv);
     listCsv += litems;
@@ -155,7 +158,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text("Profils Enregistrés"),
+        title: Text("Profils Enregistrés".tr),
         actions: <Widget>[
           PopupMenuButton(
               // add icon, by default "3 dot" icon
@@ -165,7 +168,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
               PopupMenuItem<int>(
                 child: ListTile(
                   leading: Icon(Icons.sync_sharp),
-                  title: Text("Synchroniser"),
+                  title: Container( width:double.maxFinite,child: Text("Synchroniser".tr,overflow: TextOverflow.ellipsis,)),
                   onTap: () {
                     _sync();
                   },
@@ -182,7 +185,7 @@ class _profilsEnregistresScreenState extends State<profilsEnregistresScreen> {
               PopupMenuItem<int>(
                 child: ListTile(
                   leading: Icon(Icons.upload_sharp),
-                  title: Text("Exporter .csv"),
+                  title: Container( width:double.maxFinite,child: Text("Exporter .csv".tr)),
                   onTap: () {
                     _upload();
                   },

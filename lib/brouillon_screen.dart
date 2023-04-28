@@ -3,6 +3,7 @@ import 'package:assessment_task/editbroui_screen.dart';
 import 'package:assessment_task/profil_screen.dart';
 import 'package:assessment_task/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/utils/database_helper.dart';
@@ -35,6 +36,8 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
 
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    lang =prefs.getString("lang")!;
+    print(lang);
     //email:  result.substring(place.elementAt(0)+1,place.elementAt(1))
     //_data =(prefs.getString("Data")??'');
     //print(await db.getAllUsers());
@@ -62,7 +65,7 @@ class _BrouillonScreenState extends State<BrouillonScreen> {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text("Brouillon"),
+        title: Text("Brouillon".tr),
         actions: <Widget>[],
         centerTitle: true,
         flexibleSpace: Container(
