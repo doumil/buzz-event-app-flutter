@@ -23,9 +23,33 @@ const Map<String,String> ANG={
   'date de modification':'updated',
   //settings
   'réinitialiser le mot de passe':'reset password',
+  'Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe':'Please choose how you would like to reset your password',
+  'Par téléphone':'By phone',
+  'Par Email':'By email',
+  'Annuler':'Cancel',
+  'langue':'language',
+  'Français':'French',
+  'Anglais':'English',
+  'contactez nous':'contact us',
 //draft
   'Brouillon':'Draft',
   //profile
   'Profil':'Profile',
   'modifier le profil':'modify the profile',
+  //edit profile
+  'assurez-vous que tous les champs sont valides':'make sure all the fields are valid',
+  'Profil a été changé avec succès':'Profile was changed successfully',
+  //validation
+  'Champ obligatoire':'Required Field',
+  'Entrer un prénom valide':'Enter a valid first name',
+  'Prénom':'First name',
+  'Entrer un nom valide':'Enter a valid last name',
+  'Nom':'Last name',
+  'Entrer une Adresse Email valide':'Enter a valid Email Address',
+  'Adresse é-mail':'E-mail address',
+  'Société':'Company',
+  'Enter numéro de téléphone valide':'Enter valid phone number',
+  'Rechercher':'Search',
+  'sauvegarder':'save',
+
 };

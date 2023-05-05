@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/profil_screen.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,7 +20,7 @@ class EditProfilScreen extends StatefulWidget {
 }
 
 class _EditProfilScreenState extends State<EditProfilScreen> {
-  late var code="MA",code1="212",phonewithcode="";
+  late var code="MA",code1="212",phonewithcode="",lang="";
   bool signin = true;
   bool _isVisible = false;
   late var id,email,fname,lname,company,phone;
@@ -41,11 +42,16 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
 
 
   }
+  void loadLang() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    lang =prefs.getString("lang")!;
+    print(lang);
+  }
   //form != null && !form.validate()
   signupValid(){
     var formdata = _keyreg.currentState;
     if(formdata != null && !formdata.validate()){
-      return "make sure all the fields are valide";
+      return "assurez-vous que tous les champs sont valides".tr;
     }else if(formdata != null && formdata.validate()){
       changePhone();
     }
@@ -93,7 +99,7 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
       sessionLogin.setString("lname","${lnamectrl.text.toString()}");
       sessionLogin.setString("company",companyctrl.text.toString());
       sessionLogin.setString("phone","+${code1},${code},${phonectrl.text.toString()}");
-      Fluttertoast.showToast(msg: "company a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
+      Fluttertoast.showToast(msg: "Profil a été changé avec succès".tr,toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
     }
 
@@ -115,7 +121,8 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
             icon: Icon(Icons.arrow_back),
           ),
           */
-          title: Text("Edit profile ${fname} ${lname}"),
+          title: Text("".tr +
+              " ${fname} ${lname}"),
           actions: <Widget>[],
           centerTitle: true,
           flexibleSpace: Container(
@@ -185,19 +192,19 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                                   Pattern pattern = r"^\s*([A-Za-z]{1,}([\.,] |[-']|))\s*$";
 
                                                   if (value == null || value.trim().isEmpty) {
-                                                    return 'Champ obligatoire';
+                                                    return 'Champ obligatoire'.tr;
                                                   }
                                                   else{
                                                     RegExp regex =  RegExp(pattern.toString());
                                                     if(!regex.hasMatch(value)){
-                                                      return 'Entrer un prénom valide';
+                                                      return 'Entrer un prénom valide'.tr;
                                                     }
                                                   }
                                                   return null;
                                                 },
                                                 obscureText: false,
                                                 decoration: InputDecoration(
-                                                  hintText: 'Prénom',
+                                                  hintText: 'Prénom'.tr,
                                                   fillColor: Color(0xfff3f3f4),
                                                   filled: true,
                                                 )
@@ -217,19 +224,19 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                                   Pattern pattern = r"^\s*([A-Za-z]{1,}([\.,] |[-']|))\s*$";
 
                                                   if (value == null || value.trim().isEmpty) {
-                                                    return 'Champ obligatoire';
+                                                    return 'Champ obligatoire'.tr;
                                                   }
                                                   else{
                                                     RegExp regex =  RegExp(pattern.toString());
                                                     if(!regex.hasMatch(value)){
-                                                      return 'Entrer un nom valide';
+                                                      return 'Entrer un nom valide'.tr;
                                                     }
                                                   }
                                                   return null;
                                                 },
                                                 obscureText: false,
                                                 decoration: InputDecoration(
-                                                  hintText: 'Nom',
+                                                  hintText: 'Nom'.tr,
                                                   fillColor: Color(0xfff3f3f4),
                                                   filled: true,
                                                 )
@@ -248,19 +255,19 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                         Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
                                         if (value == null || value.trim().isEmpty) {
-                                          return 'Champ obligatoire';
+                                          return 'Champ obligatoire'.tr;
                                         }
                                         else{
                                           RegExp regex =  RegExp(pattern.toString());
                                           if(!regex.hasMatch(value)){
-                                            return 'Entrer une Adresse Email valide';
+                                            return 'Entrer une Adresse Email valide'.tr;
                                           }
                                         }
                                         return null;
                                       },
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        hintText: 'Adresse e-mail',
+                                        hintText: 'Adresse é-mail'.tr,
                                         fillColor: Color(0xfff3f3f4),
                                         filled: true,
                                       )
@@ -272,12 +279,12 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                       controller: companyctrl,
                                       validator: (value) {
                                         if (value == null || value.trim().isEmpty)
-                                        { return 'Champ obligatoire';}
+                                        { return 'Champ obligatoire'.tr;}
                                         return null;
                                       },
                                       obscureText: false,
                                       decoration: InputDecoration(
-                                        hintText: 'Société',
+                                        hintText: 'Société'.tr,
                                         fillColor: Color(0xfff3f3f4),
                                         filled: true,
                                       )
@@ -288,15 +295,15 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                   IntlPhoneField(
                                     controller: phonectrl,
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    invalidNumberMessage: ' Enter numéro de téléphone valide',
-                                    searchText: 'Rechercher',
+                                    invalidNumberMessage: 'Enter numéro de téléphone valide'.tr,
+                                    searchText: 'Rechercher'.tr,
                                     keyboardType: TextInputType.phone,
                                     validator: (value) {
                                       if (value == null || value.toString().trim().isEmpty)
-                                      { return 'Champ obligatoire';}
+                                      { return 'Champ obligatoire'.tr;}
                                       return null;},
                                     decoration: const InputDecoration(
-                                      hintText: 'Numéro de téléphone',
+                                      hintText: "Numero de telephone",
                                       fillColor: Color(0xfff3f3f4),
                                       filled: true,
                                     ),
@@ -334,7 +341,7 @@ class _EditProfilScreenState extends State<EditProfilScreen> {
                                   ],
                                   color: Color(0xff692062),
                                 ),
-                                child: Text('sauvegarder', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                child: Text('sauvegarder'.tr, style: TextStyle(fontSize: 20, color: Colors.white),),
                               ) : CircularProgressIndicator(color: Colors.white,backgroundColor: Color(0xff692062),)
                           ),
                           SizedBox(
