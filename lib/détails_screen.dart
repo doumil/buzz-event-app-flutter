@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:assessment_task/utils/database_helper.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:assessment_task/profils_enregistrés.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -136,7 +137,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       onTap: ()=>FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Détails"),
+            title: Text('Détails'.tr),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 3, 15, 0),
@@ -427,7 +428,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                   width * 0.04,
                                                   width * 0.01),
                                               child: Text(
-                                                'Situation',
+                                                'Situation'.tr,
                                                 style: TextStyle(fontSize: 20),
                                                 textAlign: TextAlign.left,
                                               ),
@@ -506,7 +507,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                               padding: EdgeInsets.fromLTRB(
                                                   width * 0.04, 0, width * 0.04, 0),
                                               child: Text(
-                                                'Action à Suivre',
+                                                'Action à Suivre'.tr,
                                                 style: TextStyle(fontSize: 20),
                                                 textAlign: TextAlign.left,
                                               ),
@@ -533,7 +534,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         setState(() {});
                                                       },
                                                       child: Text(
-                                                          'Plagnifier un réunion',
+                                                          'Plagnifier un réunion'.tr,
                                                           style: TextStyle(
                                                               fontSize:
                                                                   height * 0.022))),
@@ -556,7 +557,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         setState(() {});
                                                       },
                                                       child: Text(
-                                                          'Passer un Téléphone',
+                                                          'Passer un Téléphone'.tr,
                                                           style: TextStyle(
                                                               fontSize:
                                                                   height * 0.022))),
@@ -579,7 +580,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         setState(() {});
                                                       },
                                                       child: Text(
-                                                          'Envoyer des infos sur le produit',
+                                                          'Envoyer des infos sur le produit'.tr,
                                                           style: TextStyle(
                                                               fontSize:
                                                                   height * 0.022))),
@@ -602,7 +603,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                         setState(() {});
                                                       },
                                                       child: Text(
-                                                          'Cantacter par Mail',
+                                                          'Cantacter par Mail'.tr,
                                                           style: TextStyle(
                                                               fontSize:
                                                                   height * 0.022))),
@@ -635,7 +636,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                   width * 0.04,
                                                   width * 0.01),
                                               child: Text(
-                                                'Notes',
+                                                'Notes'.tr,
                                                 style: TextStyle(fontSize: 20),
                                                 textAlign: TextAlign.left,
                                               ),
@@ -662,7 +663,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                                                   fontSize: height *
                                                                       0.022),
                                                               hintText:
-                                                                  'Ecrivez vos notes'))),
+                                                                  'Ecrivez vos notes'.tr))),
                                             ),
                                           )
                                         ],
@@ -696,7 +697,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       },
                                      // color: Color(0xff682062),
                                       //disabledColor: Color(0xff682062),
-                                      child: Text('Enregistrer',
+                                      child: Text('Enregistrer'.tr,
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white))),
@@ -718,7 +719,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       },
                                       //color: Color(0xff682062),
                                       //disabledColor: Color(0xff682062),
-                                      child: Text('Au brouillon ',
+                                      child: Text('Au brouillon'.tr,
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white))),

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:linkedin_auth/linkedin_auth.dart';
@@ -92,7 +93,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               resbody['company'],
               resbody['phone']);
           Fluttertoast.showToast(
-              msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+              msg: "Connecté avec succès".tr, toastLength: Toast.LENGTH_SHORT);
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomeScreen()));
         }
@@ -119,7 +120,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       MaterialPageRoute(
           builder: (context) => Scaffold(
               appBar: AppBar(
-                title: Text("se connecter avec linkedin"),
+                title: Text("se connecter avec linkedin".tr),
                 backgroundColor:const Color(0xff0e76a8),
                 leading: CloseButton(),
               ),
@@ -163,16 +164,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return (await showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+        title: new Text('Êtes-vous sûr'.tr),
+        content: new Text('Voulez-vous quitter une application'.tr),
         actions: <Widget>[
           new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: new Text('Non'.tr),
           ),
           new TextButton(
             onPressed: () =>SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: new Text('Oui'.tr),
           ),
         ],
       ),
@@ -187,36 +188,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           shadowColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           leading: PopupMenuButton<String>(
+            initialValue: lang,
             onSelected:(value)async{
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-               // lang =value;
-                if(value=='ENG'){
-                  prefs.setString("lang", 'Anglais');
-                  lang=value;
-                }
-                else if (value=='FR'){
-                  prefs.setString("lang", 'Français');
-                  lang=value;
-                }
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              // lang =value;
+              if(value=='ANG'){
+                prefs.setString("lang", 'ANG');
+                lang=value;
+                Get.updateLocale(Locale(value));
+              }
+              else if (value=='FR'){
+                prefs.setString("lang", 'FR');
+                lang=value;
+                Get.updateLocale(Locale(value));
+              }
 
-             // loading.dialogLoading(context);
+              // loading.dialogLoading(context);
               //var l=await api.setLanguage(await _auth.inputData(), value);
               //Navigator.pop(context);
               //lang.setLanguage(value);
               //getLanguage();
             },
-            icon:Icon(Icons.language,color:Colors.white)
-            ,
+            icon:Icon(Icons.language,color:Colors.white),
             itemBuilder: (context) => [
               CheckedPopupMenuItem(
                 value: 'FR',
                 child: Container( width: 0, child: Text("FR")),
-               checked:  lang=='FR' ? true : false ,
+                checked: lang=='FR' ? true : false ,
               ),
               CheckedPopupMenuItem(
-                value: 'ENG',
-                child: Container(width: 0, child: Text("ENG")),
-                checked: lang=='ENG' ? true : false ,
+                value: 'ANG',
+                child: Container(width: 0, child: Text("ANG")),
+                checked: lang=='ANG' ? true : false ,
               ),
             ],
           ),
@@ -317,7 +320,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) => LoginScreen()));
                         },
-                        child: const Text ( ('Se Connecter') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
+                        child:  Text ( ('Se Connecter'.tr) ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
                         ) ,
                       ),
                     ),
@@ -356,7 +359,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                         },
-                        child: const Text ( ('S\'inscrire') ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
+                        child:  Text ( ('S\'inscrire'.tr) ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
                         ) ,
                       ),
                     ),
@@ -373,7 +376,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(flex:3,child: Container(height: 1,color: Colors.grey,)),
-                    const Expanded(child: Text(('Ou'),
+                     Expanded(child: Text(('Ou'.tr),
                       textAlign:TextAlign.center,
                     )),
                     Expanded(flex:3,child: Container(height: 1,color: Colors.grey,)),
@@ -398,9 +401,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Image.asset('assets/linkedin_logo.png', width: 25,),
                       Container(width:0.5),
                       Container(
-                          child: const Padding(
+                          child:  Padding(
                             padding: EdgeInsets.only(top:3),
-                            child: Text('Continue avec Linkedin', style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.normal)),
+                            child: Text('Continue avec Linkedin'.tr, style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.normal)),
                           )
 
                       ),
@@ -421,14 +424,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text ( ('Pour plus d\'informations,') ,
+                       Text ( ('Pour plus d\'informations,'.tr) ,
                           style: TextStyle( color: Colors.grey,
                               fontSize: 12
                           )
                       ),
                       GestureDetector (
                           onTap: (_launchURL) ,
-                        child: const Text ( (' contactez nous' ), style: TextStyle(color:Color(0xff692062),fontSize: 12),
+                        child:  Text ( ('contactez nous'.tr ), style: TextStyle(color:Color(0xff692062),fontSize: 12),
                         ) ,
                       ),
                     ],

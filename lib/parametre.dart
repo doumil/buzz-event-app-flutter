@@ -55,7 +55,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
           },
           icon: Icon(Icons.arrow_back),
         ),
-        title: Text("Paramétres"),
+        title: Text("Paramétres".tr),
         actions: <Widget>[],
         centerTitle: true,
         flexibleSpace: Container(
@@ -80,7 +80,8 @@ class _ParametreScreenState extends State<ParametreScreen> {
                   builder: (BuildContext context) => FadeInUp(
                     duration: Duration(milliseconds: 500),
                     child: AlertDialog(
-                      title: Center(child: const Text('Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe',style: TextStyle(color: Color(0xff803b7a),fontSize:17,fontWeight: FontWeight.bold))),
+                      title: Center(child:  Text('Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe'.tr
+                          ,style: TextStyle(color: Color(0xff803b7a),fontSize:17,fontWeight: FontWeight.bold))),
                       content:   Container(
                         height: 120,
                         width: 120,
@@ -102,7 +103,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
                                 onPressed: ()  {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassPhone(code: code,)));
                                 },
-                                child: const Text ( ('Par téléphone') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
+                                child:  Text ( ('Par téléphone'.tr) ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
                                 ) ,
                               ),
                               SizedBox(
@@ -121,7 +122,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
                                   Navigator.push(
                                       context, MaterialPageRoute(builder: (context) => ForgotPassEmail()));
                                 },
-                                child: const Text ( ('Par Email') ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
+                                child:  Text ( ('Par Email'.tr) ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
                                 ) ,
                               ),
 
@@ -132,7 +133,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
                         TextButton(
                           onPressed: () =>
                               Navigator.pop(context, 'Annuler'),
-                          child: Center(child: const Text('Cancel',style: TextStyle(color: Color(0xff803b7a),fontWeight: FontWeight.bold))),
+                          child: Center(child:  Text('Annuler'.tr,style: TextStyle(color: Color(0xff803b7a),fontWeight: FontWeight.bold))),
                         ),
                       ],
                     ),
@@ -154,7 +155,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
             ),
             ListTile(
               leading: Icon(Icons.language),
-              title: Text('langue'),
+              title: Text('langue'.tr),
               onTap: () {
                 showDialog<String>(
                   context: context,
@@ -186,7 +187,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
             ),
             ListTile(
               leading: Icon(Icons.edit_outlined),
-              title: Text('modifier le profil'),
+              title: Text('modifier le profil'.tr),
               onTap: () {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => EditProfilScreen()));
@@ -206,7 +207,7 @@ class _ParametreScreenState extends State<ParametreScreen> {
             ),
             ListTile(
               leading: Icon(Icons.contact_phone_outlined),
-              title: Text('contactez nous'),
+              title: Text('contactez nous'.tr),
               onTap: () {
                 _launchURL();
               },
@@ -270,7 +271,7 @@ class _MyAlertLangState extends State<MyAlertLang> {
                         });
                       },
                     ),
-                    Text('Français'),
+                    Text('Français'.tr),
                   ],
                 ),
                 Row(
@@ -288,7 +289,7 @@ class _MyAlertLangState extends State<MyAlertLang> {
                         });
                       },
                     ),
-                    Text('Anglais'),
+                    Text('Anglais'.tr),
                   ],
                 ),
               ],

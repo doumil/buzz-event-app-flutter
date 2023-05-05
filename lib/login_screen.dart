@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:assessment_task/welcome_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'forgotPassEmail.dart';
 import 'Widget/customClipper.dart';
 import 'forgotPassPhone.dart';
@@ -118,16 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return (await showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+        title: new Text('Êtes-vous sûr'.tr),
+        content: new Text('Voulez-vous quitter une application'.tr),
         actions: <Widget>[
           new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: new Text('Non'.tr),
           ),
           new TextButton(
             onPressed: () =>SystemNavigator.pop(),
-            child: new Text('Oui'),
+            child: new Text('Oui'.tr),
           ),
         ],
       ),
@@ -197,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                 padding: EdgeInsets.symmetric(vertical: 15),
                                 child: Text(
-                                  'Connexion',
+                                  'Connexion'.tr,
                                   style: TextStyle(
                                       fontSize: height * 0.04,
                                       color: Color(0xff692062)),
@@ -224,19 +225,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                                 if (value == null ||
                                                     value.trim().isEmpty) {
-                                                  return 'Champ obligatoire';
+                                                  return 'Champ obligatoire'.tr;
                                                 } else {
                                                   RegExp regex =
                                                       RegExp(pattern.toString());
                                                   if (!regex.hasMatch(value)) {
-                                                    return 'Entrer une Adresse Email valide';
+                                                    return 'Entrer une Adresse Email valide'.tr;
                                                   }
                                                 }
                                                 return null;
                                               },
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                hintText: 'Adresse e-mail',
+                                                hintText: 'Adresse é-mail'.tr,
                                                 fillColor: Color(0xfff3f3f4),
                                                 filled: true,
                                               ))
@@ -257,10 +258,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                               validator: (value) {
                                                 if (value == null ||
                                                     value.trim().isEmpty) {
-                                                  return 'Champ obligatoire';
+                                                  return 'Champ obligatoire'.tr;
                                                 } else if (value.trim().length <
                                                     8) {
-                                                  return 'Ne peut pas être inférieur à 8 caractères';
+                                                  return 'Ne peut pas être inférieur à 8 caractères'.tr;
                                                 }
                                                 return null;
                                               },
@@ -278,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         : Icon(Icons.visibility_off,
                                                             color: Colors.black12),
                                                   ),
-                                                  hintText: 'Mot de passe',
+                                                  hintText: 'Mot de passe'.tr,
                                                   fillColor: Color(0xfff3f3f4),
                                                   filled: true))
                                         ],
@@ -312,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             color: Color(0xff692062),
                                           ),
                                           child: Text(
-                                            'Se connecter',
+                                            'Se connecter'.tr,
                                             style: TextStyle(
                                                 fontSize: 20, color: Colors.white),
                                           ),
@@ -331,7 +332,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       builder: (BuildContext context) => FadeInUp(
                                         duration: Duration(milliseconds: 500),
                                         child: AlertDialog(
-                                          title: Center(child: const Text('Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe',style: TextStyle(color: Color(0xff803b7a),fontSize:17,fontWeight: FontWeight.bold))),
+                                          title: Center(child:  Text('Veuillez choisir comment vous souhaitez réinitialiser votre mot de passe'.tr,style: TextStyle(color: Color(0xff803b7a),fontSize:17,fontWeight: FontWeight.bold))),
                                           content:   Container(
                                                  height: 120,
                                                  width: 120,
@@ -354,7 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       Navigator.push(
                                                           context, MaterialPageRoute(builder: (context) => ForgotPassPhone(code:"MA")));
                                                     },
-                                                    child: const Text ( ('Par téléphone') ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
+                                                    child:  Text ( ('Par téléphone'.tr) ,style: TextStyle(fontSize:20,color: Colors.white,fontWeight: FontWeight.w300),
                                                     ) ,
                                                   ),
                                                   SizedBox(
@@ -373,7 +374,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       Navigator.push(
                                                           context, MaterialPageRoute(builder: (context) => ForgotPassEmail()));
                                                     },
-                                                    child: const Text ( ('Par Email') ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
+                                                    child:  Text ( ('Par Email'.tr) ,style: TextStyle(fontSize:20,color: Color(0xff692062),fontWeight: FontWeight.w300),
                                                     ) ,
                                                   ),
 
@@ -384,7 +385,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context, 'Annuler'),
-                                              child: Center(child: const Text('Cancel',style: TextStyle(color: Color(0xff803b7a),fontWeight: FontWeight.bold))),
+                                              child: Center(child:  Text('Cancel'.tr,style: TextStyle(color: Color(0xff803b7a),fontWeight: FontWeight.bold))),
                                             ),
                                           ],
                                         ),
@@ -392,7 +393,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   },
                                   child: Text(
-                                    'Mot de passe oublié ?',
+                                    'Mot de passe oublié ?'.tr,
                                     style: TextStyle(
                                         color: Color(0xff682062),
                                         fontSize: 15,
@@ -418,7 +419,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        'Vous n\'avez pas de compte ?',
+                                        'Vous n\'avez pas de compte ?'.tr,
                                         style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w600),
@@ -427,7 +428,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         width: 10,
                                       ),
                                       Text(
-                                        'S\'inscrire',
+                                        'S\'inscrire'.tr,
                                         style: TextStyle(
                                             color: Color(0xff682062),
                                             fontSize: 13,

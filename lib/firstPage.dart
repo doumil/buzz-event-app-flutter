@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:get/get.dart';
 import 'welcome_screen.dart';
 
 
@@ -23,7 +24,7 @@ class FirsPage extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return OnBoardingSlider(
-      finishButtonText: 'Commencez',
+      finishButtonText: 'Commencez'.tr,
       onFinish: () {
         Navigator.push(
           context,
@@ -40,7 +41,7 @@ class FirsPage extends StatelessWidget {
       ),*/
       finishButtonColor: kDarkBlueColor,
       skipTextButton: Text(
-        'Ignorer',
+        'Ignorer'.tr,
         style: TextStyle(
           fontSize: 16,
           color: kDarkBlueColor,
@@ -48,7 +49,7 @@ class FirsPage extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        'Ignorer',
+        'Ignorer'.tr,
         style: TextStyle(
           fontSize: 16,
           color: kDarkBlueColor,
@@ -84,7 +85,7 @@ class FirsPage extends StatelessWidget {
 
             children: <Widget>[
               Text(
-                'Scannez',
+                'Scannez'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: kDarkBlueColor,
@@ -96,7 +97,7 @@ class FirsPage extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Vous pouvez scanner le code QR\n ou le code-barre de votre visiteur',
+                'Vous pouvez scanner le code QR\n ou le code-barre de votre visiteur'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xff692062),
@@ -117,7 +118,7 @@ class FirsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Evaluez et enregistez',
+                'Evaluez et enregistez'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: kDarkBlueColor,
@@ -157,7 +158,7 @@ class FirsPage extends StatelessWidget {
                       width * 0.04,
                       width * 0.01),
                   child:Text(
-                    'Synchroniser',
+                    'Synchroniser'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: kDarkBlueColor,
@@ -176,7 +177,7 @@ class FirsPage extends StatelessWidget {
                       10, 10, 10, 0),
                   child: Container(
                       child:Text(
-                        'Synchronisez les données de l\'application\n avec notre base de données',
+                        'Synchronisez les données de l\'application\n avec notre base de données'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xff692062),
