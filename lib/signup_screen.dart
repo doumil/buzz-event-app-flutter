@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:assessment_task/welcome_screen.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'Widget/customClipper.dart';
 import 'login_screen.dart';
@@ -81,16 +82,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var res = await http.post(Uri.parse(url),body:data);
     print(jsonDecode(res.body).toString());
     if(jsonDecode(res.body) == "account already exists"){
-      Fluttertoast.showToast(msg: "Compte existe, veuillez vous connecter",toastLength: Toast.LENGTH_SHORT);
+      Fluttertoast.showToast(msg: "Compte existe, veuillez vous connecter".tr,toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
 
     }else if(jsonDecode(res.body) == "Created"){
 
-      Fluttertoast.showToast(msg: "Compte créé",toastLength: Toast.LENGTH_SHORT);
+      Fluttertoast.showToast(msg: "Compte créé".tr,toastLength: Toast.LENGTH_SHORT);
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
 
     }else{
-      Fluttertoast.showToast(msg: "error",toastLength: Toast.LENGTH_SHORT);
+      Fluttertoast.showToast(msg: "erreur".tr,toastLength: Toast.LENGTH_SHORT);
     }
     setState(() {
       processing = false;
@@ -100,16 +101,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return (await showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+        title: new Text('Êtes-vous sûr'.tr),
+        content: new Text('Voulez-vous quitter une application'.tr),
         actions: <Widget>[
           new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: new Text('Non'.tr),
           ),
           new TextButton(
             onPressed: () =>SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: new Text('Oui'.tr),
           ),
         ],
       ),
@@ -173,7 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text('Inscription',
+                              child: Text('Inscription'.tr,
                                 style: TextStyle(fontSize: height*0.04,color: Color(0xff692062)),
 
                               ),
@@ -194,19 +195,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
                                           if (value == null || value.trim().isEmpty) {
-                                            return 'Champ obligatoire';
+                                            return 'Champ obligatoire'.tr;
                                           }
                                           else{
                                             RegExp regex =  RegExp(pattern.toString());
                                             if(!regex.hasMatch(value)){
-                                              return 'Entrer une Adresse Email valide';
+                                              return 'Entrer une Adresse Email valide'.tr;
                                             }
                                           }
                                           return null;
                                         },
                                         obscureText: false,
                                         decoration: InputDecoration(
-                                          hintText: 'Adresse e-mail',
+                                          hintText: 'Adresse é-mail'.tr,
                                           fillColor: Color(0xfff3f3f4),
                                           filled: true,
                                         )
@@ -225,19 +226,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     Pattern pattern = r"^\s*([A-Za-z]{1,}([\.,] |[-']|))\s*$";
 
                                                     if (value == null || value.trim().isEmpty) {
-                                                      return 'Champ obligatoire';
+                                                      return 'Champ obligatoire'.tr;
                                                     }
                                                     else{
                                                       RegExp regex =  RegExp(pattern.toString());
                                                       if(!regex.hasMatch(value)){
-                                                        return 'Entrer un prénom valide';
+                                                        return 'Entrer un prénom valide'.tr;
                                                       }
                                                     }
                                                     return null;
                                                   },
                                                   obscureText: false,
                                                   decoration: InputDecoration(
-                                                    hintText: 'Prénom',
+                                                    hintText: 'Prénom'.tr,
                                                     fillColor: Color(0xfff3f3f4),
                                                     filled: true,
                                                   )
@@ -257,19 +258,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     Pattern pattern = r"^\s*([A-Za-z]{1,}([\.,] |[-']|))\s*$";
 
                                                     if (value == null || value.trim().isEmpty) {
-                                                      return 'Champ obligatoire';
+                                                      return 'Champ obligatoire'.tr;
                                                     }
                                                     else{
                                                       RegExp regex =  RegExp(pattern.toString());
                                                       if(!regex.hasMatch(value)){
-                                                        return 'Entrer un nom valide';
+                                                        return 'Entrer un nom valide'.tr;
                                                       }
                                                     }
                                                     return null;
                                                   },
                                                   obscureText: false,
                                                   decoration: InputDecoration(
-                                                    hintText: 'Nom',
+                                                    hintText: 'Nom'.tr,
                                                     fillColor: Color(0xfff3f3f4),
                                                     filled: true,
                                                   )
@@ -285,12 +286,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         controller: companyctrl,
                                         validator: (value) {
                                           if (value == null || value.trim().isEmpty)
-                                          { return 'Champ obligatoire';}
+                                          { return 'Champ obligatoire'.tr;}
                                           return null;
                                         },
                                         obscureText: false,
                                         decoration: InputDecoration(
-                                          hintText: 'Société',
+                                          hintText: 'Société'.tr,
                                           fillColor: Color(0xfff3f3f4),
                                           filled: true,
                                         )
@@ -301,15 +302,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     IntlPhoneField(
                                       controller: phonectrl,
                                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                                      invalidNumberMessage: ' Enter numéro de téléphone valide',
-                                      searchText: 'Rechercher',
+                                      invalidNumberMessage: 'Enter numéro de téléphone valide'.tr,
+                                      searchText: 'Rechercher'.tr,
                                       keyboardType: TextInputType.phone,
                                       validator: (value) {
                                         if (value == null || value.toString().trim().isEmpty)
-                                        { return 'Champ obligatoire';}
+                                        { return 'Champ obligatoire'.tr;}
                                         return null;},
-                                      decoration: const InputDecoration(
-                                        hintText: 'Numéro de téléphone',
+                                      decoration:  InputDecoration(
+                                        hintText: 'Numéro de téléphone'.tr,
                                         fillColor: Color(0xfff3f3f4),
                                         filled: true,
                                       ),
@@ -329,9 +330,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         controller: passwordctrl,
                                         validator: (value) {
                                           if (value == null || value.trim().isEmpty)
-                                          { return 'Champ obligatoire';}
+                                          { return 'Champ obligatoire'.tr;}
                                           else if(value.trim().length < 8)
-                                          { return 'Ne peut pas être inférieur à 8 caractères';}
+                                          { return 'Ne peut pas être inférieur à 8 caractères'.tr;}
                                           return null;
                                         },
                                         obscureText: !_isVisible,
@@ -346,7 +347,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   color: Color(0xff692062))
                                                   : Icon(Icons.visibility_off, color: Colors.black12),
                                             ),
-                                            hintText: 'Mot de passe',
+                                            hintText: 'Mot de passe'.tr,
                                             fillColor: Color(0xfff3f3f4),
                                             filled: true)
                                     ), //password
@@ -357,9 +358,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         controller: confpasswordctrl,
                                         validator: (value){
                                           if (value == null || value.trim().isEmpty)
-                                          { return 'Champ obligatoire';}
+                                          { return 'Champ obligatoire'.tr;}
                                           if (value != passwordctrl.text)
-                                          { return 'Veuillez entrer le même mot de passe';}
+                                          { return 'Veuillez entrer le même mot de passe'.tr;}
                                           return null;
 
                                         },
@@ -375,7 +376,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   color: Color(0xff692062))
                                                   : Icon(Icons.visibility_off, color: Colors.black12),
                                             ),
-                                            hintText: 'Confirmez mot de passe',
+                                            hintText: 'Confirmez mot de passe'.tr,
                                             fillColor: Color(0xfff3f3f4),
                                             filled: true)
                                     ),
@@ -404,7 +405,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ],
                                     color: Color(0xff692062),
                                   ),
-                                  child: Text('Créer un compte', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                  child: Text('Créer un compte'.tr, style: TextStyle(fontSize: 20, color: Colors.white),),
                                 ) : CircularProgressIndicator(color: Colors.white,backgroundColor: Color(0xff692062),)
                             ),
                             SizedBox(
