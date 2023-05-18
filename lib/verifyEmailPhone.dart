@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -273,7 +274,7 @@ class _VerificatoinState extends State<Verificatoin> {
           _isLoading = false;
           _isVerified = true;
           Fluttertoast.showToast(
-              msg: "opération réussie",
+              msg: "opération réussie".tr,
               toastLength: Toast.LENGTH_SHORT,
               fontSize: 12,
               gravity: ToastGravity.BOTTOM,
@@ -286,7 +287,7 @@ class _VerificatoinState extends State<Verificatoin> {
         _isLoading = false;
         _isVerified = false;
         Fluttertoast.showToast(
-            msg: "le code OTP est incorrect",
+            msg: "le code OTP est incorrect".tr,
             toastLength: Toast.LENGTH_SHORT,
             fontSize: 12,
             gravity: ToastGravity.BOTTOM,
@@ -316,7 +317,7 @@ class _VerificatoinState extends State<Verificatoin> {
         _isLoading = false;
         _isVerified = true;
         Fluttertoast.showToast(
-            msg: "opération réussie",
+            msg: "opération réussie".tr,
             toastLength: Toast.LENGTH_SHORT,
             fontSize: 12,
             gravity: ToastGravity.BOTTOM,
@@ -329,7 +330,7 @@ class _VerificatoinState extends State<Verificatoin> {
       _isLoading = false;
       _isVerified = false;
       Fluttertoast.showToast(
-          msg: "code incorrect réessayez",
+          msg: "code incorrect réessayez".tr,
           toastLength: Toast.LENGTH_SHORT,
           fontSize: 12,
           gravity: ToastGravity.BOTTOM,
@@ -356,16 +357,16 @@ class _VerificatoinState extends State<Verificatoin> {
     return (await showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+        title: new Text('Êtes-vous sûr'.tr),
+        content: new Text('Voulez-vous quitter une application'.tr),
         actions: <Widget>[
           new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: new Text('Non'.tr),
           ),
           new TextButton(
             onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: new Text('Oui'.tr),
           ),
         ],
       ),
@@ -442,7 +443,7 @@ class _VerificatoinState extends State<Verificatoin> {
                       FadeInDown(
                           duration: Duration(milliseconds: 500),
                           child: Text(
-                            "Verification",
+                            "Verification".tr,
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
@@ -455,7 +456,8 @@ class _VerificatoinState extends State<Verificatoin> {
                         delay: Duration(milliseconds: 500),
                         duration: Duration(milliseconds: 500),
                         child: Text(
-                          "Veuillez entrer le code à 6 chiffres envoyé à\n ${secemail}${secphone}",
+                          "Veuillez entrer le code à 6 chiffres envoyé à\n".tr
+                              +"${secemail}${secphone}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 16,
@@ -495,7 +497,7 @@ class _VerificatoinState extends State<Verificatoin> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Ne pas recevoir l'OTP?",
+                              "Ne pas recevoir l'OTP?".tr,
                               style: TextStyle(
                                   fontSize: 14, color: Colors.grey.shade500),
                             ),
@@ -506,8 +508,9 @@ class _VerificatoinState extends State<Verificatoin> {
                                 },
                                 child: Text(
                                   _isResendAgain
-                                      ? "Réessayez dans " + _start.toString()
-                                      : "Renvoyer",
+                                      ? "Réessayez dans ".tr
+                                      + _start.toString()
+                                      : "Renvoyer".tr,
                                   style: TextStyle(color: Color(0xff692062)),
                                 ))
                           ],
@@ -549,7 +552,7 @@ class _VerificatoinState extends State<Verificatoin> {
                             size: 30,
                           )
                               : Text(
-                            "Vérifier",
+                            "Vérifier".tr,
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

@@ -2,6 +2,7 @@ import 'package:assessment_task/synchron_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:assessment_task/model/user_scanner.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
@@ -136,7 +137,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
       onTap: ()=>FocusScope.of(context).unfocus(),
       child: Scaffold(
           appBar: AppBar(
-            title: Text("modifier"),
+            title: Text("modifier".tr),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 3, 15, 0),
@@ -428,7 +429,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                   width * 0.04,
                                                   width * 0.01),
                                               child: Text(
-                                                'Situation',
+                                                'Situation'.tr,
                                                 style: TextStyle(fontSize: 20),
                                                 textAlign: TextAlign.left,
                                               ),
@@ -507,7 +508,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                               padding: EdgeInsets.fromLTRB(
                                                   width * 0.04, 0, width * 0.04, 0),
                                               child: Text(
-                                                'Action à Suivre',
+                                                'Action à Suivre'.tr,
                                                 style: TextStyle(fontSize: 20),
                                                 textAlign: TextAlign.left,
                                               ),
@@ -534,7 +535,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                             setState(() {});
                                                           },
                                                           child: Text(
-                                                              'Plagnifier un réunion',
+                                                              'Plagnifier un réunion'.tr,
                                                               style: TextStyle(
                                                                   fontSize:
                                                                   height * 0.022))),
@@ -557,7 +558,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                             setState(() {});
                                                           },
                                                           child: Text(
-                                                              'Passer un Téléphone',
+                                                              'Passer un Téléphone'.tr,
                                                               style: TextStyle(
                                                                   fontSize:
                                                                   height * 0.022))),
@@ -580,7 +581,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                             setState(() {});
                                                           },
                                                           child: Text(
-                                                              'Envoyer des infos sur le produit',
+                                                              'Envoyer des infos sur le produit'.tr,
                                                               style: TextStyle(
                                                                   fontSize:
                                                                   height * 0.022))),
@@ -603,7 +604,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                             setState(() {});
                                                           },
                                                           child: Text(
-                                                              'Cantacter par Mail',
+                                                              'Cantacter par Mail'.tr,
                                                               style: TextStyle(
                                                                   fontSize:
                                                                   height * 0.022))),
@@ -636,7 +637,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                   width * 0.04,
                                                   width * 0.01),
                                               child: Text(
-                                                'Notes',
+                                                'Notes'.tr,
                                                 style: TextStyle(fontSize: 20),
                                                 textAlign: TextAlign.left,
                                               ),
@@ -664,7 +665,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                                               fontSize: height *
                                                                   0.022),
                                                           hintText:
-                                                          'Ecrivez vos notes'))),
+                                                          'Ecrivez vos notes'.tr))),
                                             ),
                                           )
                                         ],
@@ -698,7 +699,7 @@ class _EditsyncScreenState extends State<EditsyncScreen> {
                                             _updateUser();
                                           },
                                           //disabledColor: Color(0xff682062),
-                                          child: Text('Enregistrer',
+                                          child: Text('Enregistrer'.tr,
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.white))),

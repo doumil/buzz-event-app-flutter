@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
+import 'package:assessment_task/profils_enregistr%C3%A9s.dart';
 import 'package:assessment_task/reset_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,7 +88,14 @@ class _VerificatoinState extends State<Verificatoin> {
       codeReset = min + codeRandom.nextInt(max - min);
       await http.post(Uri.parse('https://okydigital.com/buzz_login/check.php'),
           body: {'email': email, 'codeReset': codeReset.toString()});
-      sendMail(codeReset);
+      var lang=prefs.getString("lang");
+      print("===================="+lang!);
+      if(lang=="FR"){
+      sendMailF(codeReset);
+      }
+      else{
+        sendMailA(codeReset);
+      }
     }
     if (phone != "") {
       var ss = phone.split(",");
@@ -124,14 +133,14 @@ class _VerificatoinState extends State<Verificatoin> {
     }
   }
 
-  sendMail(int ccReset) async {
+  sendMailF(int ccReset) async {
     String username = 'buzzeventteam@gmail.com';
     String password = 'sfhfjpllnwyldlzk';
     final smtpServer = gmail(username, password);
     final message = Message()
-      ..from = Address(username, 'team Buzzevent')
+      ..from = Address(username, 'l\'équipe Buzzevent')
       ..recipients.add(email.toString())
-      ..subject = 'Reset Password verification'
+      ..subject = 'Réinitialiser la vérification du mot de passe'
       ..html = '''<td align='center'>
     <center style='width:100%'>
         <table role='presentation' border='0' class='m_8320516796181038697phoenix-email-container' cellspacing='0' cellpadding='0' width='512' bgcolor='#FFFFFF'
@@ -167,7 +176,7 @@ class _VerificatoinState extends State<Verificatoin> {
                         <tr>
                             <td style='padding:20px 24px 10px 24px'> <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td style='padding-bottom:20px'>
                                 <h2 style='margin:0;color:#262626;font-weight:700;font-size:20px;line-height:1.2'>
-                                    Bounjour
+                                    Bonjour
                                 </h2>
                             </td>
                             </tr>
@@ -243,6 +252,125 @@ class _VerificatoinState extends State<Verificatoin> {
     // close the connection
     await connection.close();
   }
+  sendMailA(int ccReset) async {
+    String username = 'buzzeventteam@gmail.com';
+    String password = 'sfhfjpllnwyldlzk';
+    final smtpServer = gmail(username, password);
+    final message = Message()
+      ..from = Address(username, 'team Buzzevent')
+      ..recipients.add(email.toString())
+      ..subject = 'Reset Password Verification'
+      ..html = '''<td align='center'>
+    <center style='width:100%'>
+        <table role='presentation' border='0' class='m_8320516796181038697phoenix-email-container' cellspacing='0' cellpadding='0' width='512' bgcolor='#FFFFFF'
+               style='background-color:#ffffff;margin:0 auto;max-width:512px;width:inherit'>
+            <tbody>
+            <tr>
+                <td bgcolor='#692062' style='background-color:#692062;padding:12px;border-bottom:1px solid #ececec'>
+                    <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%' style='width:100%!important;min-width:100%!important'>
+                        <tbody>
+                        <tr>
+                            <td align='left' valign='middle'>
+                                <a href='' style='color:#0073b1;display:inline-block;text-decoration:none' target='_blank' data-saferedirecturl=''>
+                                    <img alt='Buzzevent' border='0' src='https://buzzevents.co/frontnew/images/logo-buzzeventsf.png' height='50' width='200' style='outline:none;color:#ffffff;text-decoration:none' class='CToWUd'>
+                                </a>
+                            </td>
+                            <td valign='middle' width='100%' align='right'><a href='' target='_blank' data-saferedirecturl=''>
+                                <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </a>
+                            </td>
+                            <td width='1'>&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'>
+                        <tbody>
+                        <tr>
+                            <td style='padding:20px 24px 10px 24px'> <table role='presentation' border='0' cellspacing='0' cellpadding='0' width='100%'> <tbody> <tr> <td style='padding-bottom:20px'>
+                                <h2 style='margin:0;color:#262626;font-weight:700;font-size:20px;line-height:1.2'>
+                                    Hello!
+                                </h2>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'>
+                                    <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                            We have received a request to reset your password.
+                                          account <span class='il'> Buzzevvent.</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'>
+                                    <h2 style='margin:0;color:#262626;font-weight:700;font-size:24px;line-height:1.167'>
+                                        ${ccReset}
+                                    </h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'>
+                                    <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                            Enter this code to complete the reset.                  
+                  </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style='padding-bottom:20px'> <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                    Please help us secure your account.
+                                </p>
+                                    <p style='margin:0;color:#4c4c4c;font-weight:400;font-size:16px;line-height:1.25'>
+                                    team Buzzevvent
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table role='presentation' border='0' cellspacing='0'  cellpadding='0' width='100%'  bgcolor='#EDF0F3' align='center' style='background-color:#edf0f3;padding:0 24px;color:#6a6c6d;text-align:center'>
+                        <tbody>
+                        <tr>
+                            <td align='center' style='padding:16px 0 0 0;text-align:center'>
+
+                                <div class='container'>
+                                    <p>  Copyrights © 2020  </p>
+                                </div>
+                            </td>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </center>
+</td>''';
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+    var connection = PersistentConnection(smtpServer);
+    // send the equivalent message
+    // await connection.send(message);
+    // close the connection
+    await connection.close();
+  }
 
   verifySms() async {
     setState(() {
@@ -273,7 +401,7 @@ class _VerificatoinState extends State<Verificatoin> {
           _isLoading = false;
           _isVerified = true;
           Fluttertoast.showToast(
-              msg: "opération réussie",
+              msg: "opération réussie".tr,
               toastLength: Toast.LENGTH_SHORT,
               fontSize: 12,
               gravity: ToastGravity.BOTTOM,
@@ -286,7 +414,7 @@ class _VerificatoinState extends State<Verificatoin> {
         _isLoading = false;
         _isVerified = false;
         Fluttertoast.showToast(
-            msg: "le code OTP est incorrect",
+            msg: "le code OTP est incorrect".tr,
             toastLength: Toast.LENGTH_SHORT,
             fontSize: 12,
             gravity: ToastGravity.BOTTOM,
@@ -316,7 +444,7 @@ class _VerificatoinState extends State<Verificatoin> {
         _isLoading = false;
         _isVerified = true;
         Fluttertoast.showToast(
-            msg: "opération réussie",
+            msg: "opération réussie".tr,
             toastLength: Toast.LENGTH_SHORT,
             fontSize: 12,
             gravity: ToastGravity.BOTTOM,
@@ -329,7 +457,7 @@ class _VerificatoinState extends State<Verificatoin> {
       _isLoading = false;
       _isVerified = false;
       Fluttertoast.showToast(
-          msg: "code incorrect réessayez",
+          msg: "code incorrect réessayez".tr,
           toastLength: Toast.LENGTH_SHORT,
           fontSize: 12,
           gravity: ToastGravity.BOTTOM,
@@ -356,16 +484,16 @@ class _VerificatoinState extends State<Verificatoin> {
     return (await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text('Êtes-vous sûr'),
-            content: new Text('Voulez-vous quitter une application'),
+            title: new Text('Êtes-vous sûr'.tr),
+            content: new Text('Voulez-vous quitter une application'.tr),
             actions: <Widget>[
               new TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('Non'),
+                child: new Text('Non'.tr),
               ),
               new TextButton(
                 onPressed: () => SystemNavigator.pop(),
-                child: new Text('Oui '),
+                child: new Text('Oui'.tr),
               ),
             ],
           ),
@@ -442,7 +570,7 @@ class _VerificatoinState extends State<Verificatoin> {
                       FadeInDown(
                           duration: Duration(milliseconds: 500),
                           child: Text(
-                            "Verification",
+                            "Vérification".tr,
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
@@ -455,7 +583,8 @@ class _VerificatoinState extends State<Verificatoin> {
                         delay: Duration(milliseconds: 500),
                         duration: Duration(milliseconds: 500),
                         child: Text(
-                          "Veuillez entrer le code à 6 chiffres envoyé à\n ${secemail}${secphone}",
+                          "Veuillez entrer le code à 6 chiffres envoyé à\n".tr
+                              +"${secemail}${secphone}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 16,
@@ -495,7 +624,7 @@ class _VerificatoinState extends State<Verificatoin> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Ne pas recevoir l'OTP?",
+                              "Ne pas recevoir l'OTP?".tr,
                               style: TextStyle(
                                   fontSize: 14, color: Colors.grey.shade500),
                             ),
@@ -506,8 +635,9 @@ class _VerificatoinState extends State<Verificatoin> {
                                 },
                                 child: Text(
                                   _isResendAgain
-                                      ? "Réessayez dans " + _start.toString()
-                                      : "Renvoyer",
+                                      ? "Réessayez dans ".tr
+                                      + _start.toString()
+                                      : "Renvoyer".tr,
                                   style: TextStyle(color: Color(0xff692062)),
                                 ))
                           ],
@@ -549,7 +679,7 @@ class _VerificatoinState extends State<Verificatoin> {
                                       size: 30,
                                     )
                                   : Text(
-                                      "Vérifier",
+                                      "Vérifier".tr,
                                       style: TextStyle(color: Colors.white),
                                     ),
                         ),

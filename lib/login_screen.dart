@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var resbody = await jsonDecode(res.body);
     if (resbody['status'] == "Error") {
       Fluttertoast.showToast(
-          msg: "vous n\'avez pas de compte, créez un compte",
+          msg: "vous n\'avez pas de compte, créez un compte".tr,
           toastLength: Toast.LENGTH_SHORT);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => SignUpScreen()));
@@ -101,14 +101,14 @@ class _LoginScreenState extends State<LoginScreen> {
           resbody['company'],
           resbody['phone']);
       Fluttertoast.showToast(
-          msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+          msg: "Connecté avec succès".tr, toastLength: Toast.LENGTH_SHORT);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
     else if (resbody['status'] == "incorrectpass")
       {
         Fluttertoast.showToast(
-            msg: "Mot de passe est incorrect", toastLength: Toast.LENGTH_SHORT);
+            msg: "Mot de passe est incorrect".tr, toastLength: Toast.LENGTH_SHORT);
         passwordctrl.text="";
       }
     setState(() {
@@ -313,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             color: Color(0xff692062),
                                           ),
                                           child: Text(
-                                            'Se connecter'.tr,
+                                            'Se Connecter'.tr,
                                             style: TextStyle(
                                                 fontSize: 20, color: Colors.white),
                                           ),

@@ -17,11 +17,11 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
   var id=prefs.getInt('id');
-  prefs.setString("lang","FR");
+   var lang=prefs.getString("lang");
   runApp(GetMaterialApp(home: email == null || id==null? MyApp() : HomeScreen(),
    translations: Translation(),
-    locale: Locale("FR"),
-    fallbackLocale: Locale("ANG"),
+    locale: lang!=null ? Locale("ANG"):Locale("FR"),
+    fallbackLocale: lang!=null ?Locale("FR"):Locale("ANG"),
   ));
 }
 

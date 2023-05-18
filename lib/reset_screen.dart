@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,7 +66,7 @@ class _ResetScreenState extends State<ResetScreen> {
     if(res=="Updated") {
       setState(() {
         processing=false;
-        Fluttertoast.showToast(msg: "le mot de passe a été changé avec succès",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
+        Fluttertoast.showToast(msg: "le mot de passe a été changé avec succès".tr,toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
       });
     }
@@ -74,16 +75,16 @@ class _ResetScreenState extends State<ResetScreen> {
     return (await showDialog(
       context: context,
       builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+        title: new Text('Êtes-vous sûr'.tr),
+        content: new Text('Voulez-vous quitter une application'.tr),
         actions: <Widget>[
           new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: new Text('Non'.tr),
           ),
           new TextButton(
             onPressed: () =>SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: new Text('Oui'.tr),
           ),
         ],
       ),
@@ -147,7 +148,7 @@ class _ResetScreenState extends State<ResetScreen> {
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text('réinitialiser le mot de passe',
+                              child: Text('réinitialiser le mot de passe'.tr,
                                 style: TextStyle(fontSize: height*0.03,fontWeight: FontWeight.bold,color: Color(0xff692062)),
 
                               ),
@@ -166,9 +167,9 @@ class _ResetScreenState extends State<ResetScreen> {
                                         controller: passwordctrl,
                                         validator: (value) {
                                           if (value == null || value.trim().isEmpty)
-                                          { return 'Champ obligatoire';}
+                                          { return 'Champ obligatoire'.tr;}
                                           else if(value.trim().length < 8)
-                                          { return 'Ne peut pas être inférieur à 8 caractères';}
+                                          { return 'Ne peut pas être inférieur à 8 caractères'.tr;}
                                           return null;
                                         },
                                         obscureText: !_isVisible,
@@ -183,7 +184,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                                   color:  Color(0xff692062)) :
                                               Icon(Icons.visibility_off, color: Colors.black12),
                                             ),
-                                            hintText: 'Mot de passe',
+                                            hintText: 'Mot de passe'.tr,
                                             fillColor: Color(0xfff3f3f4),
                                             filled: true)
                                     ), //password
@@ -194,7 +195,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                         controller: confpasswordctrl,
                                         validator: (value){
                                           if (value == null || value.trim().isEmpty)
-                                          { return 'Champ obligatoire';}
+                                          { return 'Champ obligatoire'.tr;}
                                           if (value != passwordctrl.text)
                                           { return 'Veuillez entrer le même mot de passe';}
                                           return null;
@@ -213,7 +214,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                                   : Icon(Icons.visibility_off,
                                                   color: Colors.black12),
                                             ),
-                                            hintText: 'Confirmez mot de passe',
+                                            hintText: 'Confirmez mot de passe'.tr,
                                             fillColor: Color(0xfff3f3f4),
                                             filled: true)
                                     ),
@@ -242,7 +243,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                     ],
                                     color: Color(0xff692062),
                                   ),
-                                  child: Text('réinitialiser', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                  child: Text('réinitialiser'.tr, style: TextStyle(fontSize: 20, color: Colors.white),),
                                 ) : CircularProgressIndicator(color: Colors.white,backgroundColor: Color(0xff692062),)
                             ),
                             SizedBox(

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:assessment_task/submitcode_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widget/customClipper.dart';
@@ -89,7 +90,7 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
          print("----------------");
          print(e);
          print("----------------");
-             Fluttertoast.showToast(msg: "vous avez envoyé plusieurs SMS de vérification ,réessayer plus tard",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white,timeInSecForIosWeb:60,);
+             Fluttertoast.showToast(msg: "vous avez envoyé plusieurs SMS de vérification ,réessayer plus tard".tr,toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white,timeInSecForIosWeb:60,);
        },
        codeSent: (String verificationId, int? resendToken) async{
          print("----------------code has sent ${verificationId}");
@@ -99,14 +100,14 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
          });
          var res = jsonDecode(response.body);
          if(res['status']=="InvalidPhone"){
-           Fluttertoast.showToast(msg: "Cet numéro de télèphone est incorrect",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
+           Fluttertoast.showToast(msg: "Ce numéro de télèphone est incorrect".tr,toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.deepPurple, textColor: Colors.white);
          }else{
            //generate code :
            print(codeReset);
            print(int.parse(res['id']));
            //save code to shared preference
            saveInfo(int.parse(res['id']),res['phone']);
-           Fluttertoast.showToast(msg: "Vérifiez votre sms",toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
+           Fluttertoast.showToast(msg: "Vérifiez votre sms".tr,toastLength: Toast.LENGTH_SHORT, fontSize: 12, gravity: ToastGravity.BOTTOM, backgroundColor: Colors.black, textColor: Colors.white);
            Navigator.push(context, MaterialPageRoute(builder: (context) => Verificatoin()));
          }
          setState(() {
@@ -174,7 +175,7 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text('Réinitialisez le mot de passe',
+                              child: Text('Réinitialisez le mot de passe'.tr,
                                 style: TextStyle(fontSize: 20,color: Color(0xff692062),fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -195,15 +196,15 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
                                           enabled: disable,
                                           controller: phonectrl,
                                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                                          invalidNumberMessage: ' Enter numéro de téléphone valide',
-                                          searchText: 'Rechercher',
+                                          invalidNumberMessage: ' Enter numéro de téléphone valide'.tr,
+                                          searchText: 'Rechercher'.tr,
                                           keyboardType: TextInputType.phone,
                                           validator: (value) {
                                             if (value == null || value.toString().trim().isEmpty)
-                                            { return 'Champ obligatoire';}
+                                            { return 'Champ obligatoire'.tr;}
                                             return null;},
-                                          decoration: const InputDecoration(
-                                            hintText: 'Numéro de téléphone',
+                                          decoration:  InputDecoration(
+                                            hintText: 'Numéro de téléphone'.tr,
                                             fillColor: Color(0xfff3f3f4),
                                             filled: true,
                                           ),
@@ -258,7 +259,7 @@ class _ForgotPassPhoneState extends State<ForgotPassPhone> {
                                     ],
                                     color: Color(0xff692062),
                                   ),
-                                  child: Text('Envoyez', style: TextStyle(fontSize: 20, color: Colors.white),),
+                                  child: Text('Envoyez'.tr, style: TextStyle(fontSize: 20, color: Colors.white),),
                                 )
                                     : CircularProgressIndicator(
                                   color: Colors.white,

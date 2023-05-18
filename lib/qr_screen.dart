@@ -4,6 +4,7 @@ import 'package:assessment_task/profils_enregistr%C3%A9s.dart';
 import 'package:assessment_task/utils/database_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,7 +87,7 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
               //MediaQuery.of(context).size.height,
               //margin: EdgeInsets.only(top:60),
               child: Center(
-                child: Text('Scanner',
+                child: Text('Scanner'.tr,
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -243,7 +244,8 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
     if (!_screenOpened) {
       final String code = barcode.rawValue ?? "-1";
       print(code);
-      debugPrint('Barcode found! $code');
+      debugPrint('Code-barres trouvé!'.tr+
+          ' $code');
       _screenOpened = true;
       int _count = 0;
       prefs = await SharedPreferences.getInstance();
@@ -296,12 +298,12 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
           showDialog<String>(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-              title: const Text('erreur'),
-              content: Text('QR code format invalid\n\n'),
+              title:  Text('erreur'.tr),
+              content: Text('Format de code QR invalide\n\n'.tr),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'OK'),
-                  child: const Text('OK',
+                  child:  Text('Ok',
                       style: TextStyle(color: Color(0xff803b7a))),
                 ),
               ],
@@ -312,9 +314,9 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text('erreur'),
-            content: const Text(
-                'La devise n\'a pas été complétée avec succès. Veuillez réessayer'),
+            title:  Text('erreur'.tr),
+            content:  Text(
+                'La devise n\'a pas été complétée avec succès. Veuillez réessayer'.tr),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context, 'OK'),
