@@ -10,11 +10,11 @@ const Map<String,String> FR= {
   'Deconnexion':'Deconnexion',
   //Profils Enregistrés
   'Exporter .csv':  'Exporter .csv',
-  'nom':'last name',
-  'prénom':'first name',
+  'nom':'nom',
+  'prénom':'prénom',
   'entreprise':'entreprise',
   'profession':'profession',
-  'e-mail':'e-mail',
+  'é-mail':'é-mail',
   'téléphone':'téléphone',
   'évolution':'evolution',
   'action':'action',
@@ -130,6 +130,5 @@ const Map<String,String> FR= {
   'Code-barres trouvé!':'Code-barres trouvé!',
   'Format de code QR invalide\n\n':'Format de code QR invalide\n\n',
   'La devise n\'a pas été complétée avec succès. Veuillez réessayer':'La devise n\'a pas été complétée avec succès. Veuillez réessayer',
-
-
+   //export csv
 };

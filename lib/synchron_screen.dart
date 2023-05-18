@@ -21,6 +21,7 @@ List<Userscan> litems = [];
 String lang="";
 bool isLoading = true;
  int id=0;
+Userscan userCsv = Userscan('', '', '', '', '', '', '', '', '', '', '');
 final TextEditingController eCtrl = new TextEditingController();
 
 class SynchronScreen extends StatefulWidget {
@@ -83,18 +84,33 @@ class _SynchronScreenState extends State<SynchronScreen> {
   _upload() async {
     final Workbook workbook = Workbook();
     final Worksheet sheet = workbook.worksheets[0];
-    Userscan userCsv = Userscan(
-        'nom'.tr,
-        'prénom'.tr,
-        'entreprise'.tr,
-        'profession'.tr,
-        'e-mail'.tr,
-        'téléphone'.tr,
-        'évolution'.tr,
-        'action'.tr,
-        'Remarques'.tr,
-        'date de création'.tr,
-        'date de modification'.tr);
+    print(lang);
+    if(lang=="FR"){userCsv = Userscan(
+        'nom',
+        'prénom',
+        'entreprise',
+        'profession',
+        'é-mail',
+        'téléphone',
+        'évolution',
+        'action',
+        'Remarques',
+        'date de création',
+        'date de modification');}
+     else{
+      userCsv = Userscan(
+          'last name',
+          'first name',
+          'company',
+          'profession',
+          'e-mail',
+          'phone',
+          'evolution',
+          'action',
+          'notes',
+          'dcreated',
+          'updated');
+    }
     List<Userscan> listCsv = [];
     listCsv.add(userCsv);
     listCsv += litems;

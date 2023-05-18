@@ -78,7 +78,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           resbody['company'],
           resbody['phone']);
       Fluttertoast.showToast(
-          msg: "Connecté avec succès", toastLength: Toast.LENGTH_SHORT);
+          msg: "Connecté avec succès".tr, toastLength: Toast.LENGTH_SHORT);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }

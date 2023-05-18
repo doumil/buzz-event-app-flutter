@@ -267,8 +267,8 @@ class _MyAlertLangState extends State<MyAlertLang> {
                         prefs.setString("lang", value.toString());
                         _selectedLanguage = value.toString();
                         print(_selectedLanguage);
-                        setState(() {
-                        });
+                        Get.updateLocale(Locale(_selectedLanguage));
+                        Navigator.pop(context, 'OK');
                       },
                     ),
                     Text('Français'.tr),
@@ -286,6 +286,8 @@ class _MyAlertLangState extends State<MyAlertLang> {
                         setState(() {
                           _selectedLanguage = value.toString();
                           print(_selectedLanguage);
+                          Get.updateLocale(Locale(_selectedLanguage));
+                          Navigator.pop(context, 'OK');
                         });
                       },
                     ),
@@ -295,7 +297,7 @@ class _MyAlertLangState extends State<MyAlertLang> {
               ],
             ),
           ),
-        )
+        ),
     );
   }
 }
